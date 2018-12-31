@@ -50,5 +50,10 @@ TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 # Security Patch Level
 VENDOR_SECURITY_PATCH := 2019-07-05
 
+# TWRP Support
+ifeq ($(WITH_TWRP),true)
+include device/nvidia/galen/twrp/twrp.mk
+endif
+
 include device/nvidia/t194-common/BoardConfigCommon.mk
 include vendor/nvidia/galen/BoardConfigVendor.mk
