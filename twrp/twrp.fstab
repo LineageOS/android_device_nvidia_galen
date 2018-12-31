@@ -1,0 +1,13 @@
+/recovery       emmc            /dev/block/by-name/SOS
+/boot           emmc            /dev/block/by-name/kernel
+/system_root    ext4            /dev/block/by-name/APP
+/system_image   emmc            /dev/block/by-name/APP
+/cache          ext4            /dev/block/by-name/CAC
+/odm            ext4            /dev/block/by-name/odm
+/vendor         ext4            /dev/block/by-name/vendor
+/vendor_image   emmc            /dev/block/by-name/vendor
+/misc           emmc            /dev/block/by-name/MSC
+/metadata       emmc            /dev/block/by-name/MDA
+/data           ext4            /dev/block/by-name/UDA			 flags=encryptable=/dev/block/by-name/MDA
+/bmps           emmc            /dev/block/by-name/BMP
+/usb-otg        vfat            /dev/block/sda1	  /dev/block/sda				 flags=removable;storage;display=USB-OTG
