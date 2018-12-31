@@ -28,6 +28,9 @@ TARGET_TEGRA_OMX      ?= nvmm
 
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
 
+# System properties
+include $(LOCAL_PATH)/system_prop.mk
+
 PRODUCT_CHARACTERISTICS  := tv
 PRODUCT_AAPT_CONFIG      := xlarge large
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
