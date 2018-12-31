@@ -17,6 +17,8 @@
 TARGET_REFERENCE_DEVICE ?= galen
 TARGET_TEGRA_VARIANT    ?= common
 
+TARGET_TEGRA_AUDIO    ?= nvaudio
+
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
 
 PRODUCT_CHARACTERISTICS  := tv
@@ -38,6 +40,20 @@ PRODUCT_PACKAGES += \
     init.recovery.rey.rc \
     power.jetson-xavier.rc \
     power.rey.rc
+
+# Permissions
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml
+
+# Audio
+ifeq ($(TARGET_TEGRA_AUDIO),nvaudio)
+PRODUCT_PACKAGES += \
+    audio_effects.xml \
+    audio_policy_configuration.xml \
+    nvaudio_conf.xml \
+    rey_nvaudio_conf.xml \
+    nvaudio_fx.xml
+endif
 
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
