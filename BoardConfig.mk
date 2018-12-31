@@ -48,3 +48,4 @@ endif
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 
 include device/nvidia/t194-common/BoardConfigCommon.mk
+include vendor/nvidia/galen/BoardConfigVendor.mk
