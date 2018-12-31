@@ -36,6 +36,8 @@ TARGET_SCREEN_WIDTH      := 1080
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+$(call inherit-product, vendor/nvidia/galen/galen-vendor.mk)
+
 # Init related
 PRODUCT_PACKAGES += \
     fstab.jetson-xavier \
