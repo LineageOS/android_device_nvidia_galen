@@ -47,5 +47,8 @@ endif
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 
+# Security Patch Level
+VENDOR_SECURITY_PATCH := 2020-07-05
+
 include device/nvidia/t194-common/BoardConfigCommon.mk
 include vendor/nvidia/galen/BoardConfigVendor.mk
