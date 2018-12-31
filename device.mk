@@ -18,6 +18,7 @@ TARGET_REFERENCE_DEVICE ?= galen
 TARGET_TEGRA_VARIANT    ?= common
 
 TARGET_TEGRA_AUDIO    ?= nvaudio
+TARGET_TEGRA_CEC      ?= nvhdmi
 
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
 
