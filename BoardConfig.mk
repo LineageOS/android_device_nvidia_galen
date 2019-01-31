@@ -30,6 +30,17 @@ BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2
 
+# Kernel
+ifneq ($(TARGET_PREBUILT_KERNEL),)
+BOARD_VENDOR_KERNEL_MODULES += $(wildcard $(dir $(TARGET_PREBUILT_KERNEL))/*.ko)
+else
+KERNEL_TOOLCHAIN        := $(shell pwd)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-gnu-6.4.1/bin
+KERNEL_TOOLCHAIN_PREFIX := aarch64-linux-gnu-
+TARGET_KERNEL_SOURCE    := kernel/nvidia/linux-4.9/kernel/kernel-4.9
+TARGET_KERNEL_CONFIG    := tegra_android_defconfig
+BOARD_KERNEL_IMAGE_NAME := Image.gz
+endif
+
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 
