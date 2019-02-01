@@ -1,4 +1,4 @@
-# Copyright (C) 2020 The LineageOS Project
+# Copyright (C) 2019 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tv.mk)
+import init.recovery.xusb.configfs.usb.rc
+import init.recovery.usb.configfs.rc
 
-# Inherit device configuration for galen.
-$(call inherit-product, device/nvidia/galen/lineage.mk)
-$(call inherit-product, device/nvidia/galen/full_galen.mk)
-
-PRODUCT_NAME := lineage_galen
-PRODUCT_DEVICE := galen
+on init
+    export ANDROID_ROOT "/system_root"
+    setprop sys.usb.configfs 1

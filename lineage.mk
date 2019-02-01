@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tv.mk)
-
-# Inherit device configuration for galen.
-$(call inherit-product, device/nvidia/galen/lineage.mk)
-$(call inherit-product, device/nvidia/galen/full_galen.mk)
-
-PRODUCT_NAME := lineage_galen
-PRODUCT_DEVICE := galen
+# Unified device support
+TARGET_INIT_VENDOR_LIB := libinit_galen
+PRODUCT_VENDOR_PROPERTY_BLACKLIST := \
+    ro.product.vendor.device \
+    ro.product.vendor.model \
+    ro.product.vendor.name \
+    ro.vendor.build.fingerprint
+PRODUCT_PACKAGES += \
+    init_tegra

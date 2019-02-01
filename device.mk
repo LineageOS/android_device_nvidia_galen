@@ -27,6 +27,14 @@ TARGET_SCREEN_WIDTH      := 1080
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+# Init related
+PRODUCT_PACKAGES += \
+    fstab.jetson-xavier \
+    init.jetson-xavier.rc \
+    init.jetson-xavier_common.rc \
+    init.recovery.jetson-xavier.rc \
+    power.jetson-xavier.rc
+
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 PRODUCT_COPY_FILES += \

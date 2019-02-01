@@ -30,6 +30,9 @@ BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2
 
+# Assert
+TARGET_OTA_ASSERT_DEVICE := galen
+
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 BOARD_VENDOR_KERNEL_MODULES += $(wildcard $(dir $(TARGET_PREBUILT_KERNEL))/*.ko)
