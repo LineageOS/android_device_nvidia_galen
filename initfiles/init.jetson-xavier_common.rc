@@ -1,0 +1,72 @@
+# Copyright (C) 2019 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import /vendor/etc/init/hw/init.lkm.rc
+
+on boot
+    # CPU governor scaling settings
+    write /sys/devices/system/cpu/cpufreq/schedutil/up_rate_limit_us 0
+
+on fs
+    setprop ro.wifi.sdmmc 1
+
+    # start Early Loadable Kernel Module service
+    exec /vendor/bin/lkm_loader.sh early
+
+    # Assuming system takes 1GB runtime RAM, dedeuct it from GPU comptag memory allocation
+    write /sys/devices/gpu.0/comptag_mem_deduct 1024
+
+#start pbc daemon
+service pbc2 /vendor/bin/pbc2
+    class main
+    user system
+    group system
+
+on property:sys.boot_completed=1
+    write /sys/devices/virtual/android_usb/android0/uevent_in_suspend N
+
+on boot
+    # start Loadable Kernel Module service
+    start vendor.lkm_loader
+
+    setprop persist.vendor.tegra.decompression cde-client
+
+on init
+# ZRAM setup
+    write /sys/block/zram0/comp_algorithm lz4
+    write /proc/sys/vm/page-cluster 0
+
+ # KSM setup
+     write /sys/kernel/mm/ksm/sleep_millisecs 250
+     write /sys/kernel/mm/ksm/pages_to_scan 100
+     write /sys/kernel/mm/ksm/run 1
+
+on early-init
+    # Disable Transparent HUGEPAGE
+    write /sys/kernel/mm/transparent_hugepage/enabled "never"
+
+# LMK tunables
+on property:sys.boot_completed=1
+    chown system system /sys/module/lowmemorykiller/parameters/minfree
+    write /sys/module/lowmemorykiller/parameters/minfree 18432,23040,27648,80640,100000,124000
+    chown system system /sys/module/lowmemorykiller/parameters/adj
+    write /sys/module/lowmemorykiller/parameters/adj 0,100,200,300,600,800
+
+# Free Memory tunables
+on property:sys.boot_completed=1
+    write /proc/sys/vm/extra_free_kbytes 0
+    write /proc/sys/vm/min_free_kbytes 16384
+
+on property:init.svc.vendor.lkm_loader=stopped
+    enable pbc2

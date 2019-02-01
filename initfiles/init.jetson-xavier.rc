@@ -12,12 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tv.mk)
+import /vendor/etc/init/hw/init.tegra.rc
+import /vendor/etc/init/hw/init.t19x.rc
+import /vendor/etc/init/hw/init.jetson-xavier_common.rc
 
-# Inherit device configuration for galen.
-$(call inherit-product, device/nvidia/galen/lineage.mk)
-$(call inherit-product, device/nvidia/galen/full_galen.mk)
+on fs
+    mount_all /vendor/etc/fstab.jetson-xavier
+    swapon_all /vendor/etc/fstab.jetson-xavier
 
-PRODUCT_NAME := lineage_galen
-PRODUCT_DEVICE := galen
+# Enable all cores
+on init
+    write /dev/cpuset/foreground/cpus 0-7
+    write /dev/cpuset/foreground/boost/cpus 0-7
+    write /dev/cpuset/background/cpus 0-7
+    write /dev/cpuset/system-background/cpus 0-7
+    write /dev/cpuset/top-app/cpus 0-7
