@@ -26,6 +26,7 @@ TARGET_TEGRA_AUDIO    ?= nvaudio
 TARGET_TEGRA_CEC      ?= nvhdmi
 TARGET_TEGRA_MEMTRACK ?= nvmemtrack
 TARGET_TEGRA_OMX      ?= nvmm
+TARGET_TEGRA_POWER    ?= aosp
 
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
 
