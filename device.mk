@@ -24,6 +24,7 @@ TARGET_TEGRA_VARIANT    ?= common
 
 TARGET_TEGRA_AUDIO    ?= nvaudio
 TARGET_TEGRA_CEC      ?= nvhdmi
+TARGET_TEGRA_MEMTRACK ?= nvmemtrack
 TARGET_TEGRA_OMX      ?= nvmm
 
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
