@@ -44,6 +44,9 @@ TARGET_KERNEL_CONFIG    := tegra_android_defconfig
 BOARD_KERNEL_IMAGE_NAME := Image.gz
 endif
 
+# Manifest
+DEVICE_MANIFEST_FILE := device/nvidia/galen/manifest.xml
+
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 
