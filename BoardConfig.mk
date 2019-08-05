@@ -23,6 +23,7 @@ BOARD_VENDORIMAGE_PARTITION_SIZE   := 536870912
 TARGET_USERIMAGES_USE_EXT4         := true
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR             := vendor
+BOARD_BUILD_SYSTEM_ROOT_IMAGE      := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
