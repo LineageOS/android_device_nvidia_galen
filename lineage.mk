@@ -15,7 +15,7 @@
 TARGET_TEGRA_POWER ?= lineage
 
 # Unified device support
-TARGET_INIT_VENDOR_LIB := libinit_galen
+TARGET_INIT_VENDOR_LIB := //device/nvidia/galen:libinit_galen
 PRODUCT_VENDOR_PROPERTY_BLACKLIST := \
     ro.product.vendor.device \
     ro.product.vendor.model \
