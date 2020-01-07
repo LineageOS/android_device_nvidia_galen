@@ -1,0 +1,6 @@
+[
+ {
+   "repository": "android_device_nvidia_t194-common",
+   "target_path": "device/nvidia/t194-common"
+ }
+]
