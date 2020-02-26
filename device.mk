@@ -92,6 +92,10 @@ PRODUCT_PACKAGES += \
     nvaudio_fx.xml
 endif
 
+# fastbootd
+PRODUCT_PACKAGES += \
+    fastbootd
+
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 TARGET_FORCE_PREBUILT_KERNEL := true
