@@ -121,3 +121,15 @@ PRODUCT_PACKAGES += \
 # Trust HAL
 PRODUCT_PACKAGES += \
     vendor.lineage.trust@1.0-service
+
+# Updater
+AB_OTA_UPDATER := true
+AB_OTA_PARTITIONS += \
+    boot \
+    system \
+    vendor
+AB_OTA_POSTINSTALL_CONFIG += \
+    FILESYSTEM_TYPE_system=ext4 \
+    POSTINSTALL_OPTIONAL_system=true \
+    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    RUN_POSTINSTALL_system=true
