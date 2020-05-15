@@ -76,8 +76,14 @@ void vendor_load_properties()
 		ti.property_set("ro.product.vendor.manufacturer", ti.property_get("ro.product.manufacturer"));
 	}
 
-	if (ti.vendor_context() || ti.recovery_context())
+	if (ti.vendor_context() || ti.recovery_context()) {
 		vendor_set_usb_product_ids(&ti);
+
+		if (ti.is_model(3668, 0)) {
+			ti.property_set("ro.vendor.smd_path", "/dev/block/mtdblock0");
+			ti.property_set("ro.vendor.smd_offset", "0x00B00000");
+		}
+	}
 
 	// AB updates require set paths for certain partitions
 	if (!ti.vendor_context()) {
