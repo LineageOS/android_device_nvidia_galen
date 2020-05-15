@@ -30,10 +30,14 @@ $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-he
 # Init related
 PRODUCT_PACKAGES += \
     fstab.jetson-xavier \
+    fstab.rey \
     init.jetson-xavier.rc \
+    init.rey.rc \
     init.jetson-xavier_common.rc \
     init.recovery.jetson-xavier.rc \
-    power.jetson-xavier.rc
+    init.recovery.rey.rc \
+    power.jetson-xavier.rc \
+    power.rey.rc
 
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
