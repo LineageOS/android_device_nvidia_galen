@@ -25,6 +25,11 @@ BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR             := vendor
 BOARD_BUILD_SYSTEM_ROOT_IMAGE      := true
 
+# Android Verified Boot
+BOARD_AVB_ENABLE := true
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2
+
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 
