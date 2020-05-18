@@ -30,6 +30,7 @@ TARGET_TEGRA_OMX      ?= nvmm
 TARGET_TEGRA_PHS      ?= nvphs
 TARGET_TEGRA_POWER    ?= aosp
 TARGET_TEGRA_WIDEVINE ?= true
+TARGET_TEGRA_WIFI     ?= rtl8822ce
 
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
 
