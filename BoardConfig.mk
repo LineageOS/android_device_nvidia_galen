@@ -67,4 +67,3 @@ include device/nvidia/galen/twrp/twrp.mk
 endif
 
 include device/nvidia/t194-common/BoardConfigCommon.mk
-include vendor/nvidia/galen/BoardConfigVendor.mk
