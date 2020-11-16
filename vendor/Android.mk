@@ -12,12 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tv.mk)
+LOCAL_PATH := $(call my-dir)
+COMMON_BUILD_PATH := device/nvidia/tegra-common/vendor/build
 
-# Inherit device configuration for galen.
-include device/nvidia/galen/lineage.mk
-$(call inherit-product, device/nvidia/galen/full_galen.mk)
-
-PRODUCT_NAME := lineage_galen
-PRODUCT_DEVICE := galen
+include $(COMMON_BUILD_PATH)/macros.mk
+include $(call all-makefiles-under,$(LOCAL_PATH))

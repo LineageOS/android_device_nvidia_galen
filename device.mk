@@ -16,7 +16,7 @@
 
 # Only include Shield apps for first party targets
 ifneq ($(filter $(word 2,$(subst _, ,$(TARGET_PRODUCT))), galen galen_tab),)
-$(call inherit-product, device/nvidia/shield-common/shield.mk)
+include device/nvidia/shield-common/shield.mk
 endif
 
 TARGET_REFERENCE_DEVICE ?= galen
@@ -35,7 +35,7 @@ TARGET_TEGRA_WIDEVINE ?= true
 TARGET_TEGRA_WIFI     ?= rtl8822ce
 TARGET_TEGRA_WIREGUARD ?= compat
 
-$(call inherit-product, device/nvidia/t194-common/t194.mk)
+include device/nvidia/t194-common/t194.mk
 
 # System properties
 include $(LOCAL_PATH)/system_prop.mk
@@ -48,7 +48,7 @@ TARGET_SCREEN_WIDTH      := 1080
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
-$(call inherit-product, vendor/nvidia/galen/galen-vendor.mk)
+$(call inherit-product, device/nvidia/galen/vendor/galen-vendor.mk)
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += device/nvidia/galen
