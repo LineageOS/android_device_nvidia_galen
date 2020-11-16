@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tv.mk)
+$(call inherit-product, device/nvidia/t194-common/vendor/t194.mk)
+$(call inherit-product, device/nvidia/tegra-common/vendor/common-by-flags.mk)
+$(call inherit-product, device/nvidia/galen/vendor/realtek.mk)
+$(call inherit-product, device/nvidia/shield-common/vendor/shield-by-flags.mk)
 
-# Inherit device configuration for galen.
-include device/nvidia/galen/lineage.mk
-$(call inherit-product, device/nvidia/galen/full_galen.mk)
-
-PRODUCT_NAME := lineage_galen
-PRODUCT_DEVICE := galen
+PRODUCT_PACKAGES += public.libraries
