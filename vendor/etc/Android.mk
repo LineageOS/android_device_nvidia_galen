@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_tv.mk)
+LOCAL_PATH := $(call my-dir)
 
-# Inherit device configuration for galen.
-include device/nvidia/galen/lineage.mk
-$(call inherit-product, device/nvidia/galen/full_galen.mk)
-
-PRODUCT_NAME := lineage_galen
-PRODUCT_DEVICE := galen
+include $(CLEAR_VARS)
+LOCAL_MODULE               := public.libraries
+LOCAL_SRC_FILES            := public.libraries.txt
+LOCAL_MODULE_SUFFIX        := .txt
+LOCAL_MODULE_CLASS         := ETC
+LOCAL_MODULE_TAGS          := optional
+LOCAL_MODULE_OWNER         := nvidia
+LOCAL_VENDOR_MODULE        := true
+include $(BUILD_NVIDIA_PREBUILT)
