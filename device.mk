@@ -35,6 +35,8 @@ TARGET_TEGRA_WIDEVINE ?= true
 TARGET_TEGRA_WIFI     ?= rtl8822ce
 TARGET_TEGRA_WIREGUARD ?= compat
 
+AB_OTA_UPDATER := true
+
 include device/nvidia/t194-common/t194.mk
 
 # System properties
@@ -132,7 +134,6 @@ PRODUCT_PACKAGES += \
     vendor.lineage.trust@1.0-service
 
 # Updater
-AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
     system \
