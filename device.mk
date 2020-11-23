@@ -108,7 +108,7 @@ PRODUCT_PACKAGES += \
 ifeq ($(TARGET_TEGRA_OMX),nvmm)
 PRODUCT_PACKAGES += \
     media_codecs_performance.xml \
-    media_profiles.xml
+    media_profiles_V1_0.xml
 endif
 
 # PHS
