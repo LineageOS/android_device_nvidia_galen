@@ -33,6 +33,7 @@ TARGET_TEGRA_PHS      ?= nvphs
 TARGET_TEGRA_POWER    ?= aosp
 TARGET_TEGRA_WIDEVINE ?= true
 TARGET_TEGRA_WIFI     ?= rtl8822ce
+TARGET_TEGRA_WIREGUARD ?= compat
 
 $(call inherit-product, device/nvidia/t194-common/t194.mk)
 
