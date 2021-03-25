@@ -13,3 +13,8 @@
 # limitations under the License.
 
 import init.recovery.usb.rc
+
+on init
+    # Additional controller support
+    insmod /lib/modules/hid-nvidia-blake.ko
+    insmod /lib/modules/hid-jarvis-remote.ko
