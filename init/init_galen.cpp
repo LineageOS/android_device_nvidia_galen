@@ -79,9 +79,15 @@ void vendor_load_properties()
 	if (ti.vendor_context() || ti.recovery_context()) {
 		vendor_set_usb_product_ids(&ti);
 
-		if (ti.is_model(3668, 0)) {
-			ti.property_set("ro.vendor.smd_path", "/dev/block/mtdblock0");
-			ti.property_set("ro.vendor.smd_offset", "0x00B00000");
+		switch (ti.get_boot_dev_type()) {
+			case tegra_init::boot_dev_type::EMMC:
+				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3460000.sdhci/mmcblk0boot0");
+				ti.property_set("vendor.tegra.ota.gpt_device",  "/dev/block/platform/3460000.sdhci/mmcblk0boot1");
+				break;
+
+			case tegra_init::boot_dev_type::SD:
+				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3270000.spi/mtdblock0");
+				break;
 		}
 	}
 
