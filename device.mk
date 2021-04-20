@@ -134,6 +134,8 @@ PRODUCT_PACKAGES += \
     vendor.lineage.trust@1.0-service
 
 # Updater
+PRODUCT_PACKAGES += \
+    nv_postinstall
 AB_OTA_PARTITIONS += \
     boot \
     system \
@@ -142,5 +144,5 @@ AB_OTA_PARTITIONS += \
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true \
-    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    POSTINSTALL_PATH_system=system/bin/nv_postinstall \
     RUN_POSTINSTALL_system=true
