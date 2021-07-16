@@ -65,7 +65,7 @@ void vendor_load_properties()
 	std::vector<tegra_init::devices> devices = { { "galen", "jetson-xavier", "Jetson Xavier",    2972,   0, tegra_init::boot_dev_type::EMMC, 28, 320 },
 	                                             { "rey"  , "rey",           "Jetson Xavier NX", 3668,   1, tegra_init::boot_dev_type::EMMC, 28, 320 },
 	                                             { "rey"  , "rey",           "Jetson Xavier NX", 3668,   0, tegra_init::boot_dev_type::SD,   28, 320 } };
-	tegra_init::build_version tav = { "9", "PPR1.180610.011", "4199485_1739.5219" };
+	tegra_init::build_version tav = { "9", "PPR1.180610.011", "4079208_2740.7538" };
 
 	tegra_init ti(devices);
 	ti.set_properties();

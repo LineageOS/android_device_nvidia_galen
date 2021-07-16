@@ -60,7 +60,7 @@ TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.jetson-xavier
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
 # Security Patch Level
-VENDOR_SECURITY_PATCH := 2020-07-05
+VENDOR_SECURITY_PATCH := 2021-04-05
 
 # TWRP Support
 ifeq ($(WITH_TWRP),true)
