@@ -74,9 +74,6 @@ do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-amx.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-dmic.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-mvc.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-ope.ko
-do_insmod /vendor/lib/modules/snd-soc-tegra-alt-t186ref-bali.ko
-do_insmod /vendor/lib/modules/snd-soc-tegra-alt-t186ref-boden.ko
-do_insmod /vendor/lib/modules/snd-soc-tegra-alt-t186ref-p2382.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra186-alt-arad.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra186-alt-asrc.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra186-alt-dspk.ko
