@@ -60,6 +60,20 @@ do_insmod /vendor/lib/modules/snd-hda-tegra.ko
 
 # APE audio drivers
 do_insmod /vendor/lib/modules/snd-soc-tegra-alt-utils.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-xbar.ko
+do_insmod /vendor/lib/modules/tegra210-adma.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-admaif.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra-virt-alt-ivc.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-adsp.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-sfc.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-i2s.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-mixer.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-afc.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-adx.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-amx.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-dmic.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-mvc.ko
+do_insmod /vendor/lib/modules/snd-soc-tegra210-alt-ope.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra-alt-t186ref-bali.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra-alt-t186ref-boden.ko
 do_insmod /vendor/lib/modules/snd-soc-tegra-alt-t186ref-p2382.ko
