@@ -11,7 +11,7 @@
 -->
 
 <AudioConfigs version="2">
-  <card name="tegra-snd-t186ref-mobile-rt565x">
+  <card name="jetson-xaviernx-ape">
     <pcm_config name="music-playback"
                 device_id="0"
                 rate="48000"
