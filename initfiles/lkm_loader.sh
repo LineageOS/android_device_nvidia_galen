@@ -133,6 +133,7 @@ do_insmod /vendor/lib/modules/input-cfboost.ko
 do_insmod /vendor/lib/modules/pwm-tegra-pmc-blink.ko
 do_insmod /vendor/lib/modules/pwm_fan.ko
 do_insmod /vendor/lib/modules/therm_fan_est.ko
+do_insmod /vendor/lib/modules/nvpmodel_emc_cap.ko
 
 # TV tuner drivers
 do_insmod /vendor/lib/modules/videobuf-core.ko
