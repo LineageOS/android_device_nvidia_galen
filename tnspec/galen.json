@@ -1,0 +1,59 @@
+{
+    "copyright" : "Copyright (C) 2021 The LineageOS Project.  Apache 2.0.",
+    "family" : "T194/Galen",
+    "version" : "2.1",
+    "hw" : {
+        "#" : "'.' indicates the corresponding keys do not get copied when based",
+        "." : ["desc"],
+        "#" : "--------- Galen Platforms ---------",
+        "p2972-0004-devkit-e00" : {
+            "base" : "&uuid",
+            "desc" : "AGX Jetson Devkit",
+            "id" : "P2972-0004-DEVKIT-E00",
+            "config" : "default",
+            "sn" : "",
+            "proc" : {
+                "id" : "2888",
+                "sku" : "4",
+                "fab" : "400",
+                "revmaj" : "69",
+                "revmin" : "0"
+            },
+            "hide" : false,
+            "cm" : "0",
+            "lbh" : "1",
+            "factory_mode" : "0",
+            "dbgport" : "0"
+        },
+        "#" : "--------- Rey Platforms ---------",
+        "p3518-0000-devkit" : {
+            "base" : "&uuid",
+            "desc" : "Jetson NX Devkit",
+            "id" : "P3518-0000-DEVKIT",
+            "config" : "default",
+            "sn" : "",
+            "proc" : {
+                "id" : "3668",
+                "sku" : "0"
+            },
+            "hide" : false,
+            "cm" : "0",
+            "lbh" : "1",
+            "factory_mode" : "0",
+            "dbgport" : "0"
+        },
+        "p3518-0001-devkit" : {
+            "base" : "p3518-0000-devkit",
+            "id" : "P2771-0001-DEVKIT",
+            "proc" : {
+                "sku" : "1"
+            }
+        },
+        "#references" : "##################################",
+        "&uuid" : {
+            "uuid" : {
+                "use_tags" : true
+            }
+        }
+    }
+}
