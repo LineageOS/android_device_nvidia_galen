@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGET_KERNEL_ADDITIONAL_CONFIG := tegra_android_recovery_defconfig
-BOARD_KERNEL_CMDLINE            := androidboot.selinux=permissive
+TARGET_KERNEL_CONFIG := tegra_android_recovery_defconfig
+BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 
 PRODUCT_COPY_FILES += device/nvidia/galen/twrp/twrp.fstab:recovery/root/etc/twrp.fstab
 
