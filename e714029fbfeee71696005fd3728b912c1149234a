@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67418403_a96e581b",
+        "filename": "flash_package/firmware.mk",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 17401
+      },
+      "writtenOn": "2021-09-18T07:59:18Z",
+      "side": 1,
+      "message": "and specific reason you add $(ACP) as a dependency and use `@cp` later anyway?",
+      "range": {
+        "startLine": 27,
+        "startChar": 73,
+        "endLine": 27,
+        "endChar": 79
+      },
+      "revId": "e714029fbfeee71696005fd3728b912c1149234a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
