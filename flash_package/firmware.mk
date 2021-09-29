@@ -114,7 +114,7 @@ $(_rey_sd_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 
 $(_galen_blob): $(_galen_br_bct) $(_rey_sd_br_bct) $(_rey_emmc_br_bct) $(INSTALLED_KERNEL_TARGET)
 	@mkdir -p $(dir $@)
-	OUT=$(dir $@) python2 $(TEGRAFLASH_PATH)/BUP_generator.py -t update -e \
+	OUT=$(dir $@) TOP=$(BUILD_TOP) python2 $(TEGRAFLASH_PATH)/BUP_generator.py -t update -e \
 		"$(GALEN_SIGNED_PATH)/spe_t194_sigheader.bin.encrypt spe-fw 2 0 common; \
 		 $(GALEN_SIGNED_PATH)/nvtboot_t194_sigheader.bin.encrypt mb2 2 0 common; \
 		 $(GALEN_SIGNED_PATH)/cboot_t194_sigheader.bin.encrypt cpu-bootloader 2 0 common; \
