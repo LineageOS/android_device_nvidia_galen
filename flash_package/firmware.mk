@@ -13,6 +13,7 @@ CAPSULE_OTHER   ?= $(CAPSULE_CERTS)/TestSub.pub.pem
 CAPSULE_TRUSTED ?= $(CAPSULE_CERTS)/TestRoot.pub.pem
 
 INSTALLED_KERNEL_TARGET      := $(PRODUCT_OUT)/kernel
+INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-mon-only.img
 INSTALLED_NVDISP_INIT_TARGET := $(PRODUCT_OUT)/nvdisp-init.bin
 INSTALLED_TIANOCORE_TARGET   := $(PRODUCT_OUT)/tianocore.bin
 INSTALLED_EDK2_DTBO_TARGET   := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
@@ -81,10 +82,12 @@ _p3518-0003_br_bct := $(P3518-0003_SIGNED_PATH)/br_bct_BR.bct
 # $23 Carrier board id
 # $24 Carrier sku
 define t194_bl_signing_rule
-$(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST) $(SMD_GEN_HOST)
+$(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST) $(SMD_GEN_HOST)
 	@mkdir -p $(strip $1)
 	@cp $(GALEN_FLASH)/$(strip $2) $(strip $1)/
 	@cp $(T194_BL)/* $(strip $1)/
+	@rm $(strip $1)/tos-mon-only_t194.img
+	@cp $(INSTALLED_TOS_TARGET) $(strip $1)/tos-mon-only_t194.img
 	@rm $(strip $1)/BOOTAA64.efi
 	@rm $(strip $1)/uefi_jetson.bin
 	@rm $(strip $1)/nvdisp-init.bin

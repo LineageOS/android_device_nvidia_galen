@@ -10,6 +10,7 @@ COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 INSTALLED_KERNEL_TARGET        := $(PRODUCT_OUT)/kernel
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
 INSTALLED_SUPER_EMPTY_TARGET   := $(PRODUCT_OUT)/super_empty.img
+INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
 INSTALLED_NVDISP_INIT_TARGET   := $(PRODUCT_OUT)/nvdisp-init.bin
 INSTALLED_TIANOCORE_TARGET     := $(PRODUCT_OUT)/tianocore.bin
 INSTALLED_RLAUNCHER_TARGET     := $(PRODUCT_OUT)/AndroidLauncher-recovery.efi
@@ -36,7 +37,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p2972_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p2972_package_archive := $(_p2972_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(MCOPY_HOST) $(MMD_HOST) $(MKFSFAT_HOST) $(LPFLASH_HOST) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_RLAUNCHER_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
+$(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(MCOPY_HOST) $(MMD_HOST) $(MKFSFAT_HOST) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_RLAUNCHER_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegraflash* $(dir $@)/tegraflash/
@@ -51,6 +52,8 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	$(TOYBOX_HOST) sed -i "s/REPLACEME/$${LINEAGEVER}/" $(dir $@)/flash.sh
 	@cp $(GALEN_FLASH)/flash_android_t194_sdmmc.xml $(dir $@)/
 	@cp $(T194_BL)/* $(dir $@)/
+	@rm $(dir $@)/tos-mon-only_t194.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos-mon-only_t194.img
 	@rm $(dir $@)/BOOTAA64.efi
 	@rm $(dir $@)/nvdisp-init.bin
 	@cp $(INSTALLED_NVDISP_INIT_TARGET) $(dir $@)/
@@ -95,7 +98,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p3518_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p3518_package_archive := $(_p3518_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(MCOPY_HOST) $(MMD_HOST) $(MKFSFAT_HOST) $(LPFLASH_HOST) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_RLAUNCHER_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
+$(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(MCOPY_HOST) $(MMD_HOST) $(MKFSFAT_HOST) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_RLAUNCHER_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegraflash* $(dir $@)/tegraflash/
@@ -110,6 +113,8 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	$(TOYBOX_HOST) sed -i "s/REPLACEME/$${LINEAGEVER}/" $(dir $@)/flash.sh
 	@cp $(GALEN_FLASH)/flash_android_t194_spi_*_p3668.xml $(dir $@)/
 	@cp $(T194_BL)/* $(dir $@)/
+	@rm $(dir $@)/tos-mon-only_t194.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos-mon-only_t194.img
 	@rm $(dir $@)/BOOTAA64.efi
 	@rm $(dir $@)/nvdisp-init.bin
 	@cp $(INSTALLED_NVDISP_INIT_TARGET) $(dir $@)/
