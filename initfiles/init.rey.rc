@@ -17,7 +17,7 @@ import /vendor/etc/init/hw/init.t19x.rc
 import /vendor/etc/init/hw/init.jetson-xavier_common.rc
 
 on init
-    enable btlinux-1.0
+    enable btlinux-1.1
 
 on fs
     mount_all /vendor/etc/fstab.rey
