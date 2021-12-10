@@ -15,7 +15,7 @@
 TARGET_KERNEL_CONFIG := tegra_android_recovery_defconfig
 BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 
-PRODUCT_COPY_FILES += device/nvidia/galen/twrp/twrp.fstab:recovery/root/etc/twrp.fstab
+PRODUCT_COPY_FILES += device/nvidia/galen/twrp/twrp.fstab:recovery/root/system/etc/twrp.fstab
 
 TW_THEME             := landscape_hdpi
 TW_NO_SCREEN_TIMEOUT := true

@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit some common omni stuff.
-$(call inherit-product, vendor/omni/config/common.mk)
+# Inherit some common twrp stuff.
+$(call inherit-product, vendor/twrp/config/common.mk)
 
 # Inherit device configuration for galen.
-include device/nvidia/galen/omni.mk
+include device/nvidia/galen/lineage.mk
 $(call inherit-product, device/nvidia/galen/full_galen.mk)
 
-PRODUCT_NAME := omni_galen
+PRODUCT_NAME := twrp_galen
 PRODUCT_DEVICE := galen

@@ -17,4 +17,4 @@
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/full_galen.mk \
     $(LOCAL_DIR)/lineage_galen.mk \
-    $(LOCAL_DIR)/omni_galen.mk
+    $(LOCAL_DIR)/twrp_galen.mk
