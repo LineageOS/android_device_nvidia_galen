@@ -44,14 +44,13 @@ endif
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 BOARD_VENDOR_KERNEL_MODULES += $(wildcard $(dir $(TARGET_PREBUILT_KERNEL))/*.ko)
-else
+endif
 KERNEL_TOOLCHAIN              := $(shell pwd)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-gnu-6.4.1/bin
 KERNEL_TOOLCHAIN_PREFIX       := aarch64-linux-gnu-
 TARGET_KERNEL_SOURCE          := kernel/nvidia/kernel-4.9
 TARGET_KERNEL_CONFIG          := tegra_android_defconfig
 TARGET_KERNEL_RECOVERY_CONFIG := tegra_android_recovery_defconfig
 BOARD_KERNEL_IMAGE_NAME       := Image.gz
-endif
 
 # Manifest
 DEVICE_MANIFEST_FILE := device/nvidia/galen/manifest.xml
