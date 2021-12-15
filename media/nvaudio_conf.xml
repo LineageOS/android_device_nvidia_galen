@@ -85,7 +85,7 @@
                 avail_min="1"/>
 
     <param name="HW Rates" val="48000 44100 96000 192000"/>
-    <param name="HDMI HW Latency" val="50"/>
+    <param name="HDMI HW Latency" val="0"/>
   </card>
 
   <card name="tegra-hda-galen-t194">
@@ -103,8 +103,34 @@
                 avail_min="1"/>
 
     <param name="HW Rates" val="48000 44100 96000 192000"/>
-    <param name="HDMI HW Latency" val="50"/>
+    <param name="HDMI HW Latency" val="0"/>
     <param name="DP DEVICE ID" val="3"/>
+  </card>
+
+  <card name="dummy">
+    <pcm_config name="music-playback"
+                device_id="1"
+                rate="48000"
+                channels="2"
+                bps="16"
+                period_size="256"
+                period_count="2"
+                start_threshold="511"
+                stop_threshold="512"
+                silence_threshold="0"
+                avail_min="1"/>
+
+    <pcm_config name="music-capture"
+                device_id="0"
+                rate="48000"
+                channels="2"
+                bps="16"
+                period_size="256"
+                period_count="2"
+                start_threshold="1"
+                stop_threshold="512"
+                silence_threshold="0"
+                avail_min="1"/>
   </card>
 
   <card name="dummy">
