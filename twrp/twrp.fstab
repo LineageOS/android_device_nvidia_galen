@@ -1,13 +1,12 @@
-/recovery       emmc            /dev/block/by-name/SOS			flags=slotselect
-/boot           emmc            /dev/block/by-name/kernel		flags=slotselect
-/system_root    ext4            /dev/block/by-name/APP			flags=slotselect
-/system_image   emmc            /dev/block/by-name/APP			flags=slotselect
-/cache          ext4            /dev/block/by-name/CAC
+/recovery       emmc            /dev/block/by-name/recovery		flags=slotselect
+/boot           emmc            /dev/block/by-name/boot			flags=slotselect
+/system_root    ext4            /dev/block/by-name/system		flags=slotselect
+/system_image   emmc            /dev/block/by-name/system		flags=slotselect
 /odm            ext4            /dev/block/by-name/odm			flags=slotselect
 /vendor         ext4            /dev/block/by-name/vendor		flags=slotselect
 /vendor_image   emmc            /dev/block/by-name/vendor		flags=slotselect
-/misc           emmc            /dev/block/by-name/MSC
-/metadata       emmc            /dev/block/by-name/MDA
-/data           ext4            /dev/block/by-name/UDA			flags=encryptable=/dev/block/by-name/MDA
-/bmps           emmc            /dev/block/by-name/BMP
+/misc           emmc            /dev/block/by-name/misc
+/metadata       emmc            /dev/block/by-name/metadata
+/data           ext4            /dev/block/by-name/userdata		flags=encryptable=/dev/block/by-name/metadata
+/bmps           emmc            /dev/block/by-name/bootlogo
 /usb-otg        vfat            /dev/block/sda1	  /dev/block/sda	flags=removable;storage;display=USB-OTG

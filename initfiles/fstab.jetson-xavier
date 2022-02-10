@@ -5,14 +5,14 @@
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
-/dev/block/by-name/APP           /                   ext4      ro,noatime                                                          wait,avb,slotselect
+/dev/block/by-name/system        /                   ext4      ro,noatime                                                          wait,avb,slotselect
 /dev/block/by-name/vendor        /vendor             ext4      ro,noatime                                                          wait,avb,recoveryonly,slotselect
 /dev/block/by-name/odm           /odm                ext4      ro,noatime                                                          wait,avb,recoveryonly,slotselect
-/dev/block/by-name/kernel        /boot               emmc      defaults                                                            defaults,slotselect
+/dev/block/by-name/boot          /boot               emmc      defaults                                                            defaults,slotselect
 /dev/block/by-name/misc          /misc               emmc      defaults                                                            defaults
-/dev/block/by-name/UDA           /data               ext4      noatime,nosuid,nodev,data=ordered,barrier=0,noauto_da_alloc         wait,check,formattable,encryptable=/dev/block/by-name/metadata,quota
+/dev/block/by-name/userdata      /data               ext4      noatime,nosuid,nodev,data=ordered,barrier=0,noauto_da_alloc         wait,check,formattable,encryptable=/dev/block/by-name/metadata,quota
 /dev/block/by-name/metadata      /metadata           emmc      defaults                                                            defaults
-/dev/block/by-name/SOS           /recovery           emmc      defaults                                                            defaults,slotselect
+/dev/block/by-name/recovery      /recovery           emmc      defaults                                                            defaults,slotselect
 /devices/platform/tegra-xhci*    auto                vfat      defaults                                                            voldmanaged=usbdrive:auto,encryptable=userdata
 /devices/tegra-ehci*             auto                vfat      defaults                                                            voldmanaged=usbdrive:auto,encryptable=userdata
-/dev/block/by-name/BMP           /bmps               emmc      defaults                                                            recoveryonly,slotselect
+/dev/block/by-name/bootlogo      /bmps               emmc      defaults                                                            recoveryonly,slotselect

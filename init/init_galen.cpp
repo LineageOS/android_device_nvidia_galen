@@ -90,16 +90,4 @@ void vendor_load_properties()
 				break;
 		}
 	}
-
-	// AB updates require set paths for certain partitions
-	if (!ti.vendor_context()) {
-		std::map<std::string,std::string> ab_parts;
-		ab_parts.emplace("/dev/block/by-name/kernel_a", "/dev/block/by-name/boot_a");
-		ab_parts.emplace("/dev/block/by-name/kernel_b", "/dev/block/by-name/boot_b");
-		ab_parts.emplace("/dev/block/by-name/APP_a",    "/dev/block/by-name/system_a");
-		ab_parts.emplace("/dev/block/by-name/APP_b",    "/dev/block/by-name/system_b");
-		ab_parts.emplace("/dev/block/by-name/SOS_a",    "/dev/block/by-name/recovery_a");
-		ab_parts.emplace("/dev/block/by-name/SOS_b",    "/dev/block/by-name/recovery_b");
-		ti.make_symlinks(ab_parts);
-	}
 }

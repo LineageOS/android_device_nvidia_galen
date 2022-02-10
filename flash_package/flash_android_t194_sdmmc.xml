@@ -204,7 +204,7 @@
               partitions defined after this entry are configured in the kernel, and are accessible
               by standard partition tools such as gdisk and parted. </description>
         </partition>
-        <partition name="APP_a" type="data">
+        <partition name="system_a" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 2684354560 </size>
@@ -215,7 +215,7 @@
             <unique_guid>  </unique_guid>
             <description> **Required.** Slot A; Contains the rootfs. </description>
         </partition>
-        <partition name="APP_b" type="data">
+        <partition name="system_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 2684354560 </size>
@@ -514,7 +514,7 @@
             <filename> p2972-0004-devkit-e00.bin </filename>
             <description> **Optional.** Contains config table. </description>
         </partition>
-        <partition name="BMP" type="data">
+        <partition name="bootlogo" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 134217728 </size>
@@ -525,7 +525,7 @@
             <description> **Optional.** Slot A; contains BMP images for splash screen display during
               boot. </description>
         </partition>
-        <partition name="BMP_b" type="data">
+        <partition name="bootlogo_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 134217728 </size>
@@ -536,7 +536,7 @@
             <description> **Optional.** Slot B; contains BMP images for splash screen display during
               boot. </description>
         </partition>
-        <partition name="SOS_a" type="data">
+        <partition name="recovery_a" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 66060288 </size>
@@ -546,7 +546,7 @@
             <filename> recovery.img </filename>
             <description> **Required.** Slot A; contains the recovery image </description>
         </partition>
-        <partition name="SOS_b" type="data">
+        <partition name="recovery_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 66060288 </size>
@@ -584,7 +584,7 @@
             <percent_reserved> 0 </percent_reserved>
             <description> **Optional.** Slot B; reserved for future use by boot control data; removable </description>
         </partition>
-        <partition name="kernel_a" type="data">
+        <partition name="boot_a" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 83886080 </size>
@@ -594,7 +594,7 @@
             <filename> recovery.img </filename>
             <description> **Required.** Slot A; contains the Linux kernel. </description>
         </partition>
-        <partition name="kernel_b" type="data">
+        <partition name="boot_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <size> 83886080 </size>
@@ -704,7 +704,7 @@
             <filename> vbmeta_skip.img </filename>
             <description> **Required.** Slot B; Contains verified boot metadata. </description>
         </partition>
-        <partition name="UDA" type="data">
+        <partition name="userdata" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <file_system_attribute> 0 </file_system_attribute>
