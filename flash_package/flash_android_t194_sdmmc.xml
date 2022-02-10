@@ -566,24 +566,6 @@
             <align_boundary> 4096 </align_boundary>
             <description> **Required.** Contains metadata by recovery. </description>
         </partition>
-        <partition name="kernel-bootctrl" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 65536 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <description> **Optional.** Slot A; reserved for future use by boot control data; removable </description>
-        </partition>
-        <partition name="kernel-bootctrl_b" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 65536 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <description> **Optional.** Slot B; reserved for future use by boot control data; removable </description>
-        </partition>
         <partition name="boot_a" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -622,15 +604,6 @@
             <percent_reserved> 0 </percent_reserved>
             <filename> tegra194-p2888-0001-p2822-0000.dtb </filename>
             <description> **Required.** Slot B; contains kernel device tree blob. </description>
-        </partition>
-        <partition name="CPUBL-CFG" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 4096 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <description> **Optional.** Contains boot device selection priority list. </description>
         </partition>
         <partition name="vendor_a" type="data">
             <allocation_policy> sequential </allocation_policy>
