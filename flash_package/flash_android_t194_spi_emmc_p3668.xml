@@ -486,7 +486,7 @@
         <partition name="system_a" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 2684354560 </size>
+            <size> 4294967296 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <align_boundary> 4096 </align_boundary>
@@ -497,7 +497,7 @@
         <partition name="system_b" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 2684354560 </size>
+            <size> 4294967296 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <align_boundary> 4096 </align_boundary>
