@@ -420,6 +420,15 @@
             <description> **Required.** Slot B; contains BPMP firmware device tree blob
               (DTB). </description>
         </partition>
+        <partition name="avb_custom_key" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2048 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <description> **Optional.** contains user root-of-trust avb key. </description>
+        </partition>
         <partition name="VER" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
