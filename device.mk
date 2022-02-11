@@ -50,6 +50,8 @@ TARGET_SCREEN_WIDTH      := 1080
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
 include device/nvidia/galen/vendor/galen-vendor.mk
 
 # Soong namespaces
@@ -117,6 +119,11 @@ PRODUCT_PACKAGES += \
     enctune.conf
 endif
 
+# Partitions for dynamic
+PRODUCT_COPY_FILES += \
+    device/nvidia/galen/initfiles/fstab.galen:$(TARGET_COPY_OUT_RAMDISK)/fstab.galen \
+    device/nvidia/galen/initfiles/fstab.galen:$(TARGET_COPY_OUT_RAMDISK)/fstab.rey
+
 # PHS
 ifeq ($(TARGET_TEGRA_PHS),nvphs)
 PRODUCT_PACKAGES += \
@@ -143,9 +150,11 @@ PRODUCT_PACKAGES += \
 ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_PARTITIONS += \
     boot \
+    product \
     recovery \
     system \
     vbmeta \
+    vbmeta_system \
     vendor \
     odm
 ifeq ($(TARGET_PREBUILT_KERNEL),)

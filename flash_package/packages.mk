@@ -14,11 +14,13 @@ INSTALLED_BMP_BLOB_TARGET      := $(PRODUCT_OUT)/bmp.blob
 INSTALLED_CBOOT_TARGET         := $(PRODUCT_OUT)/cboot.bin
 INSTALLED_KERNEL_TARGET        := $(PRODUCT_OUT)/kernel
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
+INSTALLED_SUPER_EMPTY_TARGET   := $(PRODUCT_OUT)/super_empty.img
 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 AWK_HOST     := $(HOST_OUT_EXECUTABLES)/one-true-awk
 AVBTOOL_HOST := $(HOST_OUT_EXECUTABLES)/avbtool
 SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
+LPFLASH_HOST := $(HOST_OUT_EXECUTABLES)/lpflash
 
 ifneq ($(TARGET_TEGRA_KERNEL),4.9)
 DTB_SUBFOLDER := nvidia/
@@ -33,7 +35,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p2972_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p2972_package_archive := $(_p2972_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p2972_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(AWK_HOST) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST)
+$(_p2972_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(AWK_HOST) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(LPFLASH_HOST)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegraflash* $(dir $@)/tegraflash/
@@ -53,6 +55,8 @@ $(_p2972_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@$(AVBTOOL_HOST) make_vbmeta_image --flags 2 --padding_size 256 --output $(dir $@)/vbmeta_skip.img
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
+	@touch $(dir $@)/super_meta_only.img
+	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
 	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
 	@cp $(GALEN_BCT)/*p2888* $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-br-bct-sdmmc.cfg $(dir $@)/
@@ -79,7 +83,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p3518_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p3518_package_archive := $(_p3518_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p3518_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(AWK_HOST) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST)
+$(_p3518_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(AWK_HOST) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(LPFLASH_HOST)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegraflash* $(dir $@)/tegraflash/
@@ -100,6 +104,8 @@ $(_p3518_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@$(AVBTOOL_HOST) make_vbmeta_image --flags 2 --padding_size 256 --output $(dir $@)/vbmeta_skip.img
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
+	@touch $(dir $@)/super_meta_only.img
+	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
 	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
 	@cp $(GALEN_BCT)/*p3668* $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-br-bct-qspi.cfg $(dir $@)/

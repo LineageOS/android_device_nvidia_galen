@@ -483,27 +483,17 @@
               partitions defined after this entry are configured in the kernel, and are
               accessible by standard partition tools such as gdisk and parted. </description>
         </partition>
-        <partition name="system_a" type="data">
+        <partition name="super" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 4294967296 </size>
+            <size> 10737418240 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <align_boundary> 4096 </align_boundary>
             <percent_reserved> 0 </percent_reserved>
             <unique_guid>  </unique_guid>
-            <description> **Required.** Slot A; Contains the rootfs. </description>
-        </partition>
-        <partition name="system_b" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 4294967296 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <align_boundary> 4096 </align_boundary>
-            <percent_reserved> 0 </percent_reserved>
-            <unique_guid>  </unique_guid>
-            <description> **Required.** Slot B; Contains the rootfs. </description>
+            <filename> super_meta_only.img </filename>
+            <description> **Required.** Contains the android device mapper super. </description>
         </partition>
         <partition name="bootlogo" type="data">
             <allocation_policy> sequential </allocation_policy>
@@ -616,46 +606,6 @@
             <align_boundary> 4096 </align_boundary>
             <description> **Required.** Contains metadata by recovery. </description>
         </partition>
-        <partition name="vendor_a" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 536870912 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <align_boundary> 4096 </align_boundary>
-            <description> **Required.** Slot A; Contains the vendor filesystem. </description>
-        </partition>
-        <partition name="vendor_b" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 536870912 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <align_boundary> 4096 </align_boundary>
-            <description> **Required.** Slot B; Contains the vendor filesystem. </description>
-        </partition>
-        <partition name="odm_a" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 134217728 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <align_boundary> 4096 </align_boundary>
-            <description> **Required.** Slot A; Contains the odm filesystem. </description>
-        </partition>
-        <partition name="odm_b" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 134217728 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 0x8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <align_boundary> 4096 </align_boundary>
-            <description> **Required.** Slot B; Contains the odm filesystem. </description>
-        </partition>
         <partition name="metadata" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -687,6 +637,26 @@
             <align_boundary> 4096 </align_boundary>
             <filename> vbmeta_skip.img </filename>
             <description> **Required.** Slot B; Contains verified boot metadata. </description>
+        </partition>
+        <partition name="vbmeta_system_a" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 65536 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <align_boundary> 4096 </align_boundary>
+            <description> **Required.** Slot A; Contains verified boot metadata for system. </description>
+        </partition>
+        <partition name="vbmeta_system_b" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 65536 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <align_boundary> 4096 </align_boundary>
+            <description> **Required.** Slot B; Contains verified boot metadata for system. </description>
         </partition>
         <partition name="userdata" type="data">
             <allocation_policy> sequential </allocation_policy>
