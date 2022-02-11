@@ -20,6 +20,16 @@ AWK_HOST     := $(HOST_OUT_EXECUTABLES)/one-true-awk
 AVBTOOL_HOST := $(HOST_OUT_EXECUTABLES)/avbtool
 SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
 
+ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+GALEN_PARTS    := flash_android_t194_sdmmc.dynamic.xml
+REY_EMMC_PARTS := flash_android_t194_spi_emmc_p3668.dynamic.xml
+REY_SD_PARTS   := flash_android_t194_spi_sd_p3668.dynamic.xml
+else
+GALEN_PARTS    := flash_android_t194_sdmmc.xml
+REY_EMMC_PARTS := flash_android_t194_spi_emmc_p3668.xml
+REY_SD_PARTS   := flash_android_t194_spi_sd_p3668.xml
+endif
+
 include $(CLEAR_VARS)
 LOCAL_MODULE        := p2972_flash_package
 LOCAL_MODULE_SUFFIX := .txz
@@ -39,7 +49,7 @@ $(_p2972_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@cp $(TEGRAFLASH_PATH)/sw_memcfg_overlay.pl $(dir $@)/tegraflash/
 	@cp $(COMMON_FLASH)/*.sh $(dir $@)/scripts/
 	@cp $(GALEN_FLASH)/p2972.sh $(dir $@)/flash.sh
-	@cp $(GALEN_FLASH)/flash_android_t194_sdmmc.xml $(dir $@)/
+	@cp $(GALEN_FLASH)/$(GALEN_PARTS) $(dir $@)/flash_android_t194_sdmmc.xml
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(T194_FW)/xusb/tegra19x_xusb_firmware $(dir $@)/xusb_sil_rel_fw
 	@python2 $(TNSPEC_PY) nct new p2972-0004-devkit-e00 -o $(dir $@)/p2972-0004-devkit-e00.bin --spec $(GALEN_TNSPEC)
@@ -84,7 +94,8 @@ $(_p3518_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@cp $(TEGRAFLASH_PATH)/sw_memcfg_overlay.pl $(dir $@)/tegraflash/
 	@cp $(COMMON_FLASH)/*.sh $(dir $@)/scripts/
 	@cp $(GALEN_FLASH)/p3518.sh $(dir $@)/flash.sh
-	@cp $(GALEN_FLASH)/flash_android_t194_spi_*_p3668.xml $(dir $@)/
+	@cp $(GALEN_FLASH)/$(REY_EMMC_PARTS) $(dir $@)/flash_android_t194_spi_emmc_p3668.xml
+	@cp $(GALEN_FLASH)/$(REY_SD_PARTS) $(dir $@)/flash_android_t194_spi_sd_p3668.xml
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(T194_FW)/xusb/tegra19x_xusb_firmware $(dir $@)/xusb_sil_rel_fw
 	@python2 $(TNSPEC_PY) nct new p3518-0000-devkit -o $(dir $@)/p3518-0000-devkit.bin --spec $(GALEN_TNSPEC)

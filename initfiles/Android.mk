@@ -3,14 +3,22 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE        := fstab.jetson-xavier
 LOCAL_MODULE_CLASS  := ETC
+ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+LOCAL_SRC_FILES     := fstab.jetson-xavier.dynamic
+else
 LOCAL_SRC_FILES     := fstab.jetson-xavier
+endif
 LOCAL_VENDOR_MODULE := true
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE        := fstab.rey
 LOCAL_MODULE_CLASS  := ETC
+ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+LOCAL_SRC_FILES     := fstab.jetson-xavier.dynamic
+else
 LOCAL_SRC_FILES     := fstab.jetson-xavier
+endif
 LOCAL_VENDOR_MODULE := true
 include $(BUILD_PREBUILT)
 

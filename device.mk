@@ -116,6 +116,13 @@ PRODUCT_PACKAGES += \
     media_profiles_V1_0.xml
 endif
 
+# Partitions
+ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/initfiles/fstab.jetson-xavier.dynamic:$(TARGET_COPY_OUT_RAMDISK)/fstab.jetson-xavier \
+    $(LOCAL_PATH)/initfiles/fstab.jetson-xavier.dynamic:$(TARGET_COPY_OUT_RAMDISK)/fstab.rey
+endif
+
 # PHS
 ifeq ($(TARGET_TEGRA_PHS),nvphs)
 PRODUCT_PACKAGES += \
@@ -140,6 +147,11 @@ AB_OTA_PARTITIONS += \
     vbmeta \
     vendor \
     odm
+ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+AB_OTA_PARTITIONS += \
+    product \
+    vbmeta_system
+endif
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \

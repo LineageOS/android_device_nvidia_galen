@@ -8,6 +8,16 @@ GALEN_FLASH     := $(BUILD_TOP)/device/nvidia/galen/flash_package
 INSTALLED_CBOOT_TARGET  := $(PRODUCT_OUT)/cboot.bin
 INSTALLED_KERNEL_TARGET := $(PRODUCT_OUT)/kernel
 
+ifeq ($(PRODUCT_USE_DYNAMIC_PARTITIONS),true)
+GALEN_PARTS    := flash_android_t194_sdmmc.dynamic.xml
+REY_EMMC_PARTS := flash_android_t194_spi_emmc_p3668.dynamic.xml
+REY_SD_PARTS   := flash_android_t194_spi_sd_p3668.dynamic.xml
+else
+GALEN_PARTS    := flash_android_t194_sdmmc.xml
+REY_EMMC_PARTS := flash_android_t194_spi_emmc_p3668.xml
+REY_SD_PARTS   := flash_android_t194_spi_sd_p3668.xml
+endif
+
 include $(CLEAR_VARS)
 LOCAL_MODULE               := bl_update_payload
 LOCAL_MODULE_CLASS         := ETC
@@ -26,7 +36,7 @@ _rey_emmc_br_bct := $(REY_EMMC_SIGNED_PATH)/br_bct_BR.bct
 
 $(_galen_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 	@mkdir -p $(dir $@)
-	@cp $(GALEN_FLASH)/flash_android_t194_sdmmc.xml $(dir $@)/flash_android_t194_sdmmc.xml.tmp
+	@cp $(GALEN_FLASH)/$(GALEN_PARTS) $(dir $@)/flash_android_t194_sdmmc.xml.tmp
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(GALEN_BCT)/tegra194-a02-bpmp-p2888-a04.dtb $(dir $@)/
@@ -61,7 +71,7 @@ $(_galen_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 
 $(_rey_emmc_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 	@mkdir -p $(dir $@)
-	@cp $(GALEN_FLASH)/flash_android_t194_spi_emmc_p3668.xml $(dir $@)/flash_android_t194_spi_emmc_p3668.xml.tmp
+	@cp $(GALEN_FLASH)/$(REY_EMMC_PARTS) $(dir $@)/flash_android_t194_spi_emmc_p3668.xml.tmp
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(GALEN_BCT)/tegra194-a02-bpmp-p3668-a00.dtb $(dir $@)/
@@ -79,7 +89,7 @@ $(_rey_emmc_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 
 $(_rey_sd_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 	@mkdir -p $(dir $@)
-	@cp $(GALEN_FLASH)/flash_android_t194_spi_sd_p3668.xml $(dir $@)/flash_android_t194_spi_sd_p3668.xml.tmp
+	@cp $(GALEN_FLASH)/$(REY_SD_PARTS) $(dir $@)/flash_android_t194_spi_sd_p3668.xml.tmp
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(GALEN_BCT)/tegra194-a02-bpmp-p3668-a00.dtb $(dir $@)/
