@@ -1,4 +1,5 @@
-# Copyright (C) 2020 The LineageOS Project
+#
+# Copyright (C) 2022 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,16 +12,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-import /vendor/etc/init/hw/init.tegra.rc
-import /vendor/etc/init/hw/init.t19x.rc
-import /vendor/etc/init/hw/init.galen_common.rc
+LOCAL_PATH := $(call my-dir)
 
-on init
-    setprop ro.vendor.lineage.tegra.nvpmodel.config /odm/etc/nvpmodel_t194_p3668.conf
+include $(CLEAR_VARS)
+LOCAL_MODULE       := nvpmodel_t194.conf
+LOCAL_MODULE_CLASS := ETC
+LOCAL_ODM_MODULE   := true
+LOCAL_SRC_FILES    := nvpmodel_t194.conf
+include $(BUILD_PREBUILT)
 
-    enable btlinux-1.1
-
-on fs
-    mount_all /vendor/etc/fstab.rey
-    swapon_all /vendor/etc/fstab.rey
+include $(CLEAR_VARS)
+LOCAL_MODULE       := nvpmodel_t194_p3668.conf
+LOCAL_MODULE_CLASS := ETC
+LOCAL_ODM_MODULE   := true
+LOCAL_SRC_FILES    := nvpmodel_t194_p3668.conf
+include $(BUILD_PREBUILT)
