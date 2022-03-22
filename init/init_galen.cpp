@@ -61,10 +61,10 @@ void vendor_set_usb_product_ids(tegra_init *ti)
 
 void vendor_load_properties()
 {
-	//                                              device    name    model              id    sku  boot device type                 api dpi
-	std::vector<tegra_init::devices> devices = { { "galen", "galen", "Jetson Xavier",    2972,   0, tegra_init::boot_dev_type::EMMC, 28, 320 },
-	                                             { "rey"  , "rey",   "Jetson Xavier NX", 3668,   1, tegra_init::boot_dev_type::EMMC, 28, 320 },
-	                                             { "rey"  , "rey",   "Jetson Xavier NX", 3668,   0, tegra_init::boot_dev_type::SD,   28, 320 } };
+	//                                             device   name     model               id    sku api dpi
+	std::vector<tegra_init::devices> devices = { { "galen", "galen", "Jetson Xavier",    2972, 0,  28, 320 },
+	                                             { "rey",   "rey",   "Jetson Xavier NX", 3668, 1,  28, 320 },
+	                                             { "rey",   "rey",   "Jetson Xavier NX", 3668, 0,  28, 320 } };
 	tegra_init::build_version tav = { "9", "PPR1.180610.011", "4079208_2740.7538" };
 
 	tegra_init ti(devices);
@@ -79,15 +79,13 @@ void vendor_load_properties()
 	if (ti.vendor_context() || ti.recovery_context()) {
 		vendor_set_usb_product_ids(&ti);
 
-		switch (ti.get_boot_dev_type()) {
-			case tegra_init::boot_dev_type::EMMC:
-				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3460000.sdhci/mmcblk0boot0");
-				ti.property_set("vendor.tegra.ota.gpt_device",  "/dev/block/platform/3460000.sdhci/mmcblk0boot1");
-				break;
-
-			case tegra_init::boot_dev_type::SD:
-				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3270000.spi/mtdblock0");
-				break;
+		if (ti.is_model(3668, 1)) {
+			// Rey sd variant
+			ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3270000.spi/mtdblock0");
+		} else {
+			// Everything else is emmc only
+			ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3460000.sdhci/mmcblk0boot0");
+			ti.property_set("vendor.tegra.ota.gpt_device",  "/dev/block/platform/3460000.sdhci/mmcblk0boot1");
 		}
 	}
 }
