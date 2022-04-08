@@ -37,6 +37,7 @@ $(_p2972_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@cp $(TEGRAFLASH_PATH)/tegraopenssl $(dir $@)/tegraflash/
 	@cp $(TEGRAFLASH_PATH)/tegrasign_v3* $(dir $@)/tegraflash/
 	@cp $(TEGRAFLASH_PATH)/sw_memcfg_overlay.pl $(dir $@)/tegraflash/
+	@cp -R $(TEGRAFLASH_PATH)/pyfdt $(dir $@)/tegraflash/
 	@cp $(COMMON_FLASH)/*.sh $(dir $@)/scripts/
 	@cp $(GALEN_FLASH)/p2972.sh $(dir $@)/flash.sh
 	@cp $(GALEN_FLASH)/flash_android_t194_sdmmc.xml $(dir $@)/
@@ -82,6 +83,7 @@ $(_p3518_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@cp $(TEGRAFLASH_PATH)/tegraopenssl $(dir $@)/tegraflash/
 	@cp $(TEGRAFLASH_PATH)/tegrasign_v3* $(dir $@)/tegraflash/
 	@cp $(TEGRAFLASH_PATH)/sw_memcfg_overlay.pl $(dir $@)/tegraflash/
+	@cp -R $(TEGRAFLASH_PATH)/pyfdt $(dir $@)/tegraflash/
 	@cp $(COMMON_FLASH)/*.sh $(dir $@)/scripts/
 	@cp $(GALEN_FLASH)/p3518.sh $(dir $@)/flash.sh
 	@cp $(GALEN_FLASH)/flash_android_t194_spi_*_p3668.xml $(dir $@)/
