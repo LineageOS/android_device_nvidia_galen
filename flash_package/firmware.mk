@@ -121,7 +121,7 @@ $(_galen_blob): $(_galen_br_bct) $(_rey_sd_br_bct) $(_rey_emmc_br_bct) $(INSTALL
 		 $(GALEN_SIGNED_PATH)/tos-mon-only_t194_sigheader.img.encrypt secure-os 2 0 common; \
 		 $(GALEN_SIGNED_PATH)/bpmp_t194_sigheader.bin.encrypt bpmp-fw 2 0 common; \
 		 $(GALEN_SIGNED_PATH)/adsp-fw_sigheader.bin.encrypt adsp-fw 2 0 common; \
-		 $(GALEN_SIGNED_PATH)/camera-rtcpu-rce_sigheader.img.encrypt rce-fw 2 0 common; \
+		 $(GALEN_SIGNED_PATH)/camera-rtcpu-t194-rce_sigheader.img.encrypt rce-fw 2 0 common; \
 		 $(GALEN_SIGNED_PATH)/preboot_c10_prod_cr_sigheader.bin.encrypt mts-preboot 2 2 common; \
 		 $(GALEN_SIGNED_PATH)/mce_c10_prod_cr_sigheader.bin.encrypt mts-mce 2 2 common; \
 		 $(GALEN_SIGNED_PATH)/mts_c10_prod_cr_sigheader.bin.encrypt mts-proper 2 2 common; \
