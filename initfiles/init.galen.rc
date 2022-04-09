@@ -14,11 +14,11 @@
 
 import /vendor/etc/init/hw/init.tegra.rc
 import /vendor/etc/init/hw/init.t19x.rc
-import /vendor/etc/init/hw/init.jetson-xavier_common.rc
+import /vendor/etc/init/hw/init.galen_common.rc
 
 on fs
-    mount_all /vendor/etc/fstab.jetson-xavier
-    swapon_all /vendor/etc/fstab.jetson-xavier
+    mount_all /vendor/etc/fstab.galen
+    swapon_all /vendor/etc/fstab.galen
 
 # Enable all cores
 on init

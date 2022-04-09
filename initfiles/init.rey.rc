@@ -14,7 +14,7 @@
 
 import /vendor/etc/init/hw/init.tegra.rc
 import /vendor/etc/init/hw/init.t19x.rc
-import /vendor/etc/init/hw/init.jetson-xavier_common.rc
+import /vendor/etc/init/hw/init.galen_common.rc
 
 on init
     enable btlinux-1.1

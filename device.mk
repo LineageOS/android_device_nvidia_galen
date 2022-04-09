@@ -57,14 +57,14 @@ PRODUCT_SOONG_NAMESPACES += device/nvidia/galen
 
 # Init related
 PRODUCT_PACKAGES += \
-    fstab.jetson-xavier \
+    fstab.galen \
     fstab.rey \
-    init.jetson-xavier.rc \
+    init.galen.rc \
     init.rey.rc \
-    init.jetson-xavier_common.rc \
-    init.recovery.jetson-xavier.rc \
+    init.galen_common.rc \
+    init.recovery.galen.rc \
     init.recovery.rey.rc \
-    power.jetson-xavier.rc \
+    power.galen.rc \
     power.rey.rc
 
 # Permissions
