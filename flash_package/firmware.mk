@@ -8,6 +8,10 @@ GALEN_FLASH     := $(BUILD_TOP)/device/nvidia/galen/flash_package
 INSTALLED_CBOOT_TARGET  := $(PRODUCT_OUT)/cboot.bin
 INSTALLED_KERNEL_TARGET := $(PRODUCT_OUT)/kernel
 
+ifneq ($(TARGET_TEGRA_KERNEL),4.9)
+DTB_SUBFOLDER := nvidia/
+endif
+
 include $(CLEAR_VARS)
 LOCAL_MODULE               := bl_update_payload
 LOCAL_MODULE_CLASS         := ETC
@@ -30,7 +34,7 @@ $(_galen_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(GALEN_BCT)/tegra194-a02-bpmp-p2888-a04.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
+	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser_v2 --pt flash_android_t194_sdmmc.xml.tmp
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrahost_v2 --chip 0x19 0 --partitionlayout flash_android_t194_sdmmc.xml.bin --list images_list.xml zerosbk
 	cd $(dir $@); $(TEGRAFLASH_PATH)/sw_memcfg_overlay.pl -c $(GALEN_BCT)/tegra194-mb1-bct-memcfg-p2888.cfg -s $(GALEN_BCT)/tegra194-memcfg-sw-override.cfg -o memcfg.cfg
@@ -65,7 +69,7 @@ $(_rey_emmc_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(GALEN_BCT)/tegra194-a02-bpmp-p3668-a00.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
+	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser_v2 --pt flash_android_t194_spi_emmc_p3668.xml.tmp
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrahost_v2 --chip 0x19 0 --partitionlayout flash_android_t194_spi_emmc_p3668.xml.bin --list images_list.xml zerosbk
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrasign_v2 --key None --list images_list.xml --pubkeyhash pub_key.key
@@ -83,7 +87,7 @@ $(_rey_sd_br_bct): $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET)
 	@cp $(T194_BL)/* $(dir $@)/
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(GALEN_BCT)/tegra194-a02-bpmp-p3668-a00.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
+	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser_v2 --pt flash_android_t194_spi_sd_p3668.xml.tmp
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrahost_v2 --chip 0x19 0 --partitionlayout flash_android_t194_spi_sd_p3668.xml.bin --list images_list.xml zerosbk
 	cd $(dir $@); $(TEGRAFLASH_PATH)/sw_memcfg_overlay.pl -c $(GALEN_BCT)/tegra194-mb1-bct-memcfg-p3668-0001-a00.cfg -s $(GALEN_BCT)/tegra194-memcfg-sw-override.cfg -o memcfg.cfg
@@ -126,24 +130,24 @@ $(_galen_blob): $(_galen_br_bct) $(_rey_sd_br_bct) $(_rey_emmc_br_bct) $(INSTALL
 		 $(GALEN_SIGNED_PATH)/mce_c10_prod_cr_sigheader.bin.encrypt mts-mce 2 2 common; \
 		 $(GALEN_SIGNED_PATH)/mts_c10_prod_cr_sigheader.bin.encrypt mts-proper 2 2 common; \
 		 $(GALEN_SIGNED_PATH)/warmboot_t194_prod_sigheader.bin.encrypt sc7 2 2 common; \
-		 $(GALEN_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 P2972-0004-DEVKIT-E00.default; \
+		 $(GALEN_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 P2972-0004-DEVKIT-E00.default; \
 		 $(GALEN_SIGNED_PATH)/tegra194-a02-bpmp-p2888-a04_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 P2972-0004-DEVKIT-E00.default; \
 		 $(GALEN_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000_sigheader.dtb.encrypt bootloader-dtb 2 0 P2972-0004-DEVKIT-E00.default; \
-		 $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 P2972-0004-DEVKIT-E00.default; \
+		 $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 P2972-0004-DEVKIT-E00.default; \
 		 $(GALEN_SIGNED_PATH)/br_bct_BR.bct BCT 2 2 P2972-0004-DEVKIT-E00.default; \
 		 $(GALEN_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct MB1_BCT 2 0 P2972-0004-DEVKIT-E00.default; \
 		 $(GALEN_SIGNED_PATH)/mem_coldboot_sigheader.bct MEM_BCT 2 0 P2972-0004-DEVKIT-E00.default; \
-		 $(REY_SD_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 P3518-0000-DEVKIT.default; \
+		 $(REY_SD_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 P3518-0000-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/tegra194-a02-bpmp-p3668-a00_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 P3518-0000-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/tegra194-p3668-all-p3509-0000-android_sigheader.dtb.encrypt bootloader-dtb 2 0 P3518-0000-DEVKIT.default; \
-		 $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p3668-all-p3509-0000-android.dtb kernel-dtb 2 0 P3518-0000-DEVKIT.default; \
+		 $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-all-p3509-0000-android.dtb kernel-dtb 2 0 P3518-0000-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/br_bct_BR.bct BCT 2 2 P3518-0000-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct MB1_BCT 2 0 P3518-0000-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/mem_coldboot_sigheader.bct MEM_BCT 2 0 P3518-0000-DEVKIT.default; \
-		 $(REY_SD_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 P3518-0001-DEVKIT.default; \
+		 $(REY_SD_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 P3518-0001-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/tegra194-a02-bpmp-p3668-a00_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 P3518-0001-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/tegra194-p3668-all-p3509-0000-android_sigheader.dtb.encrypt bootloader-dtb 2 0 P3518-0001-DEVKIT.default; \
-		 $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p3668-all-p3509-0000-android.dtb kernel-dtb 2 0 P3518-0001-DEVKIT.default; \
+		 $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-all-p3509-0000-android.dtb kernel-dtb 2 0 P3518-0001-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/br_bct_BR.bct BCT 2 2 P3518-0001-DEVKIT.default; \
 		 $(REY_EMMC_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct MB1_BCT 2 0 P3518-0001-DEVKIT.default; \
 		 $(REY_SD_SIGNED_PATH)/mem_coldboot_sigheader.bct MEM_BCT 2 0 P3518-0001-DEVKIT.default"

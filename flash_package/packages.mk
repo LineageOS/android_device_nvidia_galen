@@ -20,6 +20,10 @@ AWK_HOST     := $(HOST_OUT_EXECUTABLES)/one-true-awk
 AVBTOOL_HOST := $(HOST_OUT_EXECUTABLES)/avbtool
 SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
 
+ifneq ($(TARGET_TEGRA_KERNEL),4.9)
+DTB_SUBFOLDER := nvidia/
+endif
+
 include $(CLEAR_VARS)
 LOCAL_MODULE        := p2972_flash_package
 LOCAL_MODULE_SUFFIX := .txz
@@ -49,7 +53,7 @@ $(_p2972_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@$(AVBTOOL_HOST) make_vbmeta_image --flags 2 --padding_size 256 --output $(dir $@)/vbmeta_skip.img
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
+	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
 	@cp $(GALEN_BCT)/*p2888* $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-br-bct-sdmmc.cfg $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-mb1-bct-misc-*.cfg $(dir $@)/
@@ -96,7 +100,7 @@ $(_p3518_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_CBOOT_TARGET
 	@$(AVBTOOL_HOST) make_vbmeta_image --flags 2 --padding_size 256 --output $(dir $@)/vbmeta_skip.img
 	@cp $(INSTALLED_CBOOT_TARGET) $(dir $@)/cboot_t194.bin
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
+	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-all-p3509-0000-android.dtb $(dir $@)/
 	@cp $(GALEN_BCT)/*p3668* $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-br-bct-qspi.cfg $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-mb1-bct-misc-*.cfg $(dir $@)/
