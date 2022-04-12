@@ -27,6 +27,7 @@ TARGET_TEGRA_BT       ?= btlinux
 TARGET_TEGRA_CAMERA   ?= nvcamera
 TARGET_TEGRA_CEC      ?= nvhdmi
 TARGET_TEGRA_HEALTH   ?= nobattery
+TARGET_TEGRA_KERNEL   ?= 4.9
 TARGET_TEGRA_MEMTRACK ?= nvmemtrack
 TARGET_TEGRA_OMX      ?= nvmm
 TARGET_TEGRA_PHS      ?= nvphs
