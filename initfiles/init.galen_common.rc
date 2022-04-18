@@ -41,7 +41,6 @@ on boot
     start vendor.lkm_loader
 
     setprop persist.vendor.tegra.decompression cde-client
-    setprop sys.usb.configfs 1
 
 on init
     setprop ro.hardware.gatekeeper trusty.tegra
