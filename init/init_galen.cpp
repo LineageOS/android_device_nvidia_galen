@@ -79,8 +79,8 @@ void vendor_load_properties()
 	if (ti.vendor_context() || ti.recovery_context()) {
 		vendor_set_usb_product_ids(&ti);
 
-		if (ti.is_model(3668, 1)) {
-			// Rey sd variant
+		if (ti.is_model("rey")) {
+			// All rey variants boot from qspi
 			ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3270000.spi/mtdblock0");
 		} else {
 			// Everything else is emmc only
