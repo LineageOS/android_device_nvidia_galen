@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a831c076_7e1bfcc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2022-07-23T19:32:00Z",
+      "side": 1,
+      "message": "Simple bug fix of a mis-assumption. Been sitting on this a while, clearing it out of my queue.",
+      "revId": "37775bd8e9ecfe8501c25b39e682a355cb67e213",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
