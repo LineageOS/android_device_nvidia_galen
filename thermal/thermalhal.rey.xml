@@ -20,7 +20,7 @@ Attributes for cpu-usages
 	<thermal_devices>
 		<thermal_device>
 			<thermal-prop name="CPU" type="DEVICE_TEMPERATURE_CPU" sensor-label="CPU-therm" multiplier='0.001' />
-			<thermal-prop cores='4' />
+			<thermal-prop cores='6' />
 		</thermal_device>
 		<thermal_device>
 			<thermal-prop name="GPU" type="DEVICE_TEMPERATURE_GPU" sensor-label="GPU-therm" multiplier='0.001' />
@@ -28,8 +28,8 @@ Attributes for cpu-usages
 	</thermal_devices>
 	<cooling_devices>
 		<cooling_device>
-			<cooling-prop name="FAN" type="FAN_RPM" cooling-path="/sys/devices/platform/pwm-fan.29/rpm_measured" />
+			<cooling-prop name="FAN" type="FAN_RPM" cooling-path="/sys/devices/pwm-fan/rpm_measured" />
 		</cooling_device>
 	</cooling_devices>
-	<cpu_usages cpus="4" />
+	<cpu_usages cpus="6" />
 </thermalhal>
