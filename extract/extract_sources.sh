@@ -15,3 +15,4 @@
 #
 
 FILELIST_PATHS+=("galen");
+PATCH_PATHS+=("galen");
