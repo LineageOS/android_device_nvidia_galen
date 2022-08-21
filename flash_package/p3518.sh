@@ -38,27 +38,47 @@ if ! check_compatibility ${TARGET_MODULE_ID} ${TARGET_CARRIER_ID}; then
 fi;
 
 FLASH_XML=;
-NCT=;
-if [ ${MODULEINFO[sku]} -eq 1 ]; then
+REYSKU=;
+MISCCBVAR=;
+if [ ${MODULEINFO[sku]} -eq 1 -o ${MODULEINFO[sku]} -eq 3 ]; then
   FLASH_XML="flash_android_t194_spi_emmc_p3668.xml"
-  NCT="p3518-0001-devkit.bin";
+  REYSKU="0001";
 elif [ ${MODULEINFO[sku]} -eq 0 ]; then
   FLASH_XML="flash_android_t194_spi_sd_p3668.xml"
-  NCT="p3518-0000-devkit.bin";
+  REYSKU="0000";
+  MISCCBVAR="-sd";
 else
   echo "Unsupported Xavier NX module sku: ${MODULEINFO[sku]}";
   exit -1;
 fi;
 
+# Generate version partition
+if ! generate_version_bootblob_v4 qspi_bootblob_ver.txt REPLACEME; then
+  echo "Failed to generate version bootblob";
+  return -1;
+fi;
+
+# Add tnspec to Android Overlay
+# Xavier NX cannot read carrier info in rcm, thus carrier id and sku are hardcoded
+CARRIERINFO[boardid]=${TARGET_CARRIER_ID};
+CARRIERINFO[sku]=0;
+cp AndroidConfiguration.dtbo AndroidConfig.dtbo;
+if ! generate_tnspec_dtbo AndroidConfig.dtbo; then
+  echo "Failed to generate tnspec";
+  return -1;
+fi;
+
 declare -a FLASH_CMD_FLASH=(
   --bl nvtboot_recovery_cpu_t194.bin
   --sdram_config tegra194-mb1-bct-memcfg-p3668-0001-a00.cfg,tegra194-memcfg-sw-override.cfg
+  --overlay_dtb AndroidConfig.dtbo,tegra194-p3668-p3509-overlay.dtbo
+  --bldtb tegra194-p3668-${REYSKU}-p3509-0000-android.dtb
   --odmdata 0xB8190000
   --applet mb1_t194_prod.bin
   --soft_fuses tegra194-mb1-soft-fuses-l4t.cfg
   --chip 0x19
   --device_config tegra19x-mb1-bct-device-qspi-p3668.cfg
-  --misc_cold_boot_config tegra194-mb1-bct-misc-l4t.cfg
+  --misc_cold_boot_config tegra194-mb1-bct-misc${MISCCBVAR}-l4t.cfg
   --misc_config tegra194-mb1-bct-misc-flash.cfg
   --pinmux_config tegra19x-mb1-pinmux-p3668-a01.cfg
   --gpioint_config tegra194-mb1-bct-gpioint-p3668-0001-a00.cfg
@@ -68,10 +88,11 @@ declare -a FLASH_CMD_FLASH=(
   --scr_config tegra194-mb1-bct-scr-cbb-mini-p3668.cfg
   --scr_cold_boot_config tegra194-mb1-bct-scr-cbb-mini-p3668.cfg
   --br_cmd_config tegra194-mb1-bct-reset-p3668-0001-a00.cfg
-  --dev_params tegra194-br-bct-qspi.cfg
-  --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp-p3668-a00.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p3668-all-p3509-0000-android.dtb");
-
-cp ${NCT} p3518.bin;
+  --dev_params tegra194-br-bct-qspi-l4t.cfg,tegra194-br-bct_b-qspi-l4t.cfg
+  --secondary_gpt_backup
+  --bct_backup
+  --boot_chain A
+  --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p3668-${REYSKU}-p3509-0000-android.dtb");
 
 tegraflash.py \
   "${FLASH_CMD_FLASH[@]}" \
@@ -79,4 +100,4 @@ tegraflash.py \
   --cfg ${FLASH_XML} \
   --cmd "flash; reboot"
 
-rm p3518.bin;
+rm -f qspi_bootblob_ver.txt AndroidConfig.dtbo;
