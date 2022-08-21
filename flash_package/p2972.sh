@@ -37,14 +37,35 @@ if ! check_compatibility ${TARGET_MODULE_ID} ${TARGET_CARRIER_ID}; then
   exit -1;
 fi;
 
-if [ "${MODULEINFO[sku]}" != 4 -o "${MODULEINFO[revmaj]}" \< "69" ]; then
-  echo "Ony Jetson AGX Xavier module SKU 0004 and newer than D.00 supported";
+if   [ "${MODULEINFO[sku]}" == 1 -a "${MODULEINFO[fab]}" \> "300" -a "${MODULEINFO[revmaj]}" \> "68" ]; then
+  cp tegra194-a02-bpmp-p2888-0001-a04.dtb tegra194-a02-bpmp.dtb;
+elif [ "${MODULEINFO[sku]}" == 4 -a "${MODULEINFO[fab]}" \> "300" ]; then
+  cp tegra194-a02-bpmp-p2888-0001-a04.dtb tegra194-a02-bpmp.dtb;
+elif [ "${MODULEINFO[sku]}" == 5 -a "${MODULEINFO[fab]}" \> "300" ]; then
+  cp tegra194-a02-bpmp-p2888-0005-a04.dtb tegra194-a02-bpmp.dtb;
+else
+  echo "Jetson AGX Xavier module SKU ${MODULEINFO[sku]}, FAB ${MODULEINFO[fab]}, and Rev ${MODULEINFO[revmaj]}:${MODULEINFO[revmin]} is not supported";
   exit -1;
+fi;
+
+# Generate version partition
+if ! generate_version_bootblob_v4 emmc_bootblob_ver.txt REPLACEME; then
+  echo "Failed to generate version bootblob";
+  return -1;
+fi;
+
+# Add tnspec to Android Overlay
+cp AndroidConfiguration.dtbo AndroidConfig.dtbo;
+if ! generate_tnspec_dtbo AndroidConfig.dtbo; then
+  echo "Failed to generate tnspec";
+  return -1;
 fi;
 
 declare -a FLASH_CMD_FLASH=(
   --bl nvtboot_recovery_cpu_t194.bin
   --sdram_config tegra194-mb1-bct-memcfg-p2888.cfg,tegra194-memcfg-sw-override.cfg
+  --overlay_dtb AndroidConfig.dtbo,tegra194-p2888-0005-overlay.dtbo,tegra194-p2888-0001-p2822-0000-overlay.dtbo
+  --bldtb tegra194-p2888-0001-p2822-0000.dtb
   --odmdata 0x9190000
   --applet mb1_t194_prod.bin
   --soft_fuses tegra194-mb1-soft-fuses-l4t.cfg
@@ -61,11 +82,16 @@ declare -a FLASH_CMD_FLASH=(
   --scr_config tegra194-mb1-bct-scr-cbb-mini.cfg
   --scr_cold_boot_config tegra194-mb1-bct-scr-cbb-mini.cfg
   --br_cmd_config tegra194-mb1-bct-reset-p2888-0000-p2822-0000.cfg
-  --dev_params tegra194-br-bct-sdmmc.cfg
-  --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp-p2888-a04.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p2888-0001-p2822-0000.dtb");
+  --dev_params tegra194-br-bct-sdmmc.cfg,tegra194-br-bct_b-sdmmc.cfg
+  --secondary_gpt_backup
+  --bct_backup
+  --boot_chain A
+  --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p2888-0001-p2822-0000.dtb");
 
 tegraflash.py \
   "${FLASH_CMD_FLASH[@]}" \
   --instance ${INTERFACE} \
   --cfg flash_android_t194_sdmmc.xml \
   --cmd "flash; reboot"
+
+rm tegra194-a02-bpmp.dtb emmc_bootblob_ver.txt AndroidConfig.dtbo;

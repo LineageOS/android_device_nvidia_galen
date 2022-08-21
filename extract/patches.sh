@@ -19,4 +19,9 @@ function patch_rey_qspi_bct() {
   sed -i 's/trimmer2-val = 0/trimmer2-val = 0x10/' ${LINEAGE_ROOT}/${OUTDIR}/galen/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
 }
 
+function patch_rey_bpmp_dtb() {
+  git -C ${LINEAGE_ROOT}/${OUTDIR} apply -q ${LINEAGE_ROOT}/device/nvidia/galen/extract/rey_bpmp.patch
+}
+
 patch_rey_qspi_bct;
+patch_rey_bpmp_dtb;
