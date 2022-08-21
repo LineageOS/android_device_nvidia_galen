@@ -23,7 +23,7 @@ TARGET_REFERENCE_DEVICE ?= galen
 TARGET_TEGRA_VARIANT    ?= common
 
 TARGET_TEGRA_AUDIO    ?= nvaudio
-TARGET_TEGRA_BOOTCTRL ?= smd
+TARGET_TEGRA_BOOTCTRL ?= efi
 TARGET_TEGRA_BT       ?= btlinux
 TARGET_TEGRA_CAMERA   ?= nvcamera
 TARGET_TEGRA_CEC      ?= nvhdmi
@@ -167,6 +167,12 @@ PRODUCT_PACKAGES += \
     nv_bootloader_payload_updater \
     bl_update_payload \
     bmp_update_payload
+else ifeq ($(TARGET_TEGRA_BOOTCTRL),efi)
+PRODUCT_PACKAGES += \
+    nv_bootloader_payload_updater \
+    kernel_only_payload \
+    AndroidLauncher \
+    TEGRA_BL.Cap
 endif
 endif
 endif

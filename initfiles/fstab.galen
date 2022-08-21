@@ -16,4 +16,3 @@ product                          /product            ext4      ro,noatime       
 /dev/block/by-name/recovery      /recovery           emmc      defaults                                                            defaults,slotselect
 /devices/platform/tegra-xhci*    auto                vfat      defaults                                                            voldmanaged=usbdrive:auto,encryptable=userdata
 /devices/tegra-ehci*             auto                vfat      defaults                                                            voldmanaged=usbdrive:auto,encryptable=userdata
-/dev/block/by-name/bootlogo      /bmps               emmc      defaults                                                            recoveryonly,slotselect
