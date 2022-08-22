@@ -21,9 +21,6 @@ on boot
 on fs
     setprop ro.wifi.sdmmc 1
 
-    # start Early Loadable Kernel Module service
-    exec /vendor/bin/lkm_loader.sh early
-
     # Assuming system takes 1GB runtime RAM, dedeuct it from GPU comptag memory allocation
     write /sys/devices/gpu.0/comptag_mem_deduct 1024
 
@@ -31,9 +28,6 @@ on property:sys.boot_completed=1
     write /sys/devices/virtual/android_usb/android0/uevent_in_suspend N
 
 on boot
-    # start Loadable Kernel Module service
-    start vendor.lkm_loader
-
     setprop persist.vendor.tegra.decompression cde-client
 
 on init
