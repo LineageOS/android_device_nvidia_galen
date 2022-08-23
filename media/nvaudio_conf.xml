@@ -11,7 +11,7 @@
 -->
 
 <AudioConfigs version="2">
-  <card name="tegra-snd-t19x-mobile-rt565x">
+  <card name="NVIDIA Jetson AGX Xavier APE">
     <pcm_config name="music-playback"
                 device_id="0"
                 rate="48000"
@@ -70,25 +70,7 @@
     <ctl name="ADMAIF1 Mux" val="I2S1"/>
   </card>
 
-  <card name="Tegra">
-    <pcm_config name ="hdmi-playback"
-                device_id="3"
-                rate="48000"
-                channels="2"
-                bps="16"
-                period_size="256"
-                period_count="2"
-                start_threshold="511"
-                stop_threshold="4294967295"
-                silence_threshold="0"
-                silence_size="4294967295"
-                avail_min="1"/>
-
-    <param name="HW Rates" val="48000 44100 96000 192000"/>
-    <param name="HDMI HW Latency" val="0"/>
-  </card>
-
-  <card name="tegra-hda-galen-t194">
+  <card name="NVIDIA Jetson AGX Xavier HDA">
     <pcm_config name ="hdmi-playback"
                 device_id="8"
                 rate="48000"
