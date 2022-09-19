@@ -27,12 +27,6 @@ on fs
     # Assuming system takes 1GB runtime RAM, dedeuct it from GPU comptag memory allocation
     write /sys/devices/gpu.0/comptag_mem_deduct 1024
 
-#start pbc daemon
-service pbc2 /vendor/bin/pbc2
-    class main
-    user system
-    group system
-
 on property:sys.boot_completed=1
     write /sys/devices/virtual/android_usb/android0/uevent_in_suspend N
 
@@ -69,9 +63,6 @@ on property:sys.boot_completed=1
 on property:sys.boot_completed=1
     write /proc/sys/vm/extra_free_kbytes 0
     write /proc/sys/vm/min_free_kbytes 16384
-
-on property:init.svc.vendor.lkm_loader=stopped
-    enable pbc2
 
 service adb_enable /vendor/bin/adbenable.sh
     override
