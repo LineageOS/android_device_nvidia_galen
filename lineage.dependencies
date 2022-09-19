@@ -13,8 +13,12 @@
  },
  {
    "repository": "android_kernel_nvidia_kernel",
-   "target_path": "kernel/nvidia/kernel-4.9",
-   "branch": "lineage-18.1_4.9"
+   "target_path": "kernel/nvidia/kernel-5.10",
+   "branch": "lineage-19.1_5.10"
+ },
+ {
+   "repository": "android_kernel_nvidia_nvethernetrm",
+   "target_path": "kernel/nvidia/nvidia/drivers/net/ethernet/nvidia/nvethernet/nvethernetrm"
  },
  {
    "repository": "android_kernel_nvidia_nvidia",
