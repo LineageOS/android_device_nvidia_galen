@@ -14,9 +14,9 @@
 
 # The new qspi settings fail to initialize in cboot, revert to what was used in l4t r32
 function patch_rey_qspi_bct() {
-  sed -i 's/interface-frequency = 50/interface-frequency = 133/' ${LINEAGE_ROOT}/${OUTDIR}/galen/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
-  sed -i 's/maximum-bus-width = 0/maximum-bus-width = 2/' ${LINEAGE_ROOT}/${OUTDIR}/galen/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
-  sed -i 's/trimmer2-val = 0/trimmer2-val = 0x10/' ${LINEAGE_ROOT}/${OUTDIR}/galen/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
+  sed -i 's/interface-frequency = 50/interface-frequency = 133/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
+  sed -i 's/maximum-bus-width = 0/maximum-bus-width = 2/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
+  sed -i 's/trimmer2-val = 0/trimmer2-val = 0x10/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
 }
 
 function patch_rey_bpmp_dtb() {

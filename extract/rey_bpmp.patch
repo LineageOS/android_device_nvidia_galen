@@ -1,4 +1,4 @@
-diff --git a/galen/BCT/tegra194-a02-bpmp-p3668-a00.dtb b/galen/BCT/tegra194-a02-bpmp-p3668-a00.dtb
+diff --git a/galen/r35/BCT/tegra194-a02-bpmp-p3668-a00.dtb b/galen/r35/BCT/tegra194-a02-bpmp-p3668-a00.dtb
 index 90812ce1815269a5360c002b77707e4741c32bf9..83c3d5bbb89174d2ea10f18a36e4c9bc2ea16f29 100644
 GIT binary patch
 delta 213
