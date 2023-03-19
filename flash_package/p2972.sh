@@ -37,7 +37,7 @@ if ! check_compatibility ${TARGET_MODULE_ID} ${TARGET_CARRIER_ID}; then
   exit -1;
 fi;
 
-if ![ "${MODULEINFO[revmaj]}" == 4 -a "${MODULEINFO[revmaj]}" \> "68" ]; then
+if [ "${MODULEINFO[sku]}" != 4 -o "${MODULEINFO[revmaj]}" \< "69" ]; then
   echo "Ony Jetson AGX Xavier module SKU 0004 and newer than D.00 supported";
   exit -1;
 fi;
