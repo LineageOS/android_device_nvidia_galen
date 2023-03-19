@@ -15,7 +15,7 @@
 #
 
 # Proprietary gpu driver
-BOARD_VENDOR_KERNEL_MODULES_LOAD += \
+BOARD_VENDOR_KERNEL_MODULES_LOAD := \
     nvgpu
 
 # Tegra SPI
@@ -80,6 +80,6 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD += \
     rtl8822ce
 
 # USB Type C Gadget Support
-BOARD_VENDOR_KERNEL_MODULES_LOAD := \
+BOARD_VENDOR_KERNEL_MODULES_LOAD += \
     ucsi_ccg
 
