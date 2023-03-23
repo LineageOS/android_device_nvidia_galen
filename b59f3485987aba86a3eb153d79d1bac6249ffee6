@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7616fad8_3935828c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2023-03-23T18:51:41Z",
+      "side": 1,
+      "message": "Chain verified on galen. Series is to clean out some pending backlog on my staging org.",
+      "revId": "b59f3485987aba86a3eb153d79d1bac6249ffee6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
