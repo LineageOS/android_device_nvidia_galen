@@ -23,6 +23,7 @@ TARGET_REFERENCE_DEVICE ?= galen
 TARGET_TEGRA_VARIANT    ?= common
 
 TARGET_TEGRA_AUDIO    ?= nvaudio
+TARGET_TEGRA_BOOTCTRL ?= smd
 TARGET_TEGRA_BT       ?= btlinux
 TARGET_TEGRA_CAMERA   ?= nvcamera
 TARGET_TEGRA_CEC      ?= nvhdmi
@@ -35,8 +36,6 @@ TARGET_TEGRA_PHS      ?= nvphs
 TARGET_TEGRA_POWER    ?= aosp
 TARGET_TEGRA_WIDEVINE ?= true
 TARGET_TEGRA_WIFI     ?= rtl8822ce
-
-AB_OTA_UPDATER := true
 
 include device/nvidia/t194-common/t194.mk
 
@@ -141,6 +140,7 @@ PRODUCT_PACKAGES += \
     vendor.lineage.trust@1.0-service
 
 # Updater
+ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_PARTITIONS += \
     boot \
     recovery \
@@ -149,13 +149,18 @@ AB_OTA_PARTITIONS += \
     vendor \
     odm
 ifeq ($(TARGET_PREBUILT_KERNEL),)
+ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true \
     POSTINSTALL_PATH_system=system/bin/nv_bootloader_payload_updater \
     RUN_POSTINSTALL_system=true
+ifeq ($(TARGET_TEGRA_BOOTCTRL),smd)
 PRODUCT_PACKAGES += \
     nv_bootloader_payload_updater \
     bl_update_payload \
     bmp_update_payload
+endif
+endif
+endif
 endif
