@@ -87,9 +87,4 @@ TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 # Security Patch Level
 VENDOR_SECURITY_PATCH := 2021-04-05
 
-# TWRP Support
-ifeq ($(WITH_TWRP),true)
-include device/nvidia/galen/twrp/twrp.mk
-endif
-
 include device/nvidia/t194-common/BoardConfigCommon.mk

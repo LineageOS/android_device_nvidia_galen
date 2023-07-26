@@ -16,8 +16,7 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/full_galen.mk \
-    $(LOCAL_DIR)/lineage_galen.mk \
-    $(LOCAL_DIR)/twrp_galen.mk
+    $(LOCAL_DIR)/lineage_galen.mk
 
 COMMON_LUNCH_CHOICES := \
     full_galen-eng \
@@ -25,6 +24,4 @@ COMMON_LUNCH_CHOICES := \
     full_galen-userdebug \
     lineage_galen-eng \
     lineage_galen-user \
-    lineage_galen-userdebug \
-    twrp_galen-eng \
-    twrp_galen-userdebug
+    lineage_galen-userdebug
