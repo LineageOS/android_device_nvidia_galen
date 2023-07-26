@@ -41,7 +41,7 @@ AB_OTA_UPDATER := true
 include device/nvidia/t194-common/t194.mk
 
 # System properties
-include $(LOCAL_PATH)/system_prop.mk
+include device/nvidia/galen/system_prop.mk
 
 PRODUCT_CHARACTERISTICS  := tv
 PRODUCT_AAPT_CONFIG      := xlarge large
@@ -51,7 +51,7 @@ TARGET_SCREEN_WIDTH      := 1080
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
-$(call inherit-product, device/nvidia/galen/vendor/galen-vendor.mk)
+include device/nvidia/galen/vendor/galen-vendor.mk
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += device/nvidia/galen
