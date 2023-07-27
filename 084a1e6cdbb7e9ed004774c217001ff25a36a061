@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d46eddb_b341cf39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2023-07-27T23:17:24Z",
+      "side": 1,
+      "message": "This chain is wave one of transitional changes for galen headed toward kernel 5.10, rel-34/35 partition layout, edk2 as the bootloader, and efivarfs for boot control.",
+      "revId": "084a1e6cdbb7e9ed004774c217001ff25a36a061",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
