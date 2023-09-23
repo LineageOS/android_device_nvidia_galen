@@ -14,13 +14,21 @@
 
 # The new qspi settings fail to initialize in cboot, revert to what was used in l4t r32
 function patch_rey_qspi_bct() {
+  echo -n "Patching rey qspi bct...";
+
   sed -i 's/interface-frequency = 50/interface-frequency = 133/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
   sed -i 's/maximum-bus-width = 0/maximum-bus-width = 2/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
   sed -i 's/trimmer2-val = 0/trimmer2-val = 0x10/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra19x-mb1-bct-device-qspi-p3668.cfg
+
+  echo "";
 }
 
 function patch_rey_bpmp_dtb() {
+  echo -n "Patching rey bpmp dtb...";
+
   git -C ${LINEAGE_ROOT}/${OUTDIR} apply -q ${LINEAGE_ROOT}/device/nvidia/galen/extract/rey_bpmp.patch
+
+  echo "";
 }
 
 patch_rey_qspi_bct;
