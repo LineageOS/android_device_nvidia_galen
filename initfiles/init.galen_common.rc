@@ -33,7 +33,7 @@ on boot
 on init
     setprop ro.hardware.gatekeeper tlk.tegra
 
-    mount efivarfs none /sys/firmware/efi/efivars
+    mount efivarfs none /sys/firmware/efi/efivars context=u:object_r:sysfs_efivar:s0
     mkdir /mnt/vendor/esp
     mount vfat /dev/block/by-name/esp /mnt/vendor/esp
     mkdir /mnt/vendor/esp/EFI/NVDA/
