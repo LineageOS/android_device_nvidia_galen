@@ -61,13 +61,15 @@ void vendor_set_usb_product_ids(tegra_init *ti)
 
 void vendor_load_properties()
 {
-	//                                             device   name     model               id    sku api dpi
-	std::vector<tegra_init::devices> devices = { { "galen", "galen", "Jetson Xavier",    2888, 1,  28, 320 },
-	                                             { "galen", "galen", "Jetson Xavier",    2888, 4,  28, 320 },
-	                                             { "galen", "galen", "Jetson Xavier",    2888, 5,  28, 320 },
-	                                             { "rey",   "rey",   "Jetson Xavier NX", 3668, 0,  28, 320 },
-	                                             { "rey",   "rey",   "Jetson Xavier NX", 3668, 1,  28, 320 },
-	                                             { "rey",   "rey",   "Jetson Xavier NX", 3668, 3,  28, 320 } };
+		// device   name    hardware  model              id   sku   api dpi
+	std::vector<tegra_init::devices> devices = {
+		{ "galen", "galen", "galen", "Jetson Xavier",    2888,  1,  28, 320 },
+		{ "galen", "galen", "galen", "Jetson Xavier",    2888,  4,  28, 320 },
+		{ "galen", "galen", "galen", "Jetson Xavier",    2888,  5,  28, 320 },
+		{ "rey",   "rey",   "rey",   "Jetson Xavier NX", 3668,  0,  28, 320 },
+		{ "rey",   "rey",   "rey",   "Jetson Xavier NX", 3668,  1,  28, 320 },
+		{ "rey",   "rey",   "rey",   "Jetson Xavier NX", 3668,  3,  28, 320 },
+	};
 	tegra_init::build_version tav = { "11", "RQ1A.210105.003", "7825230_3062.3935" };
 
 	tegra_init ti(devices);

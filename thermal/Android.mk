@@ -14,18 +14,15 @@
 
 LOCAL_PATH:= $(call my-dir)
 
+# Parameters
+# $1 Variant name
+define thermal_config_rule
 include $(CLEAR_VARS)
-LOCAL_MODULE        := thermalhal.galen.xml
+LOCAL_MODULE        := thermalhal.$(strip $(1)).xml
 LOCAL_MODULE_TAGS   := optional
 LOCAL_MODULE_CLASS  := ETC
-LOCAL_SRC_FILES     := thermalhal.galen.xml
+LOCAL_SRC_FILES     := thermalhal.$(strip $(1)).xml
 LOCAL_VENDOR_MODULE := true
 include $(BUILD_PREBUILT)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE        := thermalhal.rey.xml
-LOCAL_MODULE_TAGS   := optional
-LOCAL_MODULE_CLASS  := ETC
-LOCAL_SRC_FILES     := thermalhal.rey.xml
-LOCAL_VENDOR_MODULE := true
-include $(BUILD_PREBUILT)
+endef
+$(foreach model,$(TARGET_TEGRA_MODELS),$(eval $(call thermal_config_rule,$(model))))
