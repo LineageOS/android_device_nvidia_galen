@@ -15,14 +15,6 @@
 import init.recovery.usb.rc
 
 on init
-    # Thermal/Fan
-    insmod /lib/modules/tegra-bpmp-thermal.ko
-    insmod /lib/modules/pwm-fan.ko
-
-    # Additional controller support
-    insmod /lib/modules/hid-nvidia-blake.ko
-    insmod /lib/modules/hid-jarvis-remote.ko
-
     mount efivarfs none /sys/firmware/efi/efivars
     mkdir /mnt/vendor/esp
     mount vfat /dev/block/by-name/esp /mnt/vendor/esp

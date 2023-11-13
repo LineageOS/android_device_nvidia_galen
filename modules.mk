@@ -83,3 +83,12 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD += \
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
     ucsi_ccg
 
+
+# Copy to recovery
+BOARD_RECOVERY_RAMDISK_KERNEL_MODULES_LOAD := \
+    hid_nvidia_blake \
+    hid_jarvis_remote \
+    tegra_bpmp_thermal \
+    pwm_fan
+
+RECOVERY_KERNEL_MODULES := $(addsuffix .ko,$(subst _,-,$(BOARD_RECOVERY_RAMDISK_KERNEL_MODULES_LOAD)))
