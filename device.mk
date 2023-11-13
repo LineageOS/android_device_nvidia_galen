@@ -117,6 +117,13 @@ PRODUCT_COPY_FILES += \
     device/nvidia/galen/nvpmodel/nvpmodel_t194_p3668.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194_p3668.conf
 endif
 
+# Shipping API
+ifneq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
+else
+PRODUCT_SHIPPING_API_LEVEL := 36
+endif
+
 # Thermal
 ifneq ($(TARGET_TEGRA_THERMAL),)
 ifeq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
