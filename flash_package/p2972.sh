@@ -64,7 +64,7 @@ fi;
 declare -a FLASH_CMD_FLASH=(
   --bl nvtboot_recovery_cpu_t194.bin
   --sdram_config tegra194-mb1-bct-memcfg-p2888.cfg,tegra194-memcfg-sw-override.cfg
-  --overlay_dtb AndroidConfig.dtbo,tegra194-p2888-0005-overlay.dtbo,tegra194-p2888-0001-p2822-0000-overlay.dtbo
+  --overlay_dtb AndroidConfig.dtbo
   --bldtb tegra194-p2888-0001-p2822-0000-bl.dtb
   --odmdata 0x9190000
   --applet mb1_t194_prod.bin
