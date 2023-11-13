@@ -85,13 +85,26 @@ void vendor_load_properties()
 	if (ti.vendor_context() || ti.recovery_context()) {
 		vendor_set_usb_product_ids(&ti);
 
-		if (ti.is_model("rey")) {
-			// All rey variants boot from qspi
-			ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3270000.spi/mtdblock0");
+		std::string boot_dev = ti.property_get("ro.boot.boot_devices");
+		if (!boot_dev.empty() && (boot_dev.find("bus@0") != std::string::npos)) {
+			// GKI / Mainline paths
+			if (ti.is_model("rey")) {
+				// All rey variants boot from qspi
+				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/bus@0/3270000.spi/mtdblock0");
+			} else {
+				ti.property_set("vendor.tegra.ota.boot_device", std::string("/dev/block/platform/") + boot_dev + "/mmcblk0boot0");
+				ti.property_set("vendor.tegra.ota.gpt_device",  std::string("/dev/block/platform/") + boot_dev + "/mmcblk0boot1");
+			}
 		} else {
-			// Everything else is emmc only
-			ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3460000.sdhci/mmcblk0boot0");
-			ti.property_set("vendor.tegra.ota.gpt_device",  "/dev/block/platform/3460000.sdhci/mmcblk0boot1");
+			// Downstream paths
+			if (ti.is_model("rey")) {
+				// All rey variants boot from qspi
+				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3270000.spi/mtdblock0");
+			} else {
+				// Everything else is emmc only
+				ti.property_set("vendor.tegra.ota.boot_device", "/dev/block/platform/3460000.sdhci/mmcblk0boot0");
+				ti.property_set("vendor.tegra.ota.gpt_device",  "/dev/block/platform/3460000.sdhci/mmcblk0boot1");
+			}
 		}
 	}
 }
