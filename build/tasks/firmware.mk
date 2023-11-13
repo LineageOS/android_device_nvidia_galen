@@ -27,7 +27,7 @@ CAPSULE_OTHER   ?= $(CAPSULE_CERTS)/TestSub.pub.pem
 CAPSULE_TRUSTED ?= $(CAPSULE_CERTS)/TestRoot.pub.pem
 
 INSTALLED_KERNEL_TARGET      := $(PRODUCT_OUT)/kernel
-INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-$(if $(filter software,$(TARGET_TEGRA_TOS)),mon-only,$(TARGET_TEGRA_TOS)).img
+INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-$(if $(filter-out software,$(TARGET_TEGRA_TOS)),$(TARGET_TEGRA_TOS),mon-only).img
 INSTALLED_NVDISP_INIT_TARGET := $(PRODUCT_OUT)/nvdisp-init.bin
 INSTALLED_TIANOCORE_TARGET   := $(PRODUCT_OUT)/tianocore.bin
 INSTALLED_EDK2_DTBO_TARGET   := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
@@ -46,6 +46,8 @@ SPACE := $(E) $(E)
 
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 DTB_PATH := $(dir $(TARGET_PREBUILT_KERNEL))
+else ifneq ($(TARGET_KERNEL_PLATFORM_TARGET),)
+DTB_PATH := $(abspath $(KERNEL_OUT))
 else ifneq ($(filter 4.9, $(TARGET_KERNEL_VERSION)),)
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts)
 else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
