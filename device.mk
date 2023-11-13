@@ -93,7 +93,8 @@ endif
 PRODUCT_PACKAGES += \
     lkm_loader
 PRODUCT_COPY_FILES += \
-    device/nvidia/tegra-common/initfiles/init.lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.lkm.rc
+    device/nvidia/tegra-common/initfiles/init.lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.lkm.rc \
+    device/nvidia/galen/initfiles/lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/lkm.rc
 
 # Media config
 ifneq ($(filter rel-shield-r, $(TARGET_TEGRA_OMX)),)
@@ -115,6 +116,13 @@ ifneq ($(TARGET_TEGRA_PMODEL),)
 PRODUCT_COPY_FILES += \
     device/nvidia/galen/nvpmodel/nvpmodel_t194.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194.conf \
     device/nvidia/galen/nvpmodel/nvpmodel_t194_p3668.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194_p3668.conf
+endif
+
+# Shipping API
+ifneq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
+else
+PRODUCT_SHIPPING_API_LEVEL := 36
 endif
 
 # Thermal
