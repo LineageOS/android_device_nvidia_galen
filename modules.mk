@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022 The LineageOS Project
+# Copyright (C) 2022-2023 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD := \
 
 # Tegra SPI
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    spi_tegra114
+    spi-tegra114
 
 # SPI MTD
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
@@ -28,43 +28,43 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD += \
 
 # Tegra hdmi audio
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    snd_hda_tegra \
-    snd_hda_codec_hdmi
+    snd-hda-tegra \
+    snd-hda-codec-hdmi
 
 # Tegra audio processing engine
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    snd_soc_spdif_tx \
-    snd_soc_tegra210_sfc \
-    snd_soc_tegra210_i2s \
-    snd_soc_tegra210_mixer \
-    snd_soc_tegra210_amx \
-    snd_soc_tegra210_admaif \
-    snd_soc_tegra210_adsp \
-    snd_soc_tegra210_adx \
-    snd_soc_tegra210_iqc \
-    snd_soc_tegra210_afc \
-    snd_soc_tegra210_dmic \
-    snd_soc_tegra210_mvc \
-    snd_soc_tegra210_ope \
-    snd_soc_tegra186_dspk \
-    snd_soc_tegra186_asrc \
-    snd_soc_tegra_machine_driver
+    snd-soc-spdif-tx \
+    snd-soc-tegra210-sfc \
+    snd-soc-tegra210-i2s \
+    snd-soc-tegra210-mixer \
+    snd-soc-tegra210-amx \
+    snd-soc-tegra210-admaif \
+    snd-soc-tegra210-adsp \
+    snd-soc-tegra210-adx \
+    snd-soc-tegra210-iqc \
+    snd-soc-tegra210-afc \
+    snd-soc-tegra210-dmic \
+    snd-soc-tegra210-mvc \
+    snd-soc-tegra210-ope \
+    snd-soc-tegra186-dspk \
+    snd-soc-tegra186-asrc \
+    snd-soc-tegra-machine-driver
 
 # Hardware Accelerated crypto
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    sha1_ce \
-    sha2_ce \
-    ghash_ce \
-    aes_ce_blk \
-    lzo_rle
+    sha1-ce \
+    sha2-ce \
+    ghash-ce \
+    aes-ce-blk \
+    lzo-rle
 
 # BPMP Thermal
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    tegra_bpmp_thermal
+    tegra-bpmp-thermal
 
 # Fan
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    pwm_fan
+    pwm-fan
 
 # Temperature Monitor
 BOARD_VENDOR_KERNEL_MODULES_LOAD += \
@@ -79,16 +79,12 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD += \
     rtk_btusb \
     rtl8822ce
 
-# USB Type C Gadget Support
-BOARD_VENDOR_KERNEL_MODULES_LOAD += \
-    ucsi_ccg
-
 
 # Copy to recovery
 BOARD_RECOVERY_RAMDISK_KERNEL_MODULES_LOAD := \
-    hid_nvidia_blake \
-    hid_jarvis_remote \
-    tegra_bpmp_thermal \
-    pwm_fan
+    hid-nvidia-blake \
+    hid-jarvis-remote \
+    tegra-bpmp-thermal \
+    pwm-fan
 
-RECOVERY_KERNEL_MODULES := $(addsuffix .ko,$(subst _,-,$(BOARD_RECOVERY_RAMDISK_KERNEL_MODULES_LOAD)))
+RECOVERY_KERNEL_MODULES := $(addsuffix .ko,$(BOARD_RECOVERY_RAMDISK_KERNEL_MODULES_LOAD))
