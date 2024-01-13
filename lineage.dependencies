@@ -37,6 +37,10 @@
    "target_path": "hardware/nvidia/boot_control"
  },
  {
+   "repository": "android_hardware_nvidia_hdmi-cec",
+   "target_path": "hardware/nvidia/hdmi-cec"
+ },
+ {
    "repository": "android_hardware_nvidia_interfaces",
    "target_path": "hardware/nvidia/interfaces"
  },
