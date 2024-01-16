@@ -127,7 +127,7 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 		--cmd "sign" \
 		--cfg $(strip $(2)) \
 		--odmdata $(strip $(5)) \
-		--overlay_dtb AndroidConfiguration.dtbo,$(subst $(SPACE),,$(foreach dtbo,$(strip $(6)),$(KERNEL_OUT)/arch/arm64/boot/dts/nvidia/$(dtbo),)) \
+		--overlay_dtb AndroidConfiguration.dtbo,$(subst $(SPACE),,$(foreach dtbo,$(strip $(6)),$(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia)/$(dtbo),)) \
 		--bldtb $(strip $(4)) \
 		--sdram_config $(GALEN_BCT)/$(strip $(7)),$(GALEN_BCT)/tegra194-memcfg-sw-override.cfg \
 		--soft_fuses $(GALEN_BCT)/$(strip $(8)) \
