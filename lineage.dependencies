@@ -14,7 +14,7 @@
  {
    "repository": "android_kernel_nvidia_kernel",
    "target_path": "kernel/nvidia/kernel-5.10",
-   "branch": "lineage-19.1_5.10"
+   "branch": "lineage-21_5.10"
  },
  {
    "repository": "android_kernel_nvidia_nvethernetrm",
