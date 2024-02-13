@@ -130,6 +130,7 @@ AB_OTA_PARTITIONS += \
     vbmeta \
     vbmeta_system \
     vendor \
+    vendor_boot \
     odm
 ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_POSTINSTALL_CONFIG += \
@@ -146,7 +147,6 @@ else ifeq ($(TARGET_TEGRA_BOOTCTRL),efi)
 PRODUCT_PACKAGES += \
     nv_bootloader_payload_updater \
     kernel_only_payload \
-    AndroidLauncher \
     TEGRA_BL.Cap
 endif
 endif
