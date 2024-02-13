@@ -11,18 +11,14 @@ COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 INSTALLED_KERNEL_TARGET        := $(PRODUCT_OUT)/kernel
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
 INSTALLED_SUPER_EMPTY_TARGET   := $(PRODUCT_OUT)/super_empty.img
+INSTALLED_VENDORBOOT_TARGET    := $(PRODUCT_OUT)/vendor_boot.img
 INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
 INSTALLED_NVDISP_INIT_TARGET   := $(PRODUCT_OUT)/nvdisp-init.bin
 INSTALLED_TIANOCORE_TARGET     := $(PRODUCT_OUT)/tianocore.bin
-INSTALLED_RLAUNCHER_TARGET     := $(PRODUCT_OUT)/AndroidLauncher-recovery.efi
 INSTALLED_EDK2_DTBO_TARGET     := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 AVBTOOL_HOST := $(HOST_OUT_EXECUTABLES)/avbtool
-SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
-MCOPY_HOST   := $(HOST_OUT_EXECUTABLES)/mcopy
-MMD_HOST     := $(HOST_OUT_EXECUTABLES)/mmd
-MKFSFAT_HOST := $(HOST_OUT_EXECUTABLES)/mformat
 LPFLASH_HOST := $(HOST_OUT_EXECUTABLES)/lpflash
 
 ifneq ($(TARGET_PREBUILT_KERNEL),)
@@ -44,7 +40,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p2972_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p2972_package_archive := $(_p2972_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(MCOPY_HOST) $(MMD_HOST) $(MKFSFAT_HOST) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_RLAUNCHER_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
+$(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_VENDORBOOT_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegraflash* $(dir $@)/tegraflash/
@@ -69,9 +65,9 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@rm $(dir $@)/nvdisp-init.bin
 	@rm $(dir $@)/uefi_jetson.bin
 	@cp $(T194_FW)/xusb/tegra19x_xusb_firmware $(dir $@)/xusb_sil_rel_fw
-	@$(SMD_GEN_HOST) $(dir $@)/slot_metadata.bin
 	@$(AVBTOOL_HOST) make_vbmeta_image --flags 2 --padding_size 256 --output $(dir $@)/vbmeta_skip.img
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
+	@cp $(INSTALLED_VENDORBOOT_TARGET) $(dir $@)/
 	@touch $(dir $@)/super_meta_only.img
 	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
 	@cp $(GALEN_BL)/tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/tegra194-p2888-0001-p2822-0000-bl.dtb
@@ -88,11 +84,7 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@cp $(GALEN_BCT)/tegra194-mb1-soft-fuses-l4t.cfg $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-memcfg-sw-override.cfg $(dir $@)/
 	@cp $(GALEN_BCT)/tegra19x-mb1-bct-device-sdmmc.cfg $(dir $@)/
-	@dd if=/dev/zero of=$(dir $@)/esp.img bs=1M count=64
-	@$(MKFSFAT_HOST) -F -i $(dir $@)/esp.img ::
-	@$(MMD_HOST) -i $(dir $@)/esp.img ::/EFI
-	@$(MMD_HOST) -i $(dir $@)/esp.img ::/EFI/BOOT
-	@$(MCOPY_HOST) -i $(dir $@)/esp.img $(INSTALLED_RLAUNCHER_TARGET) ::/EFI/BOOT/BOOTAA64.efi
+	@echo -n boot-recovery > $(dir $@)/misc.txt
 	@cd $(dir $@); tar -cJf $(abspath $@) *
 
 include $(BUILD_SYSTEM)/base_rules.mk
@@ -106,7 +98,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p3518_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p3518_package_archive := $(_p3518_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(SMD_GEN_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(MCOPY_HOST) $(MMD_HOST) $(MKFSFAT_HOST) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_RLAUNCHER_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
+$(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_VENDORBOOT_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegraflash* $(dir $@)/tegraflash/
@@ -131,9 +123,9 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@rm $(dir $@)/nvdisp-init.bin
 	@rm $(dir $@)/uefi_jetson.bin
 	@cp $(T194_FW)/xusb/tegra19x_xusb_firmware $(dir $@)/xusb_sil_rel_fw
-	@$(SMD_GEN_HOST) $(dir $@)/slot_metadata.bin
 	@$(AVBTOOL_HOST) make_vbmeta_image --flags 2 --padding_size 256 --output $(dir $@)/vbmeta_skip.img
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
+	@cp $(INSTALLED_VENDORBOOT_TARGET) $(dir $@)/
 	@touch $(dir $@)/super_meta_only.img
 	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
 	@cp $(GALEN_BL)/tegra194-p3668-0000-p3509-0000.dtb $(dir $@)/tegra194-p3668-0000-p3509-0000-bl.dtb
@@ -149,11 +141,7 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@cp $(GALEN_BCT)/tegra194-mb1-bct-misc-*.cfg $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-mb1-soft-fuses-l4t.cfg $(dir $@)/
 	@cp $(GALEN_BCT)/tegra194-memcfg-sw-override.cfg $(dir $@)/
-	@dd if=/dev/zero of=$(dir $@)/esp.img bs=1M count=64
-	@$(MKFSFAT_HOST) -F -i $(dir $@)/esp.img ::
-	@$(MMD_HOST) -i $(dir $@)/esp.img ::/EFI
-	@$(MMD_HOST) -i $(dir $@)/esp.img ::/EFI/BOOT
-	@$(MCOPY_HOST) -i $(dir $@)/esp.img $(INSTALLED_RLAUNCHER_TARGET) ::/EFI/BOOT/BOOTAA64.efi
+	@echo -n boot-recovery > $(dir $@)/misc.txt
 	@cd $(dir $@); tar -cJf $(abspath $@) *
 
 include $(BUILD_SYSTEM)/base_rules.mk
