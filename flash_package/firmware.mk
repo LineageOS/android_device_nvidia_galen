@@ -2,6 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
 T194_BL         := $(BUILD_TOP)/vendor/nvidia/t194/r35/bootloader
+GALEN_BL        := $(BUILD_TOP)/vendor/nvidia/galen/r35/bootloader
 GALEN_BCT       := $(BUILD_TOP)/vendor/nvidia/galen/r35/BCT
 GALEN_FLASH     := $(BUILD_TOP)/device/nvidia/galen/flash_package
 COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
@@ -85,6 +86,7 @@ _p3518-0003_br_bct := $(P3518-0003_SIGNED_PATH)/br_bct_BR.bct
 # $22 Module sku
 # $23 Carrier board id
 # $24 Carrier sku
+# $25 Bootloader dtb w/o suffix
 define t194_bl_signing_rule
 $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST) $(SMD_GEN_HOST)
 	@mkdir -p $(strip $1)
@@ -100,6 +102,7 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 	@cat $(strip $1)/nvdisp-init.bin $(INSTALLED_TIANOCORE_TARGET) > $(strip $1)/nvdisp_uefi_jetson.bin
 	@rm $(strip $1)/nvdisp-init.bin
 	@cp $(GALEN_BCT)/$(strip $3) $(strip $1)/tegra194-a02-bpmp.dtb
+	@cp $(GALEN_BL)/$(strip $(25)).dtb $(strip $1)/$(strip $(25))-bl.dtb
 	@cp $(DTB_PATH)/$(strip $4) $(strip $1)/
 	@cp $(PRODUCT_OUT)/AndroidConfiguration.dtbo $(strip $1)/
 	$(FDTPUT_HOST) -p -t bx $(strip $1)/AndroidConfiguration.dtbo /fragment@0/__overlay__/firmware/uefi/variables/gNVIDIAPublicVariableGuid/TegraPlatformSpec data $(shell printf "p%04d-%04d+p%04d-%04d.android\0" $(strip $(21)) $(strip $(22)) $(strip $(23)) $(strip $(24)) |xxd -p |sed 's/../& /g');
@@ -179,7 +182,8 @@ $(call t194_bl_signing_rule, \
   2888, \
   $(strip $2), \
   2822, \
-  0 \
+  0, \
+  tegra194-p2888-0001-p2822-0000 \
 )
 endef
 
@@ -213,7 +217,8 @@ $(call t194_bl_signing_rule, \
   3668, \
   $(strip $4), \
   3509, \
-  0 \
+  0, \
+  tegra194-p3668-$(strip $3)-p3509-0000 \
 )
 endef
 
@@ -241,37 +246,37 @@ $(_galen_blob): $(_p2972-0001_br_bct) $(_p2972-0004_br_bct) $(_p2972-0005_br_bct
 		 $(P2972-0001_SIGNED_PATH)/warmboot_t194_prod_sigheader.bin.encrypt sc7 2 2 common; \
 		 $(P2972-0001_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p2888-0001+p2822-0000.android; \
-		 $(P2972-0001_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0001+p2822-0000.android; \
+		 $(P2972-0001_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p2888-0004+p2822-0000.android; \
-		 $(P2972-0004_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0004+p2822-0000.android; \
+		 $(P2972-0004_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p2888-0005+p2822-0000.android; \
-		 $(P2972-0005_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0005+p2822-0000.android; \
+		 $(P2972-0005_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p2888-0005+p2822-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p3668-0000+p3509-0000.android; \
-		 $(P3518-0000_SIGNED_PATH)/tegra194-p3668-0000-p3509-0000-android_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0000+p3509-0000.android; \
+		 $(P3518-0000_SIGNED_PATH)/tegra194-p3668-0000-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p3668-0001+p3509-0000.android; \
-		 $(P3518-0001_SIGNED_PATH)/tegra194-p3668-0001-p3509-0000-android_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0001+p3509-0000.android; \
+		 $(P3518-0001_SIGNED_PATH)/tegra194-p3668-0001-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p3668-0003+p3509-0000.android; \
-		 $(P3518-0003_SIGNED_PATH)/tegra194-p3668-0001-p3509-0000-android_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0003+p3509-0000.android; \
+		 $(P3518-0003_SIGNED_PATH)/tegra194-p3668-0001-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0003+p3509-0000.android"

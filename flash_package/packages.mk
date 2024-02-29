@@ -3,6 +3,7 @@ LOCAL_PATH := $(call my-dir)
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
 T194_BL         := $(BUILD_TOP)/vendor/nvidia/t194/r35/bootloader
 T194_FW         := $(BUILD_TOP)/vendor/nvidia/t194/r35/firmware
+GALEN_BL        := $(BUILD_TOP)/vendor/nvidia/galen/r35/bootloader
 GALEN_BCT       := $(BUILD_TOP)/vendor/nvidia/galen/r35/BCT
 GALEN_FLASH     := $(BUILD_TOP)/device/nvidia/galen/flash_package
 COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
@@ -71,6 +72,7 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
 	@touch $(dir $@)/super_meta_only.img
 	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
+	@cp $(GALEN_BL)/tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/tegra194-p2888-0001-p2822-0000-bl.dtb
 	@cp $(PRODUCT_OUT)/AndroidConfiguration.dtbo $(dir $@)/
 	@cp $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
 	@cp $(DTB_PATH)/tegra194-p2888-0001-p2822-0000-overlay.dtbo $(dir $@)/
@@ -132,6 +134,8 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
 	@touch $(dir $@)/super_meta_only.img
 	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
+	@cp $(GALEN_BL)/tegra194-p3668-0000-p3509-0000.dtb $(dir $@)/tegra194-p3668-0000-p3509-0000-bl.dtb
+	@cp $(GALEN_BL)/tegra194-p3668-0001-p3509-0000.dtb $(dir $@)/tegra194-p3668-0001-p3509-0000-bl.dtb
 	@cp $(PRODUCT_OUT)/AndroidConfiguration.dtbo $(dir $@)/
 	@cp $(DTB_PATH)/tegra194-p3668-0000-p3509-0000-android.dtb $(dir $@)/
 	@cp $(DTB_PATH)/tegra194-p3668-0001-p3509-0000-android.dtb $(dir $@)/
