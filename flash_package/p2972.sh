@@ -65,7 +65,7 @@ declare -a FLASH_CMD_FLASH=(
   --bl nvtboot_recovery_cpu_t194.bin
   --sdram_config tegra194-mb1-bct-memcfg-p2888.cfg,tegra194-memcfg-sw-override.cfg
   --overlay_dtb AndroidConfig.dtbo,tegra194-p2888-0005-overlay.dtbo,tegra194-p2888-0001-p2822-0000-overlay.dtbo
-  --bldtb tegra194-p2888-0001-p2822-0000.dtb
+  --bldtb tegra194-p2888-0001-p2822-0000-bl.dtb
   --odmdata 0x9190000
   --applet mb1_t194_prod.bin
   --soft_fuses tegra194-mb1-soft-fuses-l4t.cfg
@@ -85,7 +85,7 @@ declare -a FLASH_CMD_FLASH=(
   --dev_params tegra194-br-bct-sdmmc.cfg,tegra194-br-bct_b-sdmmc.cfg
   --bct_backup
   --boot_chain A
-  --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p2888-0001-p2822-0000.dtb");
+  --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p2888-0001-p2822-0000-bl.dtb");
 
 tegraflash.py \
   "${FLASH_CMD_FLASH[@]}" \

@@ -139,7 +139,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tegra194-p3668-0000-p3509-0000-android.dtb </filename>
+            <filename> tegra194-p3668-0000-p3509-0000-bl.dtb </filename>
             <description> **Required.** Slot A; contains Bootloader device tree blob
               (DTB). </description>
         </partition>
@@ -313,7 +313,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tegra194-p3668-0000-p3509-0000-android.dtb </filename>
+            <filename> tegra194-p3668-0000-p3509-0000-bl.dtb </filename>
             <description> **Required.** Slot B; contains Bootloader device tree blob
               (DTB). </description>
         </partition>
