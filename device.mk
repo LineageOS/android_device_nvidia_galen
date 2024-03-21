@@ -123,10 +123,6 @@ PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-service-nvidia \
     $(foreach model,$(TARGET_TEGRA_MODELS),thermalhal.$(model).xml)
 
-# Trust HAL
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
-
 # Updater
 ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_PARTITIONS += \
