@@ -59,6 +59,9 @@ ifneq ($(TARGET_TEGRA_BT),)
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/nvidia/galen/comms
 endif
 
+# Fingerprint override
+BUILD_FINGERPRINT := NVIDIA/galen/galen:11/RQ1A.210105.003/7825230_3167.5736:user/release-keys
+
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 BOARD_VENDOR_KERNEL_MODULES += $(wildcard $(dir $(TARGET_PREBUILT_KERNEL))/*.ko)
