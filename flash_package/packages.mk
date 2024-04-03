@@ -24,8 +24,12 @@ MMD_HOST     := $(HOST_OUT_EXECUTABLES)/mmd
 MKFSFAT_HOST := $(HOST_OUT_EXECUTABLES)/mformat
 LPFLASH_HOST := $(HOST_OUT_EXECUTABLES)/lpflash
 
-ifneq ($(TARGET_TEGRA_KERNEL),4.9)
-DTB_SUBFOLDER := nvidia/
+ifneq ($(filter 4.9, $(TARGET_TEGRA_KERNEL)),)
+DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts)
+else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
+DTB_PATH := $(abspath $(KERNEL_OUT)/../nv-oot/device-tree/platform/generic-dts/t19x/lineage)
+else
+DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia)
 endif
 
 include $(CLEAR_VARS)
@@ -68,9 +72,9 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@touch $(dir $@)/super_meta_only.img
 	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
 	@cp $(PRODUCT_OUT)/AndroidConfiguration.dtbo $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0001-p2822-0000-overlay.dtbo $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p2888-0005-overlay.dtbo $(dir $@)/
+	@cp $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb $(dir $@)/
+	@cp $(DTB_PATH)/tegra194-p2888-0001-p2822-0000-overlay.dtbo $(dir $@)/
+	@cp $(DTB_PATH)/tegra194-p2888-0005-overlay.dtbo $(dir $@)/
 	@cp $(GALEN_BCT)/*p2888* $(dir $@)/
 	@mv $(dir $@)/tegra194-a02-bpmp-p2888-a04.dtb $(dir $@)/tegra194-a02-bpmp-p2888-0001-a04.dtb
 	@cp $(GALEN_BCT)/tegra194-br-bct-sdmmc.cfg $(dir $@)/
@@ -129,9 +133,9 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@touch $(dir $@)/super_meta_only.img
 	@$(LPFLASH_HOST) $(dir $@)/super_meta_only.img $(INSTALLED_SUPER_EMPTY_TARGET)
 	@cp $(PRODUCT_OUT)/AndroidConfiguration.dtbo $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-0000-p3509-0000-android.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-0001-p3509-0000-android.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/$(DTB_SUBFOLDER)tegra194-p3668-p3509-overlay.dtbo $(dir $@)/
+	@cp $(DTB_PATH)/tegra194-p3668-0000-p3509-0000-android.dtb $(dir $@)/
+	@cp $(DTB_PATH)/tegra194-p3668-0001-p3509-0000-android.dtb $(dir $@)/
+	@cp $(DTB_PATH)/tegra194-p3668-p3509-overlay.dtbo $(dir $@)/
 	@cp $(GALEN_BCT)/*p3668* $(dir $@)/
 	@mv $(dir $@)/tegra194-a02-bpmp-p3668-a00.dtb $(dir $@)/tegra194-a02-bpmp.dtb
 	@cp $(GALEN_BCT)/tegra194-br-bct-qspi-l4t.cfg $(dir $@)/
