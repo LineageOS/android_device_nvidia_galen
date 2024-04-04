@@ -89,7 +89,6 @@ declare -a FLASH_CMD_FLASH=(
   --scr_cold_boot_config tegra194-mb1-bct-scr-cbb-mini-p3668.cfg
   --br_cmd_config tegra194-mb1-bct-reset-p3668-0001-a00.cfg
   --dev_params tegra194-br-bct-qspi-l4t.cfg,tegra194-br-bct_b-qspi-l4t.cfg
-  --secondary_gpt_backup
   --bct_backup
   --boot_chain A
   --bin "mb2_bootloader nvtboot_recovery_t194.bin; mts_preboot preboot_c10_prod_cr.bin; mts_mce mce_c10_prod_cr.bin; mts_proper mts_c10_prod_cr.bin; bpmp_fw bpmp_t194.bin; bpmp_fw_dtb tegra194-a02-bpmp.dtb; spe_fw spe_t194.bin; tlk tos-mon-only_t194.img; bootloader_dtb tegra194-p3668-${REYSKU}-p3509-0000-android.dtb");
