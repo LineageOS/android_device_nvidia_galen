@@ -27,14 +27,25 @@ TARGET_TEGRA_MODELS := $(shell awk -F, '/tegra_init::devices/{ f = 1; next } /};
 TARGET_KERNEL_VERSION ?= 5.10
 TARGET_TEGRA_BOOTCTRL ?= efi
 TARGET_TEGRA_BT       ?= btlinux
-TARGET_TEGRA_CAMERA   ?= rel-shield-r
 TARGET_TEGRA_HEALTH   ?= nobattery
-TARGET_TEGRA_TOS      ?= software
-TARGET_TEGRA_LIGHT    ?= lineage
 TARGET_TEGRA_PMODEL   ?= r36
 TARGET_TEGRA_THERMAL  ?= lineage
-TARGET_TEGRA_WIDEVINE ?= rel-shield-r
 TARGET_TEGRA_WIFI     ?= rtl8822ce
+
+ifneq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
+TARGET_TEGRA_CAMERA   ?= rel-shield-r
+TARGET_TEGRA_LIGHT    ?= lineage
+TARGET_TEGRA_TOS      ?= software
+TARGET_TEGRA_WIDEVINE ?= rel-shield-r
+else
+TARGET_TEGRA_FIRMWARE_BRANCH ?= linux-firmware
+
+TARGET_GRAPHICS    ?= swiftshader
+TARGET_HAS_BATTERY ?= false
+
+PRODUCT_COPY_FILES += \
+    device/nvidia/galen/initfiles/ack.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/ack.rc
+endif
 
 include device/nvidia/t194-common/t194.mk
 
