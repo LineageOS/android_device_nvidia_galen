@@ -1,0 +1,2 @@
+on property:init.svc.vendor.lkm_loader=stopped
+    write /dev/nvgpu/igpu0/power 1
