@@ -80,9 +80,6 @@ TARGET_KERNEL_EXT_MODULES := \
     nvgpu/drivers/gpu/nvgpu:kbuild
 include device/nvidia/galen/modules.mk
 
-# Manifest
-DEVICE_MANIFEST_FILE := device/nvidia/galen/manifest.xml
-
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.galen
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
