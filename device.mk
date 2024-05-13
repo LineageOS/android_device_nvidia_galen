@@ -30,6 +30,7 @@ TARGET_TEGRA_CAMERA   ?= rel-shield-r
 TARGET_TEGRA_HEALTH   ?= nobattery
 TARGET_TEGRA_KERNEL   ?= 5.10
 TARGET_TEGRA_KEYSTORE ?= software
+TARGET_TEGRA_LIGHT    ?= lineage
 TARGET_TEGRA_THERMAL  ?= lineage
 TARGET_TEGRA_WIDEVINE ?= rel-shield-r
 TARGET_TEGRA_WIFI     ?= rtl8822ce
@@ -84,10 +85,6 @@ endif
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 TARGET_FORCE_PREBUILT_KERNEL := true
 endif
-
-# Light
-PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service-nvidia
 
 # Loadable kernel modules
 PRODUCT_PACKAGES += \
