@@ -53,6 +53,10 @@
    "target_path": "hardware/nvidia/light"
  },
  {
+   "repository": "android_hardware_nvidia_memtrack",
+   "target_path": "hardware/nvidia/memtrack"
+ },
+ {
    "repository": "android_hardware_nvidia_platform_t19x_galen_kernel-dts",
    "target_path": "hardware/nvidia/platform/t19x/galen/kernel-dts"
  },
