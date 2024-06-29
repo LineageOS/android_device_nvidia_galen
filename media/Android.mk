@@ -58,11 +58,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE        := media_codecs.xml
 LOCAL_MODULE_TAGS   := optional
 LOCAL_MODULE_CLASS  := ETC
-ifeq ($(TARGET_TEGRA_OMX),nvmm)
 LOCAL_SRC_FILES     := media_codecs.xml
-else
-LOCAL_SRC_FILES     := media_codecs_sw.xml
-endif
 LOCAL_ODM_MODULE    := true
 include $(BUILD_PREBUILT)
 
