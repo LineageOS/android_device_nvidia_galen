@@ -26,7 +26,8 @@ function patch_rey_qspi_bct() {
 function patch_rey_bpmp_dtb() {
   echo -n "Patching rey bpmp dtb...";
 
-  git -C ${LINEAGE_ROOT}/${OUTDIR} apply -q ${LINEAGE_ROOT}/device/nvidia/galen/extract/rey_bpmp.patch
+  fdtput -p -t bx ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra194-a02-bpmp-p3668-a00.dtb /uphy pcie-xbar-config $(printf "PCIE_XBAR_8_1_1_0_1\0" |xxd -p |sed 's/../& /g');
+  fdtput -p -t bx ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra194-a02-bpmp-p3668-a00.dtb /uphy ufs-config $(printf "UFS_DISABLED\0" |xxd -p |sed 's/../& /g');
 
   echo "";
 }
