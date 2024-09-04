@@ -63,9 +63,6 @@ endif
 BUILD_FINGERPRINT := NVIDIA/galen/galen:11/RQ1A.210105.003/7825230_3167.5736:user/release-keys
 
 # Kernel
-ifneq ($(TARGET_PREBUILT_KERNEL),)
-BOARD_VENDOR_KERNEL_MODULES += $(wildcard $(dir $(TARGET_PREBUILT_KERNEL))/*.ko)
-endif
 TARGET_KERNEL_CLANG_COMPILE    := false
 TARGET_KERNEL_NO_GCC           := false
 KERNEL_TOOLCHAIN               := $(shell pwd)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-gnu-9.3/bin
@@ -79,6 +76,13 @@ TARGET_KERNEL_EXT_MODULE_ROOT := kernel/nvidia
 TARGET_KERNEL_EXT_MODULES := \
     nvgpu/drivers/gpu/nvgpu:kbuild
 include device/nvidia/galen/modules.mk
+
+ifneq ($(TARGET_PREBUILT_KERNEL),)
+MODDIR := $(dir $(TARGET_PREBUILT_KERNEL))
+BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(MODDIR)/*.ko)
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(MODDIR)/,$(BOOT_KERNEL_MODULES))
+BOARD_RECOVERY_KERNEL_MODULES := $(addprefix $(MODDIR)/,$(RECOVERY_KERNEL_MODULES))
+endif
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.galen

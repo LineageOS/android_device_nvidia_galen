@@ -131,7 +131,6 @@ AB_OTA_PARTITIONS += \
     vbmeta_system \
     vendor \
     odm
-ifeq ($(TARGET_PREBUILT_KERNEL),)
 ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \
@@ -149,7 +148,6 @@ PRODUCT_PACKAGES += \
     kernel_only_payload \
     AndroidLauncher \
     TEGRA_BL.Cap
-endif
 endif
 endif
 endif
