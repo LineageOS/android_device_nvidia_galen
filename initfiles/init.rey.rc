@@ -19,7 +19,7 @@ import /vendor/etc/init/hw/init.galen_common.rc
 on init
     setprop ro.vendor.lineage.tegra.nvpmodel.config /odm/etc/nvpmodel_t194_p3668.conf
 
-    enable btlinux-1.1
+    enable vendor.bluetooth-default
 
 on fs
     mount_all /vendor/etc/fstab.rey
