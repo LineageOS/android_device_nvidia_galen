@@ -64,9 +64,6 @@ endif
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 
-# Fingerprint override
-BUILD_FINGERPRINT := NVIDIA/galen/galen:11/RQ1A.210105.003/7825230_3167.5736:user/release-keys
-
 # Kernel
 TARGET_KERNEL_CLANG_COMPILE    := false
 TARGET_KERNEL_NO_GCC           := false
