@@ -79,6 +79,7 @@ void vendor_load_properties()
 	if (ti.recovery_context()) {
 		ti.property_set("ro.product.vendor.model", ti.property_get("ro.product.model"));
 		ti.property_set("ro.product.vendor.manufacturer", ti.property_get("ro.product.manufacturer"));
+		ti.property_set("ro.recovery.batteryless", "true");
 	}
 
 	if (ti.vendor_context() || ti.recovery_context()) {
