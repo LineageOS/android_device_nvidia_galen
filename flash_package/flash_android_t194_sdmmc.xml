@@ -261,11 +261,11 @@
         <partition name="secure-os" type="tos" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 2621440 </size>
+            <size> 4194304 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tos-mon-only_t194.img </filename>
+            <filename> tos.img </filename>
             <description> **Required.** Slot A; contains the trusted OS. </description>
         </partition>
         <partition name="eks" type="eks" oem_sign="true">
@@ -475,11 +475,11 @@
         <partition name="secure-os_b" type="tos" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 2621440 </size>
+            <size> 4194304 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tos-mon-only_t194.img </filename>
+            <filename> tos.img </filename>
             <description> **Required.** Slot B; contains the trusted OS. </description>
         </partition>
         <partition name="eks_b" type="eks" oem_sign="true">

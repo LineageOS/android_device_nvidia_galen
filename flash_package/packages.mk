@@ -12,7 +12,7 @@ INSTALLED_KERNEL_TARGET        := $(PRODUCT_OUT)/kernel
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
 INSTALLED_SUPER_EMPTY_TARGET   := $(PRODUCT_OUT)/super_empty.img
 INSTALLED_VENDORBOOT_TARGET    := $(PRODUCT_OUT)/vendor_boot.img
-INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
+INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-$(if $(filter software,$(TARGET_TEGRA_TOS)),mon-only,$(TARGET_TEGRA_TOS)).img
 INSTALLED_NVDISP_INIT_TARGET   := $(PRODUCT_OUT)/nvdisp-init.bin
 INSTALLED_TIANOCORE_TARGET     := $(PRODUCT_OUT)/tianocore.bin
 INSTALLED_EDK2_DTBO_TARGET     := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
@@ -56,7 +56,7 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@cp $(GALEN_FLASH)/flash_android_t194_sdmmc.xml $(dir $@)/
 	@cp $(T194_BL)/* $(dir $@)/
 	@rm $(dir $@)/tos-mon-only_t194.img
-	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos-mon-only_t194.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos.img
 	@rm $(dir $@)/BOOTAA64.efi
 	@rm $(dir $@)/nvdisp-init.bin
 	@cp $(INSTALLED_NVDISP_INIT_TARGET) $(dir $@)/
@@ -114,7 +114,7 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@cp $(GALEN_FLASH)/flash_android_t194_spi_*_p3668.xml $(dir $@)/
 	@cp $(T194_BL)/* $(dir $@)/
 	@rm $(dir $@)/tos-mon-only_t194.img
-	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos-mon-only_t194.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos.img
 	@rm $(dir $@)/BOOTAA64.efi
 	@rm $(dir $@)/nvdisp-init.bin
 	@cp $(INSTALLED_NVDISP_INIT_TARGET) $(dir $@)/

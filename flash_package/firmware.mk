@@ -14,7 +14,7 @@ CAPSULE_OTHER   ?= $(CAPSULE_CERTS)/TestSub.pub.pem
 CAPSULE_TRUSTED ?= $(CAPSULE_CERTS)/TestRoot.pub.pem
 
 INSTALLED_KERNEL_TARGET      := $(PRODUCT_OUT)/kernel
-INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-mon-only.img
+INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-$(if $(filter software,$(TARGET_TEGRA_TOS)),mon-only,$(TARGET_TEGRA_TOS)).img
 INSTALLED_NVDISP_INIT_TARGET := $(PRODUCT_OUT)/nvdisp-init.bin
 INSTALLED_TIANOCORE_TARGET   := $(PRODUCT_OUT)/tianocore.bin
 INSTALLED_EDK2_DTBO_TARGET   := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
@@ -94,7 +94,7 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 	@cp $(GALEN_FLASH)/$(strip $2) $(strip $1)/
 	@cp $(T194_BL)/* $(strip $1)/
 	@rm $(strip $1)/tos-mon-only_t194.img
-	@cp $(INSTALLED_TOS_TARGET) $(strip $1)/tos-mon-only_t194.img
+	@cp $(INSTALLED_TOS_TARGET) $(strip $1)/tos.img
 	@rm $(strip $1)/BOOTAA64.efi
 	@rm $(strip $1)/uefi_jetson.bin
 	@rm $(strip $1)/nvdisp-init.bin
@@ -237,7 +237,7 @@ $(_galen_blob): $(_p2972-0001_br_bct) $(_p2972-0004_br_bct) $(_p2972-0005_br_bct
 		"$(P2972-0001_SIGNED_PATH)/spe_t194_sigheader.bin.encrypt spe-fw 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/nvtboot_t194_sigheader.bin.encrypt mb2 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/nvdisp_uefi_jetson_sigheader.bin.encrypt cpu-bootloader 2 0 common; \
-		 $(P2972-0001_SIGNED_PATH)/tos-mon-only_t194_sigheader.img.encrypt secure-os 2 0 common; \
+		 $(P2972-0001_SIGNED_PATH)/tos_sigheader.img.encrypt secure-os 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/bpmp_t194_sigheader.bin.encrypt bpmp-fw 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/adsp-fw_sigheader.bin.encrypt adsp-fw 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/camera-rtcpu-t194-rce_sigheader.img.encrypt rce-fw 2 0 common; \
