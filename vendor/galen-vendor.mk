@@ -20,7 +20,4 @@ ifneq ("$(wildcard device/nvidia/tegra-common/vendor/$(TARGET_TEGRA_FIRMWARE_BRA
 include device/nvidia/tegra-common/vendor/$(TARGET_TEGRA_FIRMWARE_BRANCH)/realtek/rtl8822ce.mk
 else ifneq ("$(wildcard device/nvidia/galen/vendor/$(TARGET_TEGRA_L4T_BRANCH)/realtek/realtek.mk)","")
 include device/nvidia/galen/vendor/$(TARGET_TEGRA_L4T_BRANCH)/realtek/realtek.mk
-
-# This needs a better check. Assumption is that when firmware is from r35, nvgpu is in use.
-PRODUCT_PACKAGES += public.libraries
 endif
