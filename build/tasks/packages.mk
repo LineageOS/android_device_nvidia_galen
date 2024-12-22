@@ -1,5 +1,18 @@
-LOCAL_PATH := $(call my-dir)
+# Copyright (C) 2021-2024 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
+ifeq ($(TARGET_REFERENCE_DEVICE), galen)
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
 T194_BL         := $(BUILD_TOP)/vendor/nvidia/t194/r35/bootloader
 T194_FW         := $(BUILD_TOP)/vendor/nvidia/t194/r35/firmware
@@ -31,14 +44,7 @@ else
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia)
 endif
 
-include $(CLEAR_VARS)
-LOCAL_MODULE        := p2972_flash_package
-LOCAL_MODULE_SUFFIX := .txz
-LOCAL_MODULE_CLASS  := ETC
-LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
-
-_p2972_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_p2972_package_archive := $(_p2972_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_p2972_package_archive := $(call intermediates-dir-for,ETC,p2972_flash_package)/p2972_flash_package.txz
 
 $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_VENDORBOOT_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
 	@mkdir -p $(dir $@)/tegraflash
@@ -87,16 +93,13 @@ $(_p2972_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@echo -n boot-recovery > $(dir $@)/misc.txt
 	@cd $(dir $@); tar -cJf $(abspath $@) *
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(PRODUCT_OUT)/p2972_flash_package.txz: $(_p2972_package_archive)
+	$(hide) cp $< $@
 
-include $(CLEAR_VARS)
-LOCAL_MODULE        := p3518_flash_package
-LOCAL_MODULE_SUFFIX := .txz
-LOCAL_MODULE_CLASS  := ETC
-LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
+.PHONY: p2972_flash_package
+p2972_flash_package: $(PRODUCT_OUT)/p2972_flash_package.txz
 
-_p3518_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_p3518_package_archive := $(_p3518_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_p3518_package_archive := $(call intermediates-dir-for,ETC,p3518_flash_package)/p3518_flash_package.txz
 
 $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_VENDORBOOT_TARGET) $(TOYBOX_HOST) $(AVBTOOL_HOST) $(INSTALLED_SUPER_EMPTY_TARGET) $(LPFLASH_HOST) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET)
 	@mkdir -p $(dir $@)/tegraflash
@@ -144,4 +147,25 @@ $(_p3518_package_archive): $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_
 	@echo -n boot-recovery > $(dir $@)/misc.txt
 	@cd $(dir $@); tar -cJf $(abspath $@) *
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(PRODUCT_OUT)/p3518_flash_package.txz: $(_p3518_package_archive)
+	$(hide) cp $< $@
+
+.PHONY: p3518_flash_package
+p3518_flash_package: $(PRODUCT_OUT)/p3518_flash_package.txz
+
+
+ifeq ($(word 2,$(subst _, ,$(TARGET_PRODUCT))),galen)
+BUILT_TARGET_FILES_ZIPROOT := $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files
+$(BUILT_TARGET_FILES_ZIPROOT).zip: $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p2972_flash_package.txz $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3518_flash_package.txz
+
+$(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p2972_flash_package.txz: $(BUILT_TARGET_FILES_ZIPROOT).zip.list $(PRODUCT_OUT)/p2972_flash_package.txz
+	@mkdir -p $(dir $@)
+	@cp $(PRODUCT_OUT)/p2972_flash_package.txz $@
+	@echo $@ >> $(BUILT_TARGET_FILES_ZIPROOT).zip.list
+
+$(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3518_flash_package.txz: $(BUILT_TARGET_FILES_ZIPROOT).zip.list $(PRODUCT_OUT)/p3518_flash_package.txz
+	@mkdir -p $(dir $@)
+	@cp $(PRODUCT_OUT)/p3518_flash_package.txz $@
+	@echo $@ >> $(BUILT_TARGET_FILES_ZIPROOT).zip.list
+endif
+endif

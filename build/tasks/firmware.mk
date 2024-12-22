@@ -1,5 +1,18 @@
-LOCAL_PATH := $(call my-dir)
+# Copyright (C) 2021-2024 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
+ifeq ($(TARGET_REFERENCE_DEVICE), galen)
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
 T194_BL         := $(BUILD_TOP)/vendor/nvidia/t194/r35/bootloader
 GALEN_BL        := $(BUILD_TOP)/vendor/nvidia/galen/r35/bootloader
@@ -40,13 +53,8 @@ else
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia)
 endif
 
-include $(CLEAR_VARS)
-LOCAL_MODULE               := TEGRA_BL.Cap
-LOCAL_MODULE_CLASS         := ETC
-LOCAL_MODULE_RELATIVE_PATH := firmware
-
-_galen_blob_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_galen_blob := $(_galen_blob_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_galen_blob_intermediates := $(call intermediates-dir-for,ETC,TEGRA_BL)
+_galen_blob := $(_galen_blob_intermediates)/TEGRA_BL.Cap
 
 P2972-0001_SIGNED_PATH := $(_galen_blob_intermediates)/p2972-0001-signed
 P2972-0004_SIGNED_PATH := $(_galen_blob_intermediates)/p2972-0004-signed
@@ -292,15 +300,14 @@ $(_galen_blob): $(_p2972-0001_br_bct) $(_p2972-0004_br_bct) $(_p2972-0005_br_bct
 		 $(P3518-0003_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0003+p3509-0000.android"
 	PYTHONPATH=$$PYTHONPATH:$(dir $(CAPSULE_PATH)) python3 $(CAPSULE_PATH)/GenerateCapsule.py -v --encode --monotonic-count 1 --fw-version "0x00000000" --lsv "0x00000000" --guid "be3f5d68-7654-4ed2-838c-2a2faf901a78" --signer-private-cert "$(CAPSULE_PRIVATE)" --other-public-cert "$(CAPSULE_OTHER)" --trusted-public-cert "$(CAPSULE_TRUSTED)" -o "$@" "$(dir $@)/ota.blob"
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(TARGET_OUT_ETC)/firmware/TEGRA_BL.Cap: $(_galen_blob) $(systemimage_intermediates)/file_list.txt
+	$(hide) cp $< $@
+	$(hide) grep system/etc/firmware/TEGRA_BL.Cap $(systemimage_intermediates)/file_list.txt > /dev/null 2>&1 || echo system/etc/firmware/TEGRA_BL.Cap >> $(systemimage_intermediates)/file_list.txt
 
-include $(CLEAR_VARS)
-LOCAL_MODULE               := kernel_only_payload
-LOCAL_MODULE_CLASS         := ETC
-LOCAL_MODULE_RELATIVE_PATH := firmware
+.PHONY: TEGRA_BL.Cap
+TEGRA_BL.Cap: $(_galen_blob)
 
-_kernel_blob_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_kernel_blob := $(_kernel_blob_intermediates)/$(LOCAL_MODULE)
+_kernel_blob := $(call intermediates-dir-for,ETC,kernel_only_payload)/kernel_only_payload
 
 $(_kernel_blob): $(INSTALLED_KERNEL_TARGET)
 	@mkdir -p $(dir $@)
@@ -313,4 +320,12 @@ $(_kernel_blob): $(INSTALLED_KERNEL_TARGET)
 		 $(DTB_PATH)/tegra194-p3668-0001-p3509-0000-android.dtb kernel-dtb 2 0 p3668-0003+p3509-0000.android"
 	@mv $(dir $@)/ota.blob $@
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(TARGET_OUT_ETC)/firmware/kernel_only_payload: $(_kernel_blob) $(systemimage_intermediates)/file_list.txt
+	$(hide) cp $< $@
+	$(hide) grep system/etc/firmware/kernel_only_payload $(systemimage_intermediates)/file_list.txt > /dev/null 2>&1 || echo system/etc/firmware/kernel_only_payload >> $(systemimage_intermediates)/file_list.txt
+
+.PHONY: kernel_only_payload
+kernel_only_payload: $(_kernel_blob)
+
+$(call intermediates-dir-for,EXECUTABLES,nv_bootloader_payload_updater-efi)/nv_bootloader_payload_updater-efi: $(TARGET_OUT_ETC)/firmware/TEGRA_BL.Cap $(TARGET_OUT_ETC)/firmware/kernel_only_payload
+endif
