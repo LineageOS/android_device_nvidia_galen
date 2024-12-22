@@ -56,9 +56,13 @@ include device/nvidia/galen/vendor/galen-vendor.mk
 PRODUCT_SOONG_NAMESPACES += device/nvidia/galen
 
 # Init related
-PRODUCT_PACKAGES += \
-    $(foreach model,$(TARGET_TEGRA_MODELS),fstab.$(model) init.$(model).rc init.recovery.$(model).rc power.$(model).rc) \
-    init.galen_common.rc
+PRODUCT_COPY_FILES += \
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/initfiles/fstab.galen:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.$(model)) \
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/initfiles/fstab.galen:$(TARGET_COPY_OUT_RAMDISK)/fstab.$(model)) \
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/initfiles/init.galen.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.$(model).rc) \
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/initfiles/init.recovery.galen.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.$(model).rc) \
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/initfiles/power.galen.rc:$(TARGET_COPY_OUT_ODM)/etc/power.$(model).rc) \
+    device/nvidia/galen/initfiles/init.galen_common.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.galen_common.rc
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -116,8 +120,8 @@ PRODUCT_PACKAGES += \
 
 # Thermal
 ifneq ($(TARGET_TEGRA_THERMAL),)
-PRODUCT_PACKAGES += \
-    $(foreach model,$(TARGET_TEGRA_MODELS),thermalhal.$(model).xml)
+PRODUCT_COPY_FILES += \
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/thermal/thermalhal.$(model).xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermalhal.$(model).xml)
 endif
 
 # Updater
