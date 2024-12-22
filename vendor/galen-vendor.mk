@@ -15,9 +15,4 @@
 include device/nvidia/t194-common/vendor/t194-by-flags.mk
 include device/nvidia/tegra-common/vendor/common-by-flags.mk
 include device/nvidia/shield-common/vendor/shield-by-flags.mk
-
-ifneq ("$(wildcard device/nvidia/tegra-common/vendor/$(TARGET_TEGRA_FIRMWARE_BRANCH)/realtek/rtl8822ce.mk)","")
 include device/nvidia/tegra-common/vendor/$(TARGET_TEGRA_FIRMWARE_BRANCH)/realtek/rtl8822ce.mk
-else ifneq ("$(wildcard device/nvidia/galen/vendor/$(TARGET_TEGRA_L4T_BRANCH)/realtek/realtek.mk)","")
-include device/nvidia/galen/vendor/$(TARGET_TEGRA_L4T_BRANCH)/realtek/realtek.mk
-endif
