@@ -145,9 +145,7 @@ PRODUCT_PACKAGES += \
     bmp_update_payload
 else ifeq ($(TARGET_TEGRA_BOOTCTRL),efi)
 PRODUCT_PACKAGES += \
-    nv_bootloader_payload_updater \
-    kernel_only_payload \
-    TEGRA_BL.Cap
+    nv_bootloader_payload_updater
 endif
 endif
 endif
