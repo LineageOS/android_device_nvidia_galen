@@ -94,8 +94,9 @@ endif
 
 # Loadable kernel modules
 PRODUCT_PACKAGES += \
-    init.lkm.rc \
     lkm_loader
+PRODUCT_COPY_FILES += \
+    device/nvidia/tegra-common/initfiles/init.lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.lkm.rc
 
 # Media config
 ifneq ($(filter rel-shield-r, $(TARGET_TEGRA_OMX)),)
@@ -108,15 +109,16 @@ endif
 
 # PHS
 ifneq ($(TARGET_TEGRA_PHS),)
-PRODUCT_PACKAGES += \
-    nvphsd.conf
+PRODUCT_COPY_FILES += \
+    device/nvidia/galen/nvphs/nvphsd.conf.t194:$(TARGET_COPY_OUT_ODM)/etc/nvphsd.conf
 endif
 
 # PModel
 PRODUCT_PACKAGES += \
-    nvpmodel \
-    nvpmodel_t194.conf \
-    nvpmodel_t194_p3668.conf
+    nvpmodel
+PRODUCT_COPY_FILES += \
+    device/nvidia/galen/nvpmodel/nvpmodel_t194.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194.conf \
+    device/nvidia/galen/nvpmodel/nvpmodel_t194_p3668.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194_p3668.conf
 
 # Thermal
 ifneq ($(TARGET_TEGRA_THERMAL),)
