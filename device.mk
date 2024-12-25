@@ -142,16 +142,19 @@ ifneq ($(TARGET_TEGRA_BOOTCTRL),)
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true \
-    POSTINSTALL_PATH_system=system/bin/nv_bootloader_payload_updater \
     RUN_POSTINSTALL_system=true
 ifeq ($(TARGET_TEGRA_BOOTCTRL),smd)
 PRODUCT_PACKAGES += \
     nv_bootloader_payload_updater \
     bl_update_payload \
     bmp_update_payload
+AB_OTA_POSTINSTALL_CONFIG += \
+    POSTINSTALL_PATH_system=system/bin/nv_bootloader_payload_updater
 else ifeq ($(TARGET_TEGRA_BOOTCTRL),efi)
 PRODUCT_PACKAGES += \
-    nv_bootloader_payload_updater
+    nv_bootloader_payload_updater-efi
+AB_OTA_POSTINSTALL_CONFIG += \
+    POSTINSTALL_PATH_system=system/bin/nv_bootloader_payload_updater-efi
 endif
 endif
 endif
