@@ -33,10 +33,6 @@
    "target_path": "kernel/nvidia/nvgpu"
  },
  {
-   "repository": "android_kernel_nvidia_wireguard",
-   "target_path": "kernel/nvidia/wireguard"
- },
- {
    "repository": "android_hardware_nvidia_boot_control",
    "target_path": "hardware/nvidia/boot_control"
  },
