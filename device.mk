@@ -150,8 +150,7 @@ PRODUCT_PACKAGES += \
     bl_update_payload \
     bmp_update_payload
 else ifeq ($(TARGET_TEGRA_BOOTCTRL),efi)
-PRODUCT_PACKAGES += \
-    nv_bootloader_payload_updater
+# Bootloader update not supported
 endif
 endif
 endif
