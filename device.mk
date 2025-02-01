@@ -127,8 +127,11 @@ endif
 
 # Thermal
 ifneq ($(TARGET_TEGRA_THERMAL),)
+ifeq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
+TARGET_TEGRA_THERMAL_SUFFIX ?= .ack
+endif
 PRODUCT_COPY_FILES += \
-    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/thermal/thermalhal.$(model).xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermalhal.$(model).xml)
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/thermal/thermalhal.$(model)$(TARGET_TEGRA_THERMAL_SUFFIX).xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermalhal.$(model).xml)
 endif
 
 # Updater
