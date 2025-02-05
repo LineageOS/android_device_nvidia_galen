@@ -89,7 +89,7 @@ endif
 
 # Fingerprint override
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BuildFingerprint=NVIDIA/galen/galen:11/RQ1A.210105.003/7825230_3167.5736:user/release-keys
+    BuildFingerprint=NVIDIA/galen/galen:11/RQ1A.210105.003/13961456_3871.0251:user/release-keys
 
 # Kernel
 ifneq ($(TARGET_PREBUILT_KERNEL),)

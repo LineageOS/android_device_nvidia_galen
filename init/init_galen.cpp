@@ -70,7 +70,7 @@ void vendor_load_properties()
 		{ "rey",   "rey",   "rey",   "Jetson Xavier NX", 3668,  1,  28, 320 },
 		{ "rey",   "rey",   "rey",   "Jetson Xavier NX", 3668,  3,  28, 320 },
 	};
-	tegra_init::build_version tav = { "11", "RQ1A.210105.003", "7825230_3062.3935" };
+	tegra_init::build_version tav = { "11", "RQ1A.210105.003", "13961456_3871.0251" };
 
 	tegra_init ti(devices);
 	ti.set_properties();
