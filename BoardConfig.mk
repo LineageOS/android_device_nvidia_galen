@@ -91,6 +91,6 @@ TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.galen
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
 # Security Patch Level
-VENDOR_SECURITY_PATCH := 2021-04-05
+VENDOR_SECURITY_PATCH := 2024-12-05
 
 include device/nvidia/t194-common/BoardConfigCommon.mk
