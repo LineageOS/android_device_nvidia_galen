@@ -107,4 +107,9 @@ void vendor_load_properties()
 			}
 		}
 	}
+
+	if (ti.vendor_context()) {
+		if (ti.is_model("galen"))
+			ti.property_set("vendor.powerhal.config", "powerhint.galen.json");
+	}
 }
