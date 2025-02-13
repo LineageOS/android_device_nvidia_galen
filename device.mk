@@ -80,6 +80,12 @@ PRODUCT_COPY_FILES += \
     device/nvidia/tegra-common/initfiles/init.lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.lkm.rc \
     device/nvidia/galen/initfiles/lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/lkm.rc
 
+# Power
+ifeq ($(TARGET_POWER_HAL),perfmgr-lineage)
+PRODUCT_PACKAGES += \
+    powerhint.galen.json
+endif
+
 # Shipping API
 PRODUCT_SHIPPING_API_LEVEL := 36
 
