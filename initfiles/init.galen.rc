@@ -29,3 +29,8 @@ on init
     write /dev/cpuset/background/cpus 0-7
     write /dev/cpuset/system-background/cpus 0-7
     write /dev/cpuset/top-app/cpus 0-7
+
+on boot
+# Power management settings
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor schedutil
+    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor schedutil
