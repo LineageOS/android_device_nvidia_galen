@@ -1,0 +1,77 @@
+{
+    "copyright" : "Copyright (C) 2021 The LineageOS Project.  Apache 2.0.",
+    "family" : "T194/Galen",
+    "version" : "2.1",
+    "hw" : {
+        "#" : "'.' indicates the corresponding keys do not get copied when based",
+        "." : ["desc"],
+        "#" : "--------- Galen Platforms ---------",
+        "p2972-0001-devkit" : {
+            "base" : "&uuid",
+            "desc" : "AGX Jetson Devkit",
+            "id" : "p2888-0001+p2822-0000",
+            "config" : "android",
+            "sn" : "",
+            "proc" : {
+                "id" : "2888",
+                "sku" : "1"
+            },
+            "hide" : false,
+            "cm" : "0",
+            "lbh" : "1",
+            "factory_mode" : "0",
+            "dbgport" : "0"
+        },
+        "p2972-0004-devkit" : {
+            "base" : "p2972-0001-devkit",
+            "id" : "p2888-0004+p2822-0000",
+            "proc" : {
+                "sku" : "4"
+            }
+        },
+        "p2972-0005-devkit" : {
+            "base" : "p2972-0001-devkit",
+            "id" : "p2888-0005+p2822-0000",
+            "proc" : {
+                "sku" : "5"
+            }
+        },
+        "#" : "--------- Rey Platforms ---------",
+        "p3518-0000-devkit" : {
+            "base" : "&uuid",
+            "desc" : "Jetson NX Devkit",
+            "id" : "p3668-0000+p3509-0000",
+            "config" : "android",
+            "sn" : "",
+            "proc" : {
+                "id" : "3668",
+                "sku" : "0"
+            },
+            "hide" : false,
+            "cm" : "0",
+            "lbh" : "1",
+            "factory_mode" : "0",
+            "dbgport" : "0"
+        },
+        "p3518-0001-devkit" : {
+            "base" : "p3518-0000-devkit",
+            "id" : "p3668-0001+p3509-0000",
+            "proc" : {
+                "sku" : "1"
+            }
+        },
+        "p3518-0003-devkit" : {
+            "base" : "p3518-0000-devkit",
+            "id" : "p3668-0003+p3509-0000",
+            "proc" : {
+                "sku" : "3"
+            }
+        },
+        "#references" : "##################################",
+        "&uuid" : {
+            "uuid" : {
+                "use_tags" : true
+            }
+        }
+    }
+}

@@ -265,7 +265,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> nvdisp_uefi_jetson.bin </filename>
+            <filename> cboot_t194.bin </filename>
             <description> **Required.** Slot A; contains the final boot stage CPU Bootloader
               binary that loads the binary in the kernel partition.  </description>
         </partition>
@@ -313,7 +313,7 @@
         <partition name="bpmp-fw-dtb" type="bpmp_fw_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 1048576 </size>
+            <size> 1310720 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
@@ -371,6 +371,27 @@
             <filename> warmboot_t194_prod.bin </filename>
             <description> **Required.** Slot A; contains warm boot firmware. </description>
         </partition>
+        <partition name="NCT" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> p2972-0004-devkit.bin </filename>
+            <description> **Optional.** Contains config table. </description>
+        </partition>
+        <partition name="bootlogo" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 134217728 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> bmp.blob </filename>
+            <description> **Optional.** Slot A; contains BMP images for splash screen
+              display during boot. </description>
+        </partition>
         <partition name="recovery_a" type="kernel">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -398,6 +419,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
+            <filename> recovery.img </filename>
             <description> **Required.** Slot A; contains the Linux kernel. </description>
         </partition>
         <partition name="kernel-dtb_a" type="kernel_dtb">
@@ -480,7 +502,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> nvdisp_uefi_jetson.bin </filename>
+            <filename> cboot_t194.bin </filename>
             <description> **Required.** Slot B; contains the final boot stage CPU Bootloader
               binary that loads the binary in the kernel partition.  </description>
         </partition>
@@ -528,7 +550,7 @@
         <partition name="bpmp-fw-dtb_b" type="bpmp_fw_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 1048576 </size>
+            <size> 1310720 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
@@ -585,6 +607,27 @@
             <percent_reserved> 0 </percent_reserved>
             <filename> warmboot_t194_prod.bin </filename>
             <description> **Required.** Slot B; contains warm boot firmware. </description>
+        </partition>
+        <partition name="NCT_b" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> p2972-0004-devkit.bin </filename>
+            <description> **Optional.** Contains config table. </description>
+        </partition>
+        <partition name="bootlogo_b" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 134217728 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> bmp.blob </filename>
+            <description> **Optional.** Slot B; contains BMP images for splash screen
+              display during boot. </description>
         </partition>
         <partition name="recovery_b" type="kernel">
             <allocation_policy> sequential </allocation_policy>
@@ -674,7 +717,6 @@
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
             <align_boundary> 4096 </align_boundary>
-            <filename> misc.txt </filename>
             <description> **Required.** Contains metadata for recovery. </description>
         </partition>
         <partition name="metadata" type="data">

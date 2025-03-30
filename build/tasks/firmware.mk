@@ -13,24 +13,17 @@
 # limitations under the License.
 
 ifeq ($(TARGET_REFERENCE_DEVICE), galen)
-TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
-T194_BL         := $(BUILD_TOP)/vendor/nvidia/t194/r35/bootloader
-GALEN_BL        := $(BUILD_TOP)/vendor/nvidia/galen/r35/bootloader
-GALEN_BCT       := $(BUILD_TOP)/vendor/nvidia/galen/r35/BCT
+TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r32/tegraflash
+TEGRAFLASH_R35  := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
+T194_BL         := $(BUILD_TOP)/vendor/nvidia/t194/r32/bootloader
+GALEN_BL        := $(BUILD_TOP)/vendor/nvidia/galen/r32/bootloader
+GALEN_BCT       := $(BUILD_TOP)/vendor/nvidia/galen/r32/BCT
 GALEN_FLASH     := $(BUILD_TOP)/device/nvidia/galen/flash_package
 COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 
-CAPSULE_PATH    := $(BUILD_TOP)/bootable/tianocore/edk2/BaseTools/Source/Python/Capsule
-CAPSULE_CERTS   ?= $(BUILD_TOP)/bootable/tianocore/edk2/BaseTools/Source/Python/Pkcs7Sign
-CAPSULE_PRIVATE ?= $(CAPSULE_CERTS)/TestCert.pem
-CAPSULE_OTHER   ?= $(CAPSULE_CERTS)/TestSub.pub.pem
-CAPSULE_TRUSTED ?= $(CAPSULE_CERTS)/TestRoot.pub.pem
-
+INSTALLED_CBOOT_TARGET       := $(PRODUCT_OUT)/cboot.bin
 INSTALLED_KERNEL_TARGET      := $(PRODUCT_OUT)/kernel
 INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-$(if $(filter software,$(TARGET_TEGRA_TOS)),mon-only,$(TARGET_TEGRA_TOS)).img
-INSTALLED_NVDISP_INIT_TARGET := $(PRODUCT_OUT)/nvdisp-init.bin
-INSTALLED_TIANOCORE_TARGET   := $(PRODUCT_OUT)/tianocore.bin
-INSTALLED_EDK2_DTBO_TARGET   := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
@@ -54,8 +47,8 @@ else
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia)
 endif
 
-_galen_blob_intermediates := $(call intermediates-dir-for,ETC,TEGRA_BL)
-_galen_blob := $(_galen_blob_intermediates)/TEGRA_BL.Cap
+_galen_blob_intermediates := $(call intermediates-dir-for,ETC,bl_update_payload)
+_galen_blob := $(_galen_blob_intermediates)/bl_update_payload
 
 P2972-0001_SIGNED_PATH := $(_galen_blob_intermediates)/p2972-0001-signed
 P2972-0004_SIGNED_PATH := $(_galen_blob_intermediates)/p2972-0004-signed
@@ -77,7 +70,7 @@ _p3518-0003_br_bct := $(P3518-0003_SIGNED_PATH)/br_bct_BR.bct
 # $3  BPMP dtb
 # $4  Kernel dtb
 # $5  ODM data
-# $6  BL dtbo list
+# $6  BL dtbo list (unused)
 # $7  Sdram config
 # $8  Soft fuses
 # $9  Uphy config
@@ -91,35 +84,23 @@ _p3518-0003_br_bct := $(P3518-0003_SIGNED_PATH)/br_bct_BR.bct
 # $17 Scr cold boot config
 # $18 Br cmd config
 # $19 Dev params slot 1
-# $20 Dev params slot 2
+# $20 Dev params slot 2 (unused)
 # $21 Module board id
 # $22 Module sku
 # $23 Carrier board id
 # $24 Carrier sku
 # $25 Bootloader dtb path w/o suffix
 define t194_bl_signing_rule
-$(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST) $(SMD_GEN_HOST)
+$(strip $1)/br_bct_BR.bct: $(INSTALLED_CBOOT_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST) $(SMD_GEN_HOST)
 	@mkdir -p $(strip $1)
 	@cp $(strip $2) $(strip $1)/
 	@cp $(T194_BL)/* $(strip $1)/
 	@rm $(strip $1)/tos-mon-only_t194.img
 	@cp $(INSTALLED_TOS_TARGET) $(strip $1)/tos.img
-	@rm $(strip $1)/BOOTAA64.efi
-	@rm $(strip $1)/uefi_jetson.bin
-	@rm $(strip $1)/nvdisp-init.bin
-	@cp $(INSTALLED_NVDISP_INIT_TARGET) $(strip $1)/
-	@truncate -s 393216 $(strip $1)/nvdisp-init.bin
-	@cat $(strip $1)/nvdisp-init.bin $(INSTALLED_TIANOCORE_TARGET) > $(strip $1)/nvdisp_uefi_jetson.bin
-	@rm $(strip $1)/nvdisp-init.bin
 	@cp $(GALEN_BCT)/$(strip $3) $(strip $1)/tegra194-a02-bpmp.dtb
 	@cp $(strip $(25)).dtb $(strip $1)/$(notdir $(strip $(25)))-bl.dtb
 	@cp $(DTB_PATH)/$(strip $4) $(strip $1)/
-	@cp $(PRODUCT_OUT)/AndroidConfiguration.dtbo $(strip $1)/
-	$(FDTPUT_HOST) -p -t bx $(strip $1)/AndroidConfiguration.dtbo /fragment@0/__overlay__/firmware/uefi/variables/gNVIDIAPublicVariableGuid/TegraPlatformSpec data $(shell printf "p%04d-%04d+p%04d-%04d.android\0" $(strip $(21)) $(strip $(22)) $(strip $(23)) $(strip $(24)) |xxd -p |sed 's/../& /g');
-	$(FDTPUT_HOST) -p $(strip $1)/AndroidConfiguration.dtbo /fragment@0/__overlay__/firmware/uefi/variables/gNVIDIAPublicVariableGuid/TegraPlatformSpec runtime;
-	$(FDTPUT_HOST) -p $(strip $1)/AndroidConfiguration.dtbo /fragment@0/__overlay__/firmware/uefi/variables/gNVIDIAPublicVariableGuid/TegraPlatformSpec locked;
 	echo "NV4" > $(strip $1)/bootblob_ver.txt
-	echo "# R$(word 1,$(subst ., ,$(LINEAGEVER))) , REVISION: $(word 2,$(subst ., ,$(LINEAGEVER)))" >> $(strip $1)/bootblob_ver.txt
 	echo "BOARDID=$(strip $(21)) BOARDSKU=$(strip $(22)) FAB=" >> $(strip $1)/bootblob_ver.txt
 	$(TOYBOX_HOST) date '+%Y%m%d%H%M%S' >> $(strip $1)/bootblob_ver.txt
 	echo "$(shell printf "0x%x" $$(( $(word 1,$(subst ., ,$(LINEAGEVER)))<<16 | $(word 2,$(subst ., ,$(LINEAGEVER)))<<8 )) )" >> $(strip $1)/bootblob_ver.txt
@@ -137,7 +118,10 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 	sed -i '/vbmeta_skip.img/d' $(strip $1)/$(notdir $(strip $(2)))
 	sed -i '/vendor_boot.img/d' $(strip $1)/$(notdir $(strip $(2)))
 	sed -i '/xusb_sil_rel_fw/d' $(strip $1)/$(notdir $(strip $(2)))
+	sed -i '/bmp\.blob/d' $(strip $1)/$(notdir $(strip $(2)))
+	sed -i '/p[0-9]\{4\}.*bin/d' $(strip $1)/$(notdir $(strip $(2)))
 	@$(SMD_GEN_HOST) $(strip $(1))/slot_metadata.bin
+	@cp $(INSTALLED_CBOOT_TARGET) $(strip $(1))/cboot_t194.bin
 	cd $(strip $1); PYTHONDONTWRITEBYTECODE=1 $(TEGRAFLASH_PATH)/tegraflash.py \
 		--chip 0x19 \
 		--bl nvtboot_recovery_cpu_t194.bin \
@@ -145,8 +129,6 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 		--cmd "sign" \
 		--cfg $(notdir $(strip $(2))) \
 		--odmdata $(strip $(5)) \
-		--overlay_dtb AndroidConfiguration.dtbo,$(subst $(SPACE),,$(foreach dtbo,$(strip $(6)),$(DTB_PATH)/$(dtbo),)) \
-		--bldtb $(strip $(4)) \
 		--sdram_config $(GALEN_BCT)/$(strip $(7)),$(GALEN_BCT)/tegra194-memcfg-sw-override.cfg \
 		--soft_fuses $(GALEN_BCT)/$(strip $(8)) \
 		$(9) \
@@ -161,7 +143,7 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 		--scr_config $(GALEN_BCT)/$(strip $(17)) \
 		--scr_cold_boot_config $(GALEN_BCT)/$(strip $(17)) \
 		--br_cmd_config $(GALEN_BCT)/$(strip $(18)) \
-		--dev_params $(GALEN_BCT)/$(strip $(19)),$(GALEN_BCT)/$(strip $(20))
+		--dev_params $(GALEN_BCT)/$(strip $(19))
 	@mv $(strip $1)/signed/* $(strip $1)/
 endef
 
@@ -241,9 +223,9 @@ $(eval $(call p2972_bl_signing_rule, $(P2972-0001_SIGNED_PATH), 0001, $(GALEN_FL
 $(eval $(call p2972_bl_signing_rule, $(P2972-0004_SIGNED_PATH), 0004, $(GALEN_FLASH)/flash_android_t194_sdmmc.xml, tegra194-p2888-0001-p2822-0000.dtb, $(GALEN_BL)/tegra194-p2888-0001-p2822-0000))
 $(eval $(call p2972_bl_signing_rule, $(P2972-0005_SIGNED_PATH), 0005, $(GALEN_FLASH)/flash_android_t194_sdmmc.xml, tegra194-p2888-0001-p2822-0000.dtb, $(GALEN_BL)/tegra194-p2888-0001-p2822-0000, -0005))
 
-$(eval $(call p3518_bl_signing_rule, $(P3518-0000_SIGNED_PATH), 0000, $(GALEN_FLASH)/flash_android_t194_spi_sd_p3668.xml,   tegra194-p3668-0000-p3509-0000-android.dtb, $(GALEN_BL)/tegra194-p3668-0000-p3509-0000, -sd))
-$(eval $(call p3518_bl_signing_rule, $(P3518-0001_SIGNED_PATH), 0001, $(GALEN_FLASH)/flash_android_t194_spi_emmc_p3668.xml, tegra194-p3668-0001-p3509-0000-android.dtb, $(GALEN_BL)/tegra194-p3668-0001-p3509-0000))
-$(eval $(call p3518_bl_signing_rule, $(P3518-0003_SIGNED_PATH), 0003, $(GALEN_FLASH)/flash_android_t194_spi_emmc_p3668.xml, tegra194-p3668-0001-p3509-0000-android.dtb, $(GALEN_BL)/tegra194-p3668-0001-p3509-0000))
+$(eval $(call p3518_bl_signing_rule, $(P3518-0000_SIGNED_PATH), 0000, $(GALEN_FLASH)/flash_android_t194_spi_sd_p3668.xml,   tegra194-p3668-0000-p3509-0000-android.dtb, $(GALEN_BL)/tegra194-p3668-all-p3509-0000, -sd))
+$(eval $(call p3518_bl_signing_rule, $(P3518-0001_SIGNED_PATH), 0001, $(GALEN_FLASH)/flash_android_t194_spi_emmc_p3668.xml, tegra194-p3668-0001-p3509-0000-android.dtb, $(GALEN_BL)/tegra194-p3668-all-p3509-0000))
+$(eval $(call p3518_bl_signing_rule, $(P3518-0003_SIGNED_PATH), 0003, $(GALEN_FLASH)/flash_android_t194_spi_emmc_p3668.xml, tegra194-p3668-0001-p3509-0000-android.dtb, $(GALEN_BL)/tegra194-p3668-all-p3509-0000))
 
 ifneq ($(TEGRA_DERIVATIVE_FIRMWARE),)
 include $(TEGRA_DERIVATIVE_FIRMWARE)
@@ -251,10 +233,10 @@ endif
 
 $(_galen_blob): $(_p2972-0001_br_bct) $(_p2972-0004_br_bct) $(_p2972-0005_br_bct) $(_p3518-0000_br_bct) $(_p3518-0001_br_bct) $(_p3518-0003_br_bct)
 	@mkdir -p $(dir $@)
-	OUT=$(dir $@) TOP=$(BUILD_TOP) python3 $(TEGRAFLASH_PATH)/BUP_generator.py -t update -e \
+	OUT=$(dir $@) TOP=$(BUILD_TOP) python3 $(TEGRAFLASH_R35)/BUP_generator.py -t update -e \
 		"$(P2972-0001_SIGNED_PATH)/spe_t194_sigheader.bin.encrypt spe-fw 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/nvtboot_t194_sigheader.bin.encrypt mb2 2 0 common; \
-		 $(P2972-0001_SIGNED_PATH)/nvdisp_uefi_jetson_sigheader.bin.encrypt cpu-bootloader 2 0 common; \
+		 $(P2972-0001_SIGNED_PATH)/cboot_t194_sigheader.bin.encrypt cpu-bootloader 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/tos_sigheader.img.encrypt secure-os 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/bpmp_t194_sigheader.bin.encrypt bpmp-fw 2 0 common; \
 		 $(P2972-0001_SIGNED_PATH)/adsp-fw_sigheader.bin.encrypt adsp-fw 2 0 common; \
@@ -264,70 +246,63 @@ $(_galen_blob): $(_p2972-0001_br_bct) $(_p2972-0004_br_bct) $(_p2972-0005_br_bct
 		 $(P2972-0001_SIGNED_PATH)/mts_c10_prod_cr_sigheader.bin.encrypt mts-proper 2 2 common; \
 		 $(P2972-0001_SIGNED_PATH)/warmboot_t194_prod_sigheader.bin.encrypt sc7 2 2 common; \
 		 $(TEGRA_FIRMWARE_ADDITIONS) \
-		 $(P2972-0001_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p2888-0001+p2822-0000.android; \
+		 $(P2972-0001_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p2888-0001+p2822-0000.android; \
 		 $(P2972-0001_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p2888-0001+p2822-0000.android; \
-		 $(P2972-0004_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p2888-0004+p2822-0000.android; \
+		 $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 p2888-0001+p2822-0000.android; \
+		 $(P2972-0004_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p2888-0004+p2822-0000.android; \
 		 $(P2972-0004_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p2888-0004+p2822-0000.android; \
-		 $(P2972-0005_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p2888-0005+p2822-0000.android; \
+		 $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 p2888-0004+p2822-0000.android; \
+		 $(P2972-0005_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/tegra194-p2888-0001-p2822-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p2888-0005+p2822-0000.android; \
 		 $(P2972-0005_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p2888-0005+p2822-0000.android; \
-		 $(P3518-0000_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p3668-0000+p3509-0000.android; \
+		 $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 p2888-0005+p2822-0000.android; \
+		 $(P3518-0000_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p3668-0000+p3509-0000.android; \
-		 $(P3518-0000_SIGNED_PATH)/tegra194-p3668-0000-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0000+p3509-0000.android; \
+		 $(P3518-0000_SIGNED_PATH)/tegra194-p3668-all-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p3668-0000+p3509-0000.android; \
 		 $(P3518-0000_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0000+p3509-0000.android; \
-		 $(P3518-0001_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p3668-0001+p3509-0000.android; \
+		 $(DTB_PATH)/tegra194-p3668-0000-p3509-0000-android.dtb kernel-dtb 2 0 p3668-0000+p3509-0000.android; \
+		 $(P3518-0001_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p3668-0001+p3509-0000.android; \
-		 $(P3518-0001_SIGNED_PATH)/tegra194-p3668-0001-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0001+p3509-0000.android; \
+		 $(P3518-0001_SIGNED_PATH)/tegra194-p3668-all-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p3668-0001+p3509-0000.android; \
 		 $(P3518-0001_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0001+p3509-0000.android; \
-		 $(P3518-0003_SIGNED_PATH)/mb1_t194_prod_aligned_sigheader.bin.encrypt mb1 2 2 p3668-0003+p3509-0000.android; \
+		 $(DTB_PATH)/tegra194-p3668-0001-p3509-0000-android.dtb kernel-dtb 2 0 p3668-0001+p3509-0000.android; \
+		 $(P3518-0003_SIGNED_PATH)/mb1_t194_prod_sigheader.bin.encrypt mb1 2 2 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/tegra194-a02-bpmp_sigheader.dtb.encrypt bpmp-fw-dtb 2 0 p3668-0003+p3509-0000.android; \
-		 $(P3518-0003_SIGNED_PATH)/tegra194-p3668-0001-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0003+p3509-0000.android; \
+		 $(P3518-0003_SIGNED_PATH)/tegra194-p3668-all-p3509-0000-bl_sigheader.dtb.encrypt bootloader-dtb 2 0 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/mb1_cold_boot_bct_MB1_sigheader.bct.encrypt MB1_BCT 2 0 p3668-0003+p3509-0000.android; \
 		 $(P3518-0003_SIGNED_PATH)/mem_coldboot_sigheader.bct.encrypt MEM_BCT 2 0 p3668-0003+p3509-0000.android; \
-		 $(P3518-0003_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0003+p3509-0000.android"
-	PYTHONPATH=$$PYTHONPATH:$(dir $(CAPSULE_PATH)) python3 $(CAPSULE_PATH)/GenerateCapsule.py -v --encode --monotonic-count 1 --fw-version "0x00000000" --lsv "0x00000000" --guid "be3f5d68-7654-4ed2-838c-2a2faf901a78" --signer-private-cert "$(CAPSULE_PRIVATE)" --other-public-cert "$(CAPSULE_OTHER)" --trusted-public-cert "$(CAPSULE_TRUSTED)" -o "$@" "$(dir $@)/ota.blob"
-
-$(TARGET_OUT_ETC)/firmware/TEGRA_BL.Cap: $(_galen_blob) $(systemimage_intermediates)/file_list.txt
-	$(hide) cp $< $@
-	$(hide) grep system/etc/firmware/TEGRA_BL.Cap $(systemimage_intermediates)/file_list.txt > /dev/null 2>&1 || echo system/etc/firmware/TEGRA_BL.Cap >> $(systemimage_intermediates)/file_list.txt
-
-.PHONY: TEGRA_BL.Cap
-TEGRA_BL.Cap: $(_galen_blob)
-
-_kernel_blob := $(call intermediates-dir-for,ETC,kernel_only_payload)/kernel_only_payload
-
-$(_kernel_blob): $(INSTALLED_KERNEL_TARGET)
-	@mkdir -p $(dir $@)
-	OUT=$(dir $@) TOP=$(BUILD_TOP) python3 $(TEGRAFLASH_PATH)/BUP_generator.py -t update -e \
-		"$(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 p2888-0001+p2822-0000.android; \
-		 $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 p2888-0004+p2822-0000.android; \
-		 $(DTB_PATH)/tegra194-p2888-0001-p2822-0000.dtb kernel-dtb 2 0 p2888-0005+p2822-0000.android; \
-		 $(DTB_PATH)/tegra194-p3668-0000-p3509-0000-android.dtb kernel-dtb 2 0 p3668-0000+p3509-0000.android; \
-		 $(DTB_PATH)/tegra194-p3668-0001-p3509-0000-android.dtb kernel-dtb 2 0 p3668-0001+p3509-0000.android; \
+		 $(P3518-0003_SIGNED_PATH)/bootblob_ver.txt VER 2 0 p3668-0003+p3509-0000.android; \
 		 $(DTB_PATH)/tegra194-p3668-0001-p3509-0000-android.dtb kernel-dtb 2 0 p3668-0003+p3509-0000.android"
 	@mv $(dir $@)/ota.blob $@
 
-$(TARGET_OUT_ETC)/firmware/kernel_only_payload: $(_kernel_blob) $(systemimage_intermediates)/file_list.txt
+$(TARGET_OUT_PRODUCT_ETC)/firmware/bl_update_payload: $(_galen_blob) $(productimage_intermediates)/file_list.txt
 	$(hide) cp $< $@
-	$(hide) grep system/etc/firmware/kernel_only_payload $(systemimage_intermediates)/file_list.txt > /dev/null 2>&1 || echo system/etc/firmware/kernel_only_payload >> $(systemimage_intermediates)/file_list.txt
+	$(hide) grep etc/firmware/bl_update_payload $(productimage_intermediates)/file_list.txt > /dev/null 2>&1 || echo etc/firmware/bl_update_payload >> $(productimage_intermediates)/file_list.txt
 
-.PHONY: kernel_only_payload
-kernel_only_payload: $(_kernel_blob)
+.PHONY: bl_update_payload
+bl_update_payload: $(_galen_blob)
 
-$(call intermediates-dir-for,EXECUTABLES,nv_bootloader_payload_updater-efi)/nv_bootloader_payload_updater-efi: $(TARGET_OUT_ETC)/firmware/TEGRA_BL.Cap $(TARGET_OUT_ETC)/firmware/kernel_only_payload
+$(TARGET_OUT_PRODUCT_ETC)/firmware/bmp_update_payload: $(PRODUCT_OUT)/bmp.blob $(productimage_intermediates)/file_list.txt
+	$(hide) cp $< $@
+	$(hide) grep etc/firmware/bmp_update_payload $(productimage_intermediates)/file_list.txt > /dev/null 2>&1 || echo etc/firmware/bmp_update_payload >> $(productimage_intermediates)/file_list.txt
+
+.PHONY: bmp_update_payload
+bmp_update_payload: $(PRODUCT_OUT)/bmp.blob
+
+$(call intermediates-dir-for,EXECUTABLES,nv_bootloader_payload_updater.product)/nv_bootloader_payload_updater: $(TARGET_OUT_PRODUCT_ETC)/firmware/bl_update_payload $(TARGET_OUT_PRODUCT_ETC)/firmware/bmp_update_payload
 endif
