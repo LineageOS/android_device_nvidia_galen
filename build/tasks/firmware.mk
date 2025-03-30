@@ -33,6 +33,7 @@ INSTALLED_TIANOCORE_TARGET   := $(PRODUCT_OUT)/tianocore.bin
 INSTALLED_EDK2_DTBO_TARGET   := $(PRODUCT_OUT)/AndroidConfiguration.dtbo
 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
+SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
 
 LINEAGEVER   := $(shell python $(COMMON_FLASH)/get_branch_name.py)
 
@@ -97,7 +98,7 @@ _p3518-0003_br_bct := $(P3518-0003_SIGNED_PATH)/br_bct_BR.bct
 # $24 Carrier sku
 # $25 Bootloader dtb path w/o suffix
 define t194_bl_signing_rule
-$(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST)
+$(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(INSTALLED_NVDISP_INIT_TARGET) $(INSTALLED_TIANOCORE_TARGET) $(INSTALLED_EDK2_DTBO_TARGET) $(TOYBOX_HOST) $(FDTPUT_HOST) $(SMD_GEN_HOST)
 	@mkdir -p $(strip $1)
 	@cp $(strip $2) $(strip $1)/
 	@cp $(T194_BL)/* $(strip $1)/
@@ -136,6 +137,7 @@ $(strip $1)/br_bct_BR.bct: $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(
 	sed -i '/vbmeta_skip.img/d' $(strip $1)/$(notdir $(strip $(2)))
 	sed -i '/vendor_boot.img/d' $(strip $1)/$(notdir $(strip $(2)))
 	sed -i '/xusb_sil_rel_fw/d' $(strip $1)/$(notdir $(strip $(2)))
+	@$(SMD_GEN_HOST) $(strip $(1))/slot_metadata.bin
 	cd $(strip $1); PYTHONDONTWRITEBYTECODE=1 $(TEGRAFLASH_PATH)/tegraflash.py \
 		--chip 0x19 \
 		--bl nvtboot_recovery_cpu_t194.bin \
