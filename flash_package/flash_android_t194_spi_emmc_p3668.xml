@@ -196,7 +196,7 @@
         <partition name="bpmp-fw-dtb" type="bpmp_fw_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 589824 </size>
+            <size> 622592 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
@@ -371,7 +371,7 @@
         <partition name="bpmp-fw-dtb_b" type="bpmp_fw_dtb" oem_sign="true">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 589824 </size>
+            <size> 622592 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
