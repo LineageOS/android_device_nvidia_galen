@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8602a589_29fcbd29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2025-04-05T22:29:25Z",
+      "side": 1,
+      "message": "Verified on rey, trusty fires up on the r32 boot stack. Something is still wrong with trusty on r35, but this doesn\u0027t regress booting mon-only, so it\u0027s still \u0027less bad\u0027.",
+      "revId": "8729efb26dcb185540be91346ecaf0482183b76e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
