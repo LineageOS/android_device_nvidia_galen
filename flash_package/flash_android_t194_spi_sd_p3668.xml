@@ -160,6 +160,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
+            <filename> eks.img </filename>
             <description> **Optional.** Slot A; contains the encrypted keys. </description>
         </partition>
         <partition name="adsp-fw" type="ape_fw" oem_sign="true">
@@ -334,6 +335,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
+            <filename> eks.img </filename>
             <description> **Optional.** Slot B; contains the encrypted keys. </description>
         </partition>
         <partition name="adsp-fw_b" type="ape_fw" oem_sign="true">
