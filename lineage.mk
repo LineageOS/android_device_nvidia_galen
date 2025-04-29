@@ -17,7 +17,7 @@ TARGET_SCREEN_HEIGHT      := 1920
 TARGET_SCREEN_WIDTH       := 1080
 
 # Unified device support
-TARGET_INIT_VENDOR_LIB := //device/nvidia/galen:libinit_galen
+$(call soong_config_set,libinit,vendor_init_lib,//device/nvidia/galen:libinit_galen)
 PRODUCT_VENDOR_PROPERTY_BLACKLIST := \
     ro.product.vendor.device \
     ro.product.vendor.model \
