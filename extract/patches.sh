@@ -26,11 +26,25 @@ function patch_rey_qspi_bct() {
 function patch_rey_bpmp_dtb() {
   echo -n "Patching rey bpmp dtb...";
 
+  fdtput -p -t bx ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-a02-bpmp-p3668-a00.dtb /uphy pcie-xbar-config $(printf "PCIE_XBAR_8_1_1_0_1\0" |xxd -p |sed 's/../& /g');
+  fdtput -p -t bx ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-a02-bpmp-p3668-a00.dtb /uphy ufs-config $(printf "UFS_DISABLED\0" |xxd -p |sed 's/../& /g');
+
   fdtput -p -t bx ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra194-a02-bpmp-p3668-a00.dtb /uphy pcie-xbar-config $(printf "PCIE_XBAR_8_1_1_0_1\0" |xxd -p |sed 's/../& /g');
   fdtput -p -t bx ${LINEAGE_ROOT}/${OUTDIR}/galen/r35/BCT/tegra194-a02-bpmp-p3668-a00.dtb /uphy ufs-config $(printf "UFS_DISABLED\0" |xxd -p |sed 's/../& /g');
 
   echo "";
 }
 
+# The bootlogo and verity images don't fit in the existing cboot heap, increase the carveout to 256MB
+function patch_misc_bct() {
+  echo -n "Patching bct to increase cpubl carveout...";
+
+  sed -i 's/carveout.cpubl.size = 0x0b000000; # 176MB/carveout.cpubl.size = 0x10000000; # 256MB/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-mb1-bct-misc-l4t.cfg
+  sed -i 's/carveout.cpubl.size = 0x0b000000; # 176MB/carveout.cpubl.size = 0x10000000; # 256MB/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-mb1-bct-misc-sd-l4t.cfg
+
+  echo "";
+}
+
 patch_rey_qspi_bct;
 patch_rey_bpmp_dtb;
+patch_misc_bct;
