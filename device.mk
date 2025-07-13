@@ -31,6 +31,7 @@ TARGET_TEGRA_HEALTH   ?= nobattery
 TARGET_TEGRA_KERNEL   ?= 5.10
 TARGET_TEGRA_TOS      ?= software
 TARGET_TEGRA_LIGHT    ?= lineage
+TARGET_TEGRA_PMODEL   ?= r36
 TARGET_TEGRA_THERMAL  ?= lineage
 TARGET_TEGRA_WIDEVINE ?= rel-shield-r
 TARGET_TEGRA_WIFI     ?= rtl8822ce
@@ -118,11 +119,11 @@ PRODUCT_COPY_FILES += \
 endif
 
 # PModel
-PRODUCT_PACKAGES += \
-    nvpmodel
+ifneq ($(TARGET_TEGRA_PMODEL),)
 PRODUCT_COPY_FILES += \
     device/nvidia/galen/nvpmodel/nvpmodel_t194.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194.conf \
     device/nvidia/galen/nvpmodel/nvpmodel_t194_p3668.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194_p3668.conf
+endif
 
 # Thermal
 ifneq ($(TARGET_TEGRA_THERMAL),)
