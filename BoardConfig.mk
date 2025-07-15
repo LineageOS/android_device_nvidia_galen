@@ -69,10 +69,10 @@ TARGET_KERNEL_CLANG_COMPILE    := false
 TARGET_KERNEL_NO_GCC           := false
 KERNEL_TOOLCHAIN               := $(shell pwd)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-gnu-9.3/bin
 KERNEL_TOOLCHAIN_PREFIX        := aarch64-buildroot-linux-gnu-
-TARGET_KERNEL_SOURCE           := kernel/nvidia/kernel-$(TARGET_TEGRA_KERNEL)
+TARGET_KERNEL_SOURCE           := kernel/nvidia/kernel-$(TARGET_KERNEL_VERSION)
 TARGET_KERNEL_CONFIG           := tegra_android_defconfig
 BOARD_KERNEL_IMAGE_NAME        := Image
-TARGET_KERNEL_ADDITIONAL_FLAGS := "NV_BUILD_KERNEL_OPTIONS=$(TARGET_TEGRA_KERNEL)"
+TARGET_KERNEL_ADDITIONAL_FLAGS := "NV_BUILD_KERNEL_OPTIONS=$(TARGET_KERNEL_VERSION)"
 
 TARGET_KERNEL_EXT_MODULE_ROOT := kernel/nvidia
 TARGET_KERNEL_EXT_MODULES := \
