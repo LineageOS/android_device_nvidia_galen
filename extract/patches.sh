@@ -35,12 +35,12 @@ function patch_rey_bpmp_dtb() {
   echo "";
 }
 
-# The bootlogo and verity images don't fit in the existing cboot heap, increase the carveout to 256MB
+# Increase heap carveout to 512MB for large bootloader images and vendor_boot
 function patch_misc_bct() {
   echo -n "Patching bct to increase cpubl carveout...";
 
-  sed -i 's/carveout.cpubl.size = 0x0b000000; # 176MB/carveout.cpubl.size = 0x10000000; # 256MB/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-mb1-bct-misc-l4t.cfg
-  sed -i 's/carveout.cpubl.size = 0x0b000000; # 176MB/carveout.cpubl.size = 0x10000000; # 256MB/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-mb1-bct-misc-sd-l4t.cfg
+  sed -i 's/carveout.cpubl.size = 0x0b000000; # 176MB/carveout.cpubl.size = 0x20000000; # 512MB/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-mb1-bct-misc-l4t.cfg
+  sed -i 's/carveout.cpubl.size = 0x0b000000; # 176MB/carveout.cpubl.size = 0x20000000; # 512MB/' ${LINEAGE_ROOT}/${OUTDIR}/galen/r32/BCT/tegra194-mb1-bct-misc-sd-l4t.cfg
 
   echo "";
 }
