@@ -72,7 +72,7 @@
 
   <card name="NVIDIA Jetson Xavier NX HDA">
     <pcm_config name ="hdmi-playback"
-                device_id="3"
+                device_id="7"
                 rate="48000"
                 channels="2"
                 bps="16"
