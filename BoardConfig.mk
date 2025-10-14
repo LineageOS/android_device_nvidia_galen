@@ -85,6 +85,9 @@ include device/nvidia/galen/modules.mk
 TARGET_RECOVERY_FSTAB := device/nvidia/galen/initfiles/fstab.galen
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
+# SELinux
+BOARD_VENDOR_SEPOLICY_DIRS += device/nvidia/galen/sepolicy/vendor
+
 # Security Patch Level
 VENDOR_SECURITY_PATCH := 2024-12-05
 
