@@ -1,0 +1,33 @@
+# General partitions
+/dev/block/platform/bus@0/3460000\.mmc/mmcblk0rpmb			u:object_r:rpmb_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/boot(_[ab])? 		u:object_r:boot_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/fac_rst_protection	u:object_r:frp_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/kernel-dtb(_[ab])? 	u:object_r:dtb_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/kernel-dtbo(_[ab])? 	u:object_r:dtbo_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/metadata		u:object_r:metadata_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/MSC			u:object_r:misc_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/recovery(_[ab])? 	u:object_r:recovery_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/super			u:object_r:super_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/vbmeta(_[ab])? 	u:object_r:system_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/vbmeta_system(_[ab])? u:object_r:system_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/vendor_boot(_[ab])? 	u:object_r:boot_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/userdata		u:object_r:userdata_block_device:s0
+
+# Bootloader updates / boot control
+/dev/block/platform/bus@0/3270000\.spi/mtdblock0			u:object_r:bootloader_block_device:s0
+/dev/block/mmcblk0boot[01]						u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/adsp-fw(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/bootloader-dtb(_b)?	u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/bootlogo(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/bpmp-fw(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/bpmp-fw-dtb(_b)?	u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/cpu-bootloader(_b)?	u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/eks			u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/mts-mce(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/mts-proper(_b)?	u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/NCT(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/rce-fw(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/sc7(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/sce-fw(_b)?		u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/secure-os(_b)?	u:object_r:bootloader_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/xusb-fw(_b)?		u:object_r:bootloader_block_device:s0
