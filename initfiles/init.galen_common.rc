@@ -59,7 +59,3 @@ on property:sys.boot_completed=1
 on property:sys.boot_completed=1
     write /proc/sys/vm/extra_free_kbytes 0
     write /proc/sys/vm/min_free_kbytes 16384
-
-service adb_enable /vendor/bin/adbenable.sh
-    override
-    disabled
