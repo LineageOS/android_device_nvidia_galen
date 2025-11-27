@@ -16,6 +16,9 @@ import /vendor/etc/init/hw/init.tegra.rc
 import /vendor/etc/init/hw/init.t19x.rc
 import /vendor/etc/init/hw/init.galen_common.rc
 
+on init
+    setprop ro.vendor.audio.primary.device 7
+
 on fs
     mount_all /vendor/etc/fstab.rey
     swapon_all /vendor/etc/fstab.rey
