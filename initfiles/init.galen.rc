@@ -22,13 +22,8 @@ on fs
 
 # Enable all cores
 on init
-    setprop ro.vendor.lineage.tegra.nvpmodel.config /odm/etc/nvpmodel_t194.conf
-
     write /dev/cpuset/foreground/cpus 0-7
     write /dev/cpuset/foreground/boost/cpus 0-7
     write /dev/cpuset/background/cpus 0-7
     write /dev/cpuset/system-background/cpus 0-7
     write /dev/cpuset/top-app/cpus 0-7
-
-on post-fs-data
-    setprop atv.setup.bt_remote_pairing false

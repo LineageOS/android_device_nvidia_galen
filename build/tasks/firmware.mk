@@ -23,7 +23,7 @@ COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 
 INSTALLED_CBOOT_TARGET       := $(PRODUCT_OUT)/cboot.bin
 INSTALLED_KERNEL_TARGET      := $(PRODUCT_OUT)/kernel
-INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-$(if $(filter-out software,$(TARGET_TEGRA_TOS)),$(TARGET_TEGRA_TOS),mon-only).img
+INSTALLED_TOS_TARGET         := $(PRODUCT_OUT)/tos-$(if $(filter-out default,$(TARGET_SECURITY_KEYMINT_HAL)),$(TARGET_SECURITY_KEYMINT_HAL),mon-only).img
 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 SMD_GEN_HOST := $(HOST_OUT_EXECUTABLES)/nv_smd_generator
@@ -41,12 +41,6 @@ ifneq ($(TARGET_PREBUILT_KERNEL),)
 DTB_PATH := $(dir $(TARGET_PREBUILT_KERNEL))
 else ifneq ($(TARGET_KERNEL_PLATFORM_TARGET),)
 DTB_PATH := $(abspath $(KERNEL_OUT))
-else ifneq ($(filter 4.9, $(TARGET_KERNEL_VERSION)),)
-DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts)
-else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
-DTB_PATH := $(abspath $(KERNEL_OUT)/../lineage-oot/device-tree/platform/generic-dts/t19x/lineage)
-else
-DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia)
 endif
 
 _galen_blob_intermediates := $(call intermediates-dir-for,ETC,bl_update_payload)

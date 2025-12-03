@@ -12,53 +12,12 @@
    "target_path": "device/nvidia/t194-common"
  },
  {
-   "repository": "android_kernel_nvidia_kernel",
-   "target_path": "kernel/nvidia/kernel-5.10",
-   "branch": "lineage-23.0_5.10"
- },
- {
-   "repository": "android_kernel_nvidia_nvethernetrm",
-   "target_path": "kernel/nvidia/nvidia/drivers/net/ethernet/nvidia/nvethernet/nvethernetrm"
- },
- {
-   "repository": "android_kernel_nvidia_nvidia",
-   "target_path": "kernel/nvidia/nvidia"
- },
- {
-   "repository": "android_kernel_nvidia_nvgpu",
-   "target_path": "kernel/nvidia/nvgpu"
- },
- {
    "repository": "android_hardware_nvidia_boot_control",
    "target_path": "hardware/nvidia/boot_control"
  },
  {
-   "repository": "android_hardware_nvidia_hdmi-cec",
-   "target_path": "hardware/nvidia/hdmi-cec"
- },
- {
-   "repository": "android_hardware_nvidia_interfaces",
-   "target_path": "hardware/nvidia/interfaces"
- },
- {
    "repository": "android_hardware_nvidia_light",
    "target_path": "hardware/nvidia/light"
- },
- {
-   "repository": "android_hardware_nvidia_memtrack",
-   "target_path": "hardware/nvidia/memtrack"
- },
- {
-   "repository": "android_hardware_nvidia_platform_t19x_galen_kernel-dts",
-   "target_path": "hardware/nvidia/platform/t19x/galen/kernel-dts"
- },
- {
-   "repository": "android_hardware_nvidia_platform_t19x_jakku_kernel-dts",
-   "target_path": "hardware/nvidia/platform/t19x/jakku/kernel-dts"
- },
- {
-   "repository": "android_hardware_nvidia_power",
-   "target_path": "hardware/nvidia/power"
  },
  {
    "repository": "android_hardware_nvidia_thermal",

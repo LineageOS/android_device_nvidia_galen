@@ -24,17 +24,12 @@ TARGET_TEGRA_VARIANT    ?= common
 
 TARGET_TEGRA_MODELS := $(shell awk -F, '/tegra_init::devices/{ f = 1; next } /};/{ f = 0 } f{ gsub(/"/, "", $$3); gsub(/ /, "", $$3); print $$3 }' device/nvidia/$(TARGET_REFERENCE_DEVICE)/init/init_$(TARGET_REFERENCE_DEVICE).cpp |sort |uniq)
 
-TARGET_KERNEL_VERSION ?= 5.10
-TARGET_TEGRA_BOOTCTRL ?= smd
-TARGET_TEGRA_BT       ?= btlinux
-TARGET_TEGRA_CAMERA   ?= rel-shield-r
-TARGET_TEGRA_HEALTH   ?= nobattery
-TARGET_TEGRA_TOS      ?= software
-TARGET_TEGRA_LIGHT    ?= lineage
-TARGET_TEGRA_PMODEL   ?= r36
-TARGET_TEGRA_THERMAL  ?= lineage
-TARGET_TEGRA_WIDEVINE ?= rel-shield-r
-TARGET_TEGRA_WIFI     ?= rtl8822ce
+TARGET_KERNEL_VERSION ?= 6.12
+TARGET_BOOT_HAL       ?= smd
+TARGET_LIGHT_HAL      ?= tegra
+TARGET_THERMAL_HAL    ?= tegra
+
+TARGET_HAS_BATTERY    ?= false
 
 include device/nvidia/t194-common/t194.mk
 
@@ -44,8 +39,6 @@ include device/nvidia/galen/system_prop.mk
 PRODUCT_CHARACTERISTICS   := tv
 PRODUCT_AAPT_PREBUILT_DPI := xxhdpi xhdpi hdpi mdpi hdpi tvdpi
 PRODUCT_AAPT_PREF_CONFIG  := xhdpi
-
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS ?= true
 
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 
@@ -70,24 +63,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
     frameworks/native/data/etc/android.hardware.ethernet.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.ethernet.xml
 
-# Audio
-ifneq ($(filter rel-shield-r, $(TARGET_TEGRA_AUDIO)),)
-PRODUCT_PACKAGES += \
-    audio_effects.xml \
-    audio_policy_configuration.xml \
-    nvaudio_conf.xml \
-    rey_nvaudio_conf.xml \
-    nvaudio_fx.xml
-endif
-
 # Fingerprint override
 PRODUCT_BUILD_PROP_OVERRIDES += \
     BuildFingerprint=NVIDIA/galen/galen:11/RQ1A.210105.003/13961456_3871.0251:user/release-keys
-
-# Kernel
-ifneq ($(TARGET_PREBUILT_KERNEL),)
-TARGET_FORCE_PREBUILT_KERNEL := true
-endif
 
 # Loadable kernel modules
 PRODUCT_PACKAGES += \
@@ -96,46 +74,17 @@ PRODUCT_COPY_FILES += \
     device/nvidia/tegra-common/initfiles/init.lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.lkm.rc \
     device/nvidia/galen/initfiles/lkm.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/lkm.rc
 
-# Media config
-ifneq ($(filter rel-shield-r, $(TARGET_TEGRA_OMX)),)
-PRODUCT_PACKAGES += \
-    media_codecs.xml \
-    media_codecs_performance.xml \
-    media_profiles_V1_0.xml \
-    enctune.conf
-endif
-
-# PHS
-ifneq ($(TARGET_TEGRA_PHS),)
-PRODUCT_COPY_FILES += \
-    device/nvidia/galen/nvphs/nvphsd.conf.t194:$(TARGET_COPY_OUT_ODM)/etc/nvphsd.conf
-endif
-
-# PModel
-ifneq ($(TARGET_TEGRA_PMODEL),)
-PRODUCT_COPY_FILES += \
-    device/nvidia/galen/nvpmodel/nvpmodel_t194.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194.conf \
-    device/nvidia/galen/nvpmodel/nvpmodel_t194_p3668.conf:$(TARGET_COPY_OUT_ODM)/etc/nvpmodel_t194_p3668.conf
-endif
-
 # Shipping API
-ifneq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
-else
 PRODUCT_SHIPPING_API_LEVEL := 36
-endif
 
 # Thermal
-ifneq ($(TARGET_TEGRA_THERMAL),)
-ifeq ($(filter 4.9 5.10, $(TARGET_KERNEL_VERSION)),)
-TARGET_TEGRA_THERMAL_SUFFIX ?= .ack
-endif
+ifeq ($(TARGET_THERMAL_HAL),tegra)
 PRODUCT_COPY_FILES += \
-    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/thermal/thermalhal.$(model)$(TARGET_TEGRA_THERMAL_SUFFIX).xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermalhal.$(model).xml)
+    $(foreach model,$(TARGET_TEGRA_MODELS),device/nvidia/galen/thermal/thermalhal.$(model).xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermalhal.$(model).xml)
 endif
 
 # Updater
-ifneq ($(TARGET_TEGRA_BOOTCTRL),)
+ifneq ($(TARGET_BOOT_HAL),)
 AB_OTA_PARTITIONS += \
     boot \
     product \
@@ -147,7 +96,7 @@ AB_OTA_PARTITIONS += \
     vendor \
     vendor_boot \
     odm
-ifeq ($(TARGET_TEGRA_BOOTCTRL),smd)
+ifeq ($(TARGET_BOOT_HAL),smd)
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true \
