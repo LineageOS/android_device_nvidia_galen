@@ -716,7 +716,7 @@
             <description> **Optional.** Slot B; contains BMP images for splash screen
               display during boot. </description>
         </partition>
-        <partition name="MSC" type="data">
+        <partition name="misc" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
             <start_location> 0x30000000 </start_location>
