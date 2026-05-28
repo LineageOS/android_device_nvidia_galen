@@ -156,7 +156,7 @@ $(call t194_bl_signing_rule, \
   tegra194-a02-bpmp-p2888$(strip $(6))-a04.dtb, \
   $(strip $(4)), \
   0x9190000, \
-  tegra194-p2888-0005-overlay.dtbo tegra194-p2888-0001-p2822-0000-overlay.dtbo, \
+  , \
   tegra194-mb1-bct-memcfg-p2888.cfg, \
   tegra194-mb1-soft-fuses-l4t.cfg, \
   --uphy_config $(GALEN_BCT)/tegra194-mb1-uphy-lane-p2888-0000-p2822-0000.cfg, \
@@ -192,7 +192,7 @@ $(call t194_bl_signing_rule, \
   tegra194-a02-bpmp-p3668-a00.dtb, \
   $(strip $(4)), \
   0xB8190000, \
-  tegra194-p3668-p3509-overlay.dtbo, \
+  , \
   tegra194-mb1-bct-memcfg-p3668-0001-a00.cfg, \
   tegra194-mb1-soft-fuses-l4t.cfg, \
   , \
