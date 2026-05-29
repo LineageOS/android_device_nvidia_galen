@@ -1,5 +1,9 @@
 [
  {
+   "type": "kernel",
+   "version": "6.12"
+ },
+ {
    "repository": "android_bootable_cboot_lk",
    "target_path": "bootable/cboot/lk"
  },
@@ -22,6 +26,10 @@
  {
    "repository": "android_hardware_nvidia_thermal",
    "target_path": "hardware/nvidia/thermal"
+ },
+ {
+   "repository": "android_kernel_nvidia_tegra-build",
+   "target_path": "kernel/platform/kernel-6.12/vendor/nvidia/tegra"
  },
  {
    "repository": "android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-9.3",
