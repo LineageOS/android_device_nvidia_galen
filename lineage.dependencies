@@ -16,6 +16,10 @@
    "target_path": "device/nvidia/t194-common"
  },
  {
+   "repository": "android_hardware_nvidia_arm-trusted-firmware",
+   "target_path": "hardware/nvidia/arm-trusted-firmware"
+ },
+ {
    "repository": "android_hardware_nvidia_boot_control",
    "target_path": "hardware/nvidia/boot_control"
  },
