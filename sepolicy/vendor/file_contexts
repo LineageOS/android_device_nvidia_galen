@@ -4,7 +4,7 @@
 /dev/block/platform/bus@0/34[06]0000\.mmc/by-name/fac_rst_protection	u:object_r:frp_block_device:s0
 /dev/block/platform/bus@0/34[06]0000\.mmc/by-name/kernel-dtbo(_[ab])? 	u:object_r:dtbo_block_device:s0
 /dev/block/platform/bus@0/34[06]0000\.mmc/by-name/metadata		u:object_r:metadata_block_device:s0
-/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/MSC			u:object_r:misc_block_device:s0
+/dev/block/platform/bus@0/34[06]0000\.mmc/by-name/misc			u:object_r:misc_block_device:s0
 /dev/block/platform/bus@0/34[06]0000\.mmc/by-name/recovery(_[ab])? 	u:object_r:recovery_block_device:s0
 /dev/block/platform/bus@0/34[06]0000\.mmc/by-name/super			u:object_r:super_block_device:s0
 /dev/block/platform/bus@0/34[06]0000\.mmc/by-name/vbmeta(_[ab])? 	u:object_r:system_block_device:s0
