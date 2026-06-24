@@ -301,6 +301,30 @@
             "Node": "CPUCluster3MinFreq",
             "Duration": 5000,
             "Value": "1574400"
+        },
+        {
+            "PowerHint": "FIXED_PERFORMANCE",
+            "Node": "CPUCluster0MinFreq",
+            "Duration": 0,
+            "Value": "1907200"
+        },
+        {
+            "PowerHint": "FIXED_PERFORMANCE",
+            "Node": "CPUCluster1MinFreq",
+            "Duration": 0,
+            "Value": "1907200"
+        },
+        {
+            "PowerHint": "FIXED_PERFORMANCE",
+            "Node": "CPUCluster2MinFreq",
+            "Duration": 0,
+            "Value": "1907200"
+        },
+        {
+            "PowerHint": "FIXED_PERFORMANCE",
+            "Node": "CPUCluster3MinFreq",
+            "Duration": 0,
+            "Value": "1907200"
         }
     ]
 }
