@@ -142,6 +142,7 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := \
     gpio-max77620 \
     pinctrl-max77620 \
     max77620-regulator \
+    rtc-max77686 \
     phy-tegra194-p2u \
     pcie-tegra194 \
     xhci-tegra \
