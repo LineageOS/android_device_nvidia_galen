@@ -28,10 +28,6 @@
    "target_path": "hardware/nvidia/light"
  },
  {
-   "repository": "android_hardware_nvidia_thermal",
-   "target_path": "hardware/nvidia/thermal"
- },
- {
    "repository": "android_kernel_nvidia_tegra-build",
    "target_path": "kernel/platform/kernel-6.12/vendor/nvidia/tegra"
  },
