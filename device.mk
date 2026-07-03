@@ -27,7 +27,6 @@ TARGET_TEGRA_MODELS := $(shell awk -F, '/tegra_init::devices/{ f = 1; next } /};
 TARGET_KERNEL_VERSION ?= 6.12
 TARGET_BOOT_HAL       ?= smd
 TARGET_LIGHT_HAL      ?= tegra
-TARGET_THERMAL_HAL    ?= tegra
 
 TARGET_HAS_BATTERY    ?= false
 
