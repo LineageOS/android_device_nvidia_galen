@@ -12,7 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import init.recovery.usb.rc
-
 on init
     mount efivarfs none /sys/firmware/efi/efivars context=u:object_r:sysfs_efivar:s0

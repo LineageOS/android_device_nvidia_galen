@@ -29,28 +29,47 @@
 
 #include <map>
 
+void recovery_set_usb_product_ids(tegra_init *ti)
+{
+	std::map<std::string, std::string> mCommonUsbIds, mDeviceUsbIds;
+
+	mCommonUsbIds["ro.recovery.usb.vid"]     = "0955";
+	mCommonUsbIds["ro.recovery.usb.adb.pid"] = "7104";
+
+	mDeviceUsbIds["ro.recovery.usb.fastboot.pid"] = "EE1E";
+
+	for (auto const& id : mDeviceUsbIds)
+		ti->property_set(id.first, id.second);
+
+	for (auto const& id : mCommonUsbIds)
+		ti->property_set(id.first, id.second);
+}
+
 void vendor_set_usb_product_ids(tegra_init *ti)
 {
 	std::map<std::string, std::string> mCommonUsbIds, mDeviceUsbIds;
 
-	mCommonUsbIds["ro.vendor.nv.usb.vid"]                  = "0955";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.rndis.acm.adb"]    = "AF00";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.adb"]              = "7104";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.accessory.adb"]    = "7105";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.audio_source.adb"] = "7106";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.ncm"]              = "7107";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.ncm.adb"]          = "7108";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.midi"]             = "7109";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.midi.adb"]         = "710A";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.ecm"]              = "710B";
-	mCommonUsbIds["ro.vendor.nv.usb.pid.ecm.adb"]          = "710C";
+	mCommonUsbIds["ro.vendor.usb.vid"]                            = "0955";
+	mCommonUsbIds["ro.vendor.usb.pid.adb"]                        = "7104";
+	mCommonUsbIds["ro.vendor.usb.pid.accessory"]                  = "EE0A";
+	mCommonUsbIds["ro.vendor.usb.pid.accessory.adb"]              = "7105";
+	mCommonUsbIds["ro.vendor.usb.pid.accessory.audio_source"]     = "EE0C";
+	mCommonUsbIds["ro.vendor.usb.pid.accessory.audio_source.adb"] = "EE0D";
+	mCommonUsbIds["ro.vendor.usb.pid.audio_source"]               = "EE0B";
+	mCommonUsbIds["ro.vendor.usb.pid.audio_source.adb"]           = "7106";
+	mCommonUsbIds["ro.vendor.usb.pid.ncm"]                        = "7107";
+	mCommonUsbIds["ro.vendor.usb.pid.ncm.adb"]                    = "7108";
+	mCommonUsbIds["ro.vendor.usb.pid.midi"]                       = "7109";
+	mCommonUsbIds["ro.vendor.usb.pid.midi.adb"]                   = "710A";
+	mCommonUsbIds["ro.vendor.usb.pid.uvc"]                        = "710B";
+	mCommonUsbIds["ro.vendor.usb.pid.uvc.adb"]                    = "710C";
 
-	mDeviceUsbIds["ro.vendor.nv.usb.pid.mtp"]              = "EE02";
-	mDeviceUsbIds["ro.vendor.nv.usb.pid.mtp.adb"]          = "EE03";
-	mDeviceUsbIds["ro.vendor.nv.usb.pid.ptp"]              = "EE04";
-	mDeviceUsbIds["ro.vendor.nv.usb.pid.ptp.adb"]          = "EE05";
-	mDeviceUsbIds["ro.vendor.nv.usb.pid.rndis"]            = "EE08";
-	mDeviceUsbIds["ro.vendor.nv.usb.pid.rndis.adb"]        = "EE09";
+	mDeviceUsbIds["ro.vendor.usb.pid.mtp"]                        = "EE02";
+	mDeviceUsbIds["ro.vendor.usb.pid.mtp.adb"]                    = "EE03";
+	mDeviceUsbIds["ro.vendor.usb.pid.ptp"]                        = "EE04";
+	mDeviceUsbIds["ro.vendor.usb.pid.ptp.adb"]                    = "EE05";
+	mDeviceUsbIds["ro.vendor.usb.pid.rndis"]                      = "EE08";
+	mDeviceUsbIds["ro.vendor.usb.pid.rndis.adb"]                  = "EE09";
 
 	for (auto const& id : mDeviceUsbIds)
 		ti->property_set(id.first, id.second);
@@ -77,14 +96,14 @@ void vendor_load_properties()
 	ti.set_fingerprints(tav);
 
 	if (ti.recovery_context()) {
+		recovery_set_usb_product_ids(&ti);
+
 		ti.property_set("ro.product.vendor.model", ti.property_get("ro.product.model"));
 		ti.property_set("ro.product.vendor.manufacturer", ti.property_get("ro.product.manufacturer"));
 		ti.property_set("ro.recovery.batteryless", "true");
 	}
 
 	if (ti.vendor_context() || ti.recovery_context()) {
-		vendor_set_usb_product_ids(&ti);
-
 		std::string boot_dev = ti.property_get("ro.boot.boot_devices");
 		if (!boot_dev.empty() && (boot_dev.find("bus@0") != std::string::npos)) {
 			// GKI / Mainline paths
@@ -109,6 +128,8 @@ void vendor_load_properties()
 	}
 
 	if (ti.vendor_context()) {
+		vendor_set_usb_product_ids(&ti);
+
 		if (ti.is_model("galen"))
 			ti.property_set("vendor.powerhal.config", "powerhint.galen.json");
 	}
